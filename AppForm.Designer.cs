@@ -89,6 +89,8 @@ namespace Schizophrenia
         private MyButton backButton;
         private MyButton nextButton;
 
+        private ToolTip toolTip;
+
         private void InitializeChildren()
         {
             SuspendLayout();
@@ -97,6 +99,13 @@ namespace Schizophrenia
 
             mainTableLayout = new MyTableLayoutPanel("mainTableLayout", 3, 1, DockStyle.Fill);
             mainTableLayout.RowStyles[1] = new RowStyle(SizeType.Percent, 100);
+
+            toolTip = new ToolTip();
+            toolTip.AutomaticDelay = 0;
+            toolTip.AutoPopDelay = 10000;
+            toolTip.ReshowDelay = 0;
+            toolTip.UseFading = false;
+
 
             // Buttons on the bottom
 
@@ -160,7 +169,7 @@ namespace Schizophrenia
             thLabel = new MyLabel("thLabel", "Срок службы, ч");
             page1TableLayout.Add(thLabel, 5, 0);
 
-            thTextBox = new InputTextBox<double>("thTextBox", Validators.DefaultDoubleValidator, (value) => th = value);
+            thTextBox = new InputTextBox<double>("thTextBox", Validators.DefaultDoubleValidator, (value) => th = value, "Действительное, больше 0");
             page1TableLayout.Add(thTextBox, 5, 4);
 
             // CT input
@@ -168,7 +177,7 @@ namespace Schizophrenia
             CTLabel = new MyLabel("CTLabel", "Степень точности");
             page1TableLayout.Add(CTLabel, 6, 0);
 
-            CTTextBox = new InputTextBox<int>("CTTextBox", Validators.CTValidator, (value) => CT = value);
+            CTTextBox = new InputTextBox<int>("CTTextBox", Validators.CTValidator, (value) => CT = value, "Натуральное число, от 5 до 9");
             page1TableLayout.Add(CTTextBox, 6, 4);
 
             // alpha input
@@ -185,8 +194,6 @@ namespace Schizophrenia
             Controls.Add(mainTableLayout);
             ResumeLayout(false);
         }
-
-        
     }
 }
 

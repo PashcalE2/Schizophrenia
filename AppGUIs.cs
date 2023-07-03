@@ -11,7 +11,7 @@ namespace Schizophrenia
     public static class CustomColors
     {
         public static readonly Color ErrorTextBoxColor = Color.FromArgb(255, 255, 127, 64);
-        public static readonly Color EmptyTextBoxColor = Color.FromArgb(255, 223, 223, 255);
+        public static readonly Color EmptyTextBoxColor = Color.FromArgb(255, 223, 239, 255);
         public static readonly Color ValidTextBoxColor = SystemColors.Window;
     }
 
@@ -32,8 +32,31 @@ namespace Schizophrenia
         private Action<T> OutterVauleSetter;
         private AnyValidator<T> Validator;
         private bool IsValid;
+        private string Hint;
+        private ToolTip HintToolTip;
 
         public InputTextBox(string name, AnyValidator<T> validator, Action<T> outterVauleSetter)
+        {
+            DefaultInit(name, validator, outterVauleSetter);
+        }
+
+        public InputTextBox(string name, AnyValidator<T> validator, Action<T> outterVauleSetter, string hint)
+        {
+            DefaultInit(name, validator, outterVauleSetter);
+
+            HintToolTip = new ToolTip();
+            HintToolTip.AutomaticDelay = 0;
+            HintToolTip.AutoPopDelay = 10000;
+            HintToolTip.ReshowDelay = 0;
+            HintToolTip.UseFading = false;
+
+            Hint = hint;
+
+            Enter += new EventHandler(ShowHint);
+            Leave += new EventHandler(HideHint);
+        }
+
+        private void DefaultInit(string name, AnyValidator<T> validator, Action<T> outterVauleSetter)
         {
             Validator = validator;
             OutterVauleSetter = outterVauleSetter;
@@ -70,6 +93,16 @@ namespace Schizophrenia
             }
 
             OutterVauleSetter.Invoke(Value);
+        }
+
+        private void ShowHint(object sender, EventArgs e)
+        {
+            HintToolTip.Show(Hint, this);
+        }
+
+        private void HideHint(object sender, EventArgs e)
+        {
+            HintToolTip.Hide(this);
         }
 
         public T GetValue()
