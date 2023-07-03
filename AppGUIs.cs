@@ -23,7 +23,7 @@ namespace Schizophrenia
 
     public static class DefaultFonts
     {
-        public static readonly Font Any = new Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+        public static readonly Font Any = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
     }
     
     public class InputTextBox<T> : TextBox
@@ -72,7 +72,7 @@ namespace Schizophrenia
             OutterVauleSetter.Invoke(Value);
         }
 
-        public T getValue()
+        public T GetValue()
         {
             return Value;
         }
@@ -152,6 +152,23 @@ namespace Schizophrenia
             {
                 Add(matrix[i], i / ColumnCount, i % ColumnCount);
             }
+        }
+    }
+
+    public class MyLabel : Label
+    {
+        public MyLabel(string name, string text)
+        {
+            AutoSize = true;
+            Name = name;
+            Text = text;
+
+            Font = DefaultFonts.Any;
+        }
+
+        public string GetText()
+        {
+            return Text.Trim(':');
         }
     }
 }

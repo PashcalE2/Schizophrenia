@@ -9,6 +9,7 @@ namespace Schizophrenia
     public abstract class AnyValidator<T>
     {
         protected T Result;
+
         public abstract bool Validate(string value);
 
         public T GetResult()
@@ -25,8 +26,26 @@ namespace Schizophrenia
         }
     }
 
+    public class IntValidator : AnyValidator<int>
+    {
+        public override bool Validate(string value)
+        {
+            return int.TryParse(value, out Result);
+        }
+    }
+
+    public class CTValidator : IntValidator
+    {
+        public override bool Validate(string value)
+        {
+            return base.Validate(value) && (Result >= 5) && (Result <= 9);
+        }
+    }
+
     public static class Validators
     {
         public static readonly DoubleValidator DefaultDoubleValidator = new DoubleValidator();
+        public static readonly IntValidator DefaultIntValidator = new IntValidator();
+        public static readonly CTValidator CTValidator = new CTValidator();
     }
 }
