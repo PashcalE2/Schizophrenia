@@ -80,6 +80,16 @@ namespace Schizophrenia
         private InputTextBox<double> alphaTextBox;
         private double alpha;
 
+        private MyLabel standartAlphaLabel;
+        private InputTextBox<double> standartAlphaTextBox;
+        private double standartAlpha;
+
+        private InputTextBox<double> haStarTextBox;
+        private double haStar;
+
+        private InputTextBox<double> cStarTextBox;
+        private double cStar;
+
         // Page 2
 
         // Buttons panel
@@ -132,7 +142,7 @@ namespace Schizophrenia
             inputDataLabel.Font = new System.Drawing.Font(DefaultFonts.Any.FontFamily, DefaultFonts.Any.Size + 4, DefaultFonts.Any.Style, DefaultFonts.Any.Unit);
             pagesMainTableLayout[0].Add(inputDataLabel, 0, 0);
 
-            page1TableLayout = new MyTableLayoutPanel("page1MainTableLayout", 10, 4, DockStyle.Fill);
+            page1TableLayout = new MyTableLayoutPanel("page1MainTableLayout", 11, 4, DockStyle.Fill);
             page1TableLayout.ColumnStyles[2] = new ColumnStyle(SizeType.Percent, 100);
             pagesMainTableLayout[0].Add(page1TableLayout, 1, 0);
 
@@ -188,7 +198,25 @@ namespace Schizophrenia
             alphaTextBox = new InputTextBox<double>("alphaTextBox", Validators.DefaultDoubleValidator, (value) => alpha = value);
             page1TableLayout.Add(alphaTextBox, 7, 4);
 
-            //
+            // standart alpha input
+
+            standartAlphaLabel = new MyLabel("standartAlphaLabel", "Угол между осями, град");
+            page1TableLayout.Add(standartAlphaLabel, 8, 0);
+
+            standartAlphaTextBox = new InputTextBox<double>("standartAlphaTextBox", Validators.DefaultDoubleValidator, (value) => standartAlpha = value);
+            page1TableLayout.Add(standartAlphaTextBox, 8, 4);
+
+            // haStar
+
+            haStarTextBox = new InputTextBox<double>("haStarTextBox", Validators.DefaultDoubleValidator, (value) => haStar = value);
+            page1TableLayout.Add(haStarTextBox, 9, 4);
+
+            // cStar
+
+            cStarTextBox = new InputTextBox<double>("cStarTextBox", Validators.DefaultDoubleValidator, (value) => cStar = value);
+            page1TableLayout.Add(cStarTextBox, 10, 4);
+
+            // 
 
             mainTableLayout.Add(pagesMainTableLayout[0], 0, 0);
             Controls.Add(mainTableLayout);
