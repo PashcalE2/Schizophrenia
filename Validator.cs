@@ -26,6 +26,14 @@ namespace Schizophrenia
         }
     }
 
+    public class PositiveDoubleValidator : DoubleValidator
+    {
+        public override bool Validate(string value)
+        {
+            return base.Validate(value) && (Result > 0);
+        }
+    }
+
     public class IntValidator : AnyValidator<int>
     {
         public override bool Validate(string value)
@@ -45,6 +53,7 @@ namespace Schizophrenia
     public static class Validators
     {
         public static readonly DoubleValidator DefaultDoubleValidator = new DoubleValidator();
+        public static readonly PositiveDoubleValidator PositiveDoubleValidator = new PositiveDoubleValidator();
         public static readonly IntValidator DefaultIntValidator = new IntValidator();
         public static readonly CTValidator CTValidator = new CTValidator();
     }
