@@ -46,24 +46,28 @@ namespace Schizophrenia
 
         #endregion
 
+        // gui
+
         private MyTableLayoutPanel mainTableLayout;
 
         private MyTableLayoutPanel[] pagesTableLayout = new MyTableLayoutPanel[15];
-        private InputTextBox<double> test;
+        private InputTextBox<double> uTextBox;
 
         private MyTableLayoutPanel buttonsTableLayout;
         private MyButton printButton;
         private MyButton backButton;
         private MyButton nextButton;
 
+        // inputable variables
+        private double u;
+
         private void InitializeChildren()
         {
             SuspendLayout();
 
-            //
+            // 
 
             mainTableLayout = new MyTableLayoutPanel("mainTableLayout", 2, 1, DockStyle.Fill);
-            //mainTableLayout.RowStyles[1] = new RowStyle(SizeType.Percent, 100);
 
             // Buttons on the bottom
 
@@ -83,20 +87,20 @@ namespace Schizophrenia
 
             //
 
-            pagesTableLayout[1] = new MyTableLayoutPanel("page2TableLayout", 10, 4, DockStyle.Fill);
-            pagesTableLayout[1].ColumnStyles[2] = new ColumnStyle(SizeType.Percent, 100);
+            pagesTableLayout[0] = new MyTableLayoutPanel("page2TableLayout", 10, 4, DockStyle.Fill);
+            pagesTableLayout[0].ColumnStyles[2] = new ColumnStyle(SizeType.Percent, 100);
 
-                test = new InputTextBox<double>("test", Validators.DefaultDoubleValidator);
-            pagesTableLayout[1].Add(test, 0, 0);
-
-            //
-
+                uTextBox = new InputTextBox<double>("uTextBox", Validators.DefaultDoubleValidator, (value) => u = value);
+            pagesTableLayout[0].Add(uTextBox, 0, 0);
 
             //
 
+
             //
 
-            mainTableLayout.Add(pagesTableLayout[1], 0, 0);
+            //
+
+            mainTableLayout.Add(pagesTableLayout[0], 0, 0);
             Controls.Add(mainTableLayout);
             ResumeLayout(false);
         }
