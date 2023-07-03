@@ -17,6 +17,12 @@ namespace Schizophrenia
             InitializeComponent();
             InitializeChildren();
 
+            printButton.Click += new EventHandler(printButton_Click);
+        }
+
+        public void printButton_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(u.ToString());
         }
     }
 }

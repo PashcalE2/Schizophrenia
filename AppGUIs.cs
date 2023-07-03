@@ -29,12 +29,14 @@ namespace Schizophrenia
     public class InputTextBox<T> : TextBox
     {
         private T Value;
+        private Action<T> OutterVauleSetter;
         private AnyValidator<T> Validator;
         private bool IsValid;
 
-        public InputTextBox(string name, AnyValidator<T> validator)
+        public InputTextBox(string name, AnyValidator<T> validator, Action<T> outterVauleSetter)
         {
             Validator = validator;
+            OutterVauleSetter = outterVauleSetter;
 
             Name = name;
             Size = DefaultSizes.TextBox;
@@ -42,10 +44,10 @@ namespace Schizophrenia
 
             BackColor = CustomColors.EmptyTextBoxColor;
 
-            TextChanged += new System.EventHandler(ValidateText);
+            TextChanged += new EventHandler(ValidateText);
         }
 
-        private void ValidateText(object sender, System.EventArgs e)
+        private void ValidateText(object sender, EventArgs e)
         {
             IsValid = Validator.Validate(Text);
 
@@ -66,6 +68,8 @@ namespace Schizophrenia
                     BackColor = CustomColors.ErrorTextBoxColor;
                 }
             }
+
+            OutterVauleSetter.Invoke(Value);
         }
 
         public T getValue()
@@ -85,10 +89,10 @@ namespace Schizophrenia
         public MyButton(string name, string text)
         {
             DefaultInit(name, text);
-            Size = new System.Drawing.Size(80, 30);
+            Size = DefaultSizes.Button;
         }
 
-        public MyButton(string name, string text, System.Drawing.Size size)
+        public MyButton(string name, string text, Size size)
         {
             DefaultInit(name, text);
             Size = size;
@@ -142,7 +146,7 @@ namespace Schizophrenia
             Controls.Add(control, column, row);
         }
 
-        public void Add(System.Collections.Generic.List<Control> matrix)
+        public void Add(List<Control> matrix)
         {
             for (int i = 0; i < matrix.Count; i++)
             {
