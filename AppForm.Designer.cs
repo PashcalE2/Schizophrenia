@@ -56,6 +56,19 @@ namespace Schizophrenia
         private MyTableLayoutPanel page1TableLayout;
         private MyLabel gearTypeLabel;
 
+        private MyTableLayoutPanel page1RadioGroup1;
+        private MyRadioButton cylindricalTypeButton;
+        private MyRadioButton conicalTypeButton;
+        private MyRadioButton planetaryTypeButton;
+
+        private MyTableLayoutPanel page1RadioGroup2;
+        private MyRadioButton internalTypeButton;
+        private MyRadioButton externalTypeButton;
+
+        private MyTableLayoutPanel page1RadioGroup3;
+        private MyRadioButton singleEntryTypeButton;
+        private MyRadioButton doubleEntryTypeButton;
+
         private MyLabel uLabel;
         private InputTextBox<double> uTextBox;
         private double u;
@@ -80,6 +93,22 @@ namespace Schizophrenia
         private InputTextBox<double> alphaTextBox;
         private double alpha;
 
+        private MyLabel standartContourLabel;
+        private MyRadioButton standartContourYesButton;
+        private MyRadioButton standartContourNoButton;
+
+        private MyLabel standartAlphaLabel;
+        private InputTextBox<double> standartAlphaTextBox;
+        private double standartAlpha;
+
+        private MyLabel haStarLabel;
+        private InputTextBox<double> haStarTextBox;
+        private double haStar;
+
+        private MyLabel cStarLabel;
+        private InputTextBox<double> cStarTextBox;
+        private double cStar;
+
         // Page 2
 
         // Buttons panel
@@ -89,16 +118,27 @@ namespace Schizophrenia
         private MyButton backButton;
         private MyButton nextButton;
 
+        private ToolTip toolTip;
+
         private void InitializeChildren()
         {
             SuspendLayout();
 
-            // 
+            AutoSize = true;
+            AutoSizeMode = AutoSizeMode.GrowAndShrink;
 
-            mainTableLayout = new MyTableLayoutPanel("mainTableLayout", 3, 1, DockStyle.Fill);
-            mainTableLayout.RowStyles[1] = new RowStyle(SizeType.Percent, 100);
+            // BEGIN
 
-            // Buttons on the bottom
+            mainTableLayout = new MyTableLayoutPanel("mainTableLayout", 3, 1, DockStyle.None);
+
+            toolTip = new ToolTip();
+            toolTip.AutomaticDelay = 0;
+            toolTip.AutoPopDelay = 10000;
+            toolTip.ReshowDelay = 0;
+            toolTip.UseFading = false;
+
+
+            // Buttons on the bottom (and every page, actually)
 
             buttonsTableLayout = new MyTableLayoutPanel("buttonsTableLayout", 1, 4, DockStyle.Fill);
             buttonsTableLayout.ColumnStyles[1] = new ColumnStyle(SizeType.Percent, 100);
@@ -123,53 +163,100 @@ namespace Schizophrenia
             inputDataLabel.Font = new System.Drawing.Font(DefaultFonts.Any.FontFamily, DefaultFonts.Any.Size + 4, DefaultFonts.Any.Style, DefaultFonts.Any.Unit);
             pagesMainTableLayout[0].Add(inputDataLabel, 0, 0);
 
-            page1TableLayout = new MyTableLayoutPanel("page1MainTableLayout", 10, 4, DockStyle.Fill);
+            page1TableLayout = new MyTableLayoutPanel("page1TableLayout", 11, 4, DockStyle.Fill);
             page1TableLayout.ColumnStyles[2] = new ColumnStyle(SizeType.Percent, 100);
             pagesMainTableLayout[0].Add(page1TableLayout, 1, 0);
+
+            // gear type
 
             gearTypeLabel = new MyLabel("typeLabel", "Тип передачи:");
             gearTypeLabel.Font = new System.Drawing.Font(DefaultFonts.Any.FontFamily, DefaultFonts.Any.Size, System.Drawing.FontStyle.Underline, DefaultFonts.Any.Unit);
             page1TableLayout.Add(gearTypeLabel, 0, 0);
+
+            // Radio buttons
+
+            // Group 1
+
+            page1RadioGroup1 = new MyTableLayoutPanel("page1RadioGroup1", 3, 1, DockStyle.None);
+            page1TableLayout.Add(page1RadioGroup1, 1, 0);
+
+            cylindricalTypeButton = new MyRadioButton("cylindricalTypeButton", "Цилиндрическая");
+            cylindricalTypeButton.CheckedChanged += new System.EventHandler(cylindricalTypeButton_CheckedChanged);
+            page1RadioGroup1.Add(cylindricalTypeButton, 0, 0);
+
+            conicalTypeButton = new MyRadioButton("conicalTypeButton", "Коническая");
+            conicalTypeButton.CheckedChanged += new System.EventHandler(conicalTypeButton_CheckedChanged);
+            page1RadioGroup1.Add(conicalTypeButton, 1, 0);
+
+            planetaryTypeButton = new MyRadioButton("planetaryTypeButton", "Планетарная");
+            planetaryTypeButton.CheckedChanged += new System.EventHandler(planetTypeButton_CheckedChanged);
+            page1RadioGroup1.Add(planetaryTypeButton, 2, 0);
+
+            // Group 2
+
+            page1RadioGroup2 = new MyTableLayoutPanel("page1RadioGroup2", 2, 1, DockStyle.Fill);
+            page1TableLayout.Add(page1RadioGroup2, 1, 1);
+
+            internalTypeButton = new MyRadioButton("internalTypeButton", "Внутреннее зацепление");
+            internalTypeButton.CheckedChanged += new System.EventHandler(internalTypeButton_CheckedChanged);
+            page1RadioGroup2.Add(internalTypeButton, 0, 0);
+
+            externalTypeButton = new MyRadioButton("externalTypeButton", "Внешнее зацепление");
+            externalTypeButton.CheckedChanged += new System.EventHandler(externalTypeButton_CheckedChanged);
+            page1RadioGroup2.Add(externalTypeButton, 1, 0);
+
+            // Group 3
+
+            page1RadioGroup3 = new MyTableLayoutPanel("page1RadioGroup3", 2, 1, DockStyle.Fill);
+            page1TableLayout.Add(page1RadioGroup3, 1, 2);
+
+            singleEntryTypeButton = new MyRadioButton("singleEntryTypeButton", "Одновенцовый сателит");
+            singleEntryTypeButton.CheckedChanged += new System.EventHandler(singleEntryTypeButton_CheckedChanged);
+            page1RadioGroup3.Add(singleEntryTypeButton, 0, 0);
+
+            doubleEntryTypeButton = new MyRadioButton("doubleEntryTypeButton", "Двухвенцовый сателит");
+            doubleEntryTypeButton.CheckedChanged += new System.EventHandler(doubleEntryTypeButton_CheckedChanged);
+            page1RadioGroup3.Add(doubleEntryTypeButton, 1, 0);
 
             // U input
 
             uLabel = new MyLabel("uLabel", "Предаточное отношение");
             page1TableLayout.Add(uLabel, 2, 0);
 
-            uTextBox = new InputTextBox<double>("uTextBox", Validators.DefaultDoubleValidator, (value) => u = value);
-            page1TableLayout.Add(uTextBox, 2, 4);
+            uTextBox = new InputTextBox<double>("uTextBox", Validators.PositiveDoubleValidator, (value) => u = value, "Действительное, больше 0");
+            page1TableLayout.Add(uTextBox, 2, 3);
 
             // n1 input
 
             n1Label = new MyLabel("n1Label", "Частота вращения шестерни, об/мин");
             page1TableLayout.Add(n1Label, 3, 0);
 
-            n1TextBox = new InputTextBox<double>("n1TextBox", Validators.DefaultDoubleValidator, (value) => n1 = value);
-            page1TableLayout.Add(n1TextBox, 3, 4);
+            n1TextBox = new InputTextBox<double>("n1TextBox", Validators.PositiveDoubleValidator, (value) => n1 = value, "Действительное, больше 0");
+            page1TableLayout.Add(n1TextBox, 3, 3);
 
             // T1 input
 
             T1Label = new MyLabel("T1Label", "Крутящий момент на валу шестерни, Н*мм");
             page1TableLayout.Add(T1Label, 4, 0);
 
-            T1TextBox = new InputTextBox<double>("T1TextBox", Validators.DefaultDoubleValidator, (value) => T1 = value);
-            page1TableLayout.Add(T1TextBox, 4, 4);
+            T1TextBox = new InputTextBox<double>("T1TextBox", Validators.PositiveDoubleValidator, (value) => T1 = value, "Действительное, больше 0");
+            page1TableLayout.Add(T1TextBox, 4, 3);
 
             // th input
 
             thLabel = new MyLabel("thLabel", "Срок службы, ч");
             page1TableLayout.Add(thLabel, 5, 0);
 
-            thTextBox = new InputTextBox<double>("thTextBox", Validators.DefaultDoubleValidator, (value) => th = value);
-            page1TableLayout.Add(thTextBox, 5, 4);
+            thTextBox = new InputTextBox<double>("thTextBox", Validators.PositiveDoubleValidator, (value) => th = value, "Действительное, больше 0");
+            page1TableLayout.Add(thTextBox, 5, 3);
 
             // CT input
 
             CTLabel = new MyLabel("CTLabel", "Степень точности");
             page1TableLayout.Add(CTLabel, 6, 0);
 
-            CTTextBox = new InputTextBox<int>("CTTextBox", Validators.CTValidator, (value) => CT = value);
-            page1TableLayout.Add(CTTextBox, 6, 4);
+            CTTextBox = new InputTextBox<int>("CTTextBox", Validators.CTValidator, (value) => CT = value, "Натуральное число, от 5 до 9");
+            page1TableLayout.Add(CTTextBox, 6, 3);
 
             // alpha input
 
@@ -177,16 +264,54 @@ namespace Schizophrenia
             page1TableLayout.Add(alphaLabel, 7, 0);
 
             alphaTextBox = new InputTextBox<double>("alphaTextBox", Validators.DefaultDoubleValidator, (value) => alpha = value);
-            page1TableLayout.Add(alphaTextBox, 7, 4);
+            page1TableLayout.Add(alphaTextBox, 7, 3);
 
-            //
+            // standart contour
+
+            standartContourLabel = new MyLabel("standartContourLabel", "Стандартный исходный контур");
+            page1TableLayout.Add(standartContourLabel, 8, 0);
+
+            // Radio Group 4
+
+            standartContourYesButton = new MyRadioButton("standartContourYesButton", "Да");
+            standartContourYesButton.CheckedChanged += new System.EventHandler(standartContourYesButton_CheckedChanged);
+            page1TableLayout.Add(standartContourYesButton, 8, 1);
+
+            standartContourNoButton = new MyRadioButton("standartContourNoButton", "Нет");
+            standartContourNoButton.CheckedChanged += new System.EventHandler(standartContourNoButton_CheckedChanged);
+            page1TableLayout.Add(standartContourNoButton, 9, 1);
+
+            // standart alpha input
+
+            standartAlphaLabel = new MyLabel("standartAlphaLabel", "alpha");
+            page1TableLayout.Add(standartAlphaLabel, 8, 2);
+
+            standartAlphaTextBox = new InputTextBox<double>("standartAlphaTextBox", Validators.DefaultDoubleValidator, (value) => standartAlpha = value * System.Math.PI / 180.0);
+            page1TableLayout.Add(standartAlphaTextBox, 8, 3);
+
+            // haStar
+
+            haStarLabel = new MyLabel("haStarLabel", "ha*");
+            page1TableLayout.Add(haStarLabel, 9, 2);
+
+            haStarTextBox = new InputTextBox<double>("haStarTextBox", Validators.DefaultDoubleValidator, (value) => haStar = value);
+            page1TableLayout.Add(haStarTextBox, 9, 3);
+
+            // cStar
+
+            cStarLabel = new MyLabel("cStarLabel", "c*");
+            page1TableLayout.Add(cStarLabel, 10, 2);
+
+            cStarTextBox = new InputTextBox<double>("cStarTextBox", Validators.DefaultDoubleValidator, (value) => cStar = value);
+            page1TableLayout.Add(cStarTextBox, 10, 3);
+
+            // END
 
             mainTableLayout.Add(pagesMainTableLayout[0], 0, 0);
             Controls.Add(mainTableLayout);
+
             ResumeLayout(false);
         }
-
-        
     }
 }
 
