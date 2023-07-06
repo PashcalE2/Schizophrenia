@@ -50,10 +50,11 @@ namespace Schizophrenia
         private MyTableLayoutPanel mainTableLayout;
 
         private MyTableLayoutPanel[] pagesMainTableLayout = new MyTableLayoutPanel[15];
-        private MyLabel inputDataLabel;
+        private int currentPage;
 
         // Page 1
         private MyTableLayoutPanel page1TableLayout;
+        private MyLabel page1InputDataLabel;
         private MyLabel gearTypeLabel;
 
         private MyTableLayoutPanel page1RadioGroup1;
@@ -111,6 +112,23 @@ namespace Schizophrenia
 
         // Page 2
 
+        private MyTableLayoutPanel page2TableLayout;
+        private MyLabel page2InputDataLabel;
+
+        // Page 3
+
+        private MyTableLayoutPanel page3TableLayout;
+        private MyLabel page3InputDataLabel;
+
+        // Page 4
+
+        private MyTableLayoutPanel page4TableLayout;
+        private MyLabel page4InputDataLabel;
+
+        // Page 5
+
+        
+
         // Buttons panel
 
         private MyTableLayoutPanel buttonsTableLayout;
@@ -129,7 +147,7 @@ namespace Schizophrenia
 
             // BEGIN
 
-            mainTableLayout = new MyTableLayoutPanel("mainTableLayout", 3, 1, DockStyle.None);
+            mainTableLayout = new MyTableLayoutPanel("mainTableLayout", 16, 1, DockStyle.None);
 
             toolTip = new ToolTip();
             toolTip.AutomaticDelay = 0;
@@ -144,24 +162,27 @@ namespace Schizophrenia
             buttonsTableLayout.ColumnStyles[1] = new ColumnStyle(SizeType.Percent, 100);
 
             printButton = new MyButton("printButton", "Печать");
+            printButton.Click += new System.EventHandler(printButton_Click);
             buttonsTableLayout.Add(printButton, 0, 0);
 
             backButton = new MyButton("backButton", "Назад");
+            backButton.Click += new System.EventHandler(backButton_Click);
             buttonsTableLayout.Add(backButton, 0, 2);
 
             nextButton = new MyButton("nextButton", "Далее");
+            nextButton.Click += new System.EventHandler(nextButton_Click);
             buttonsTableLayout.Add(nextButton, 0, 3);
 
-            mainTableLayout.Add(buttonsTableLayout, 2, 0);
+            mainTableLayout.Add(buttonsTableLayout, 15, 0);
 
             // Page 1
 
             pagesMainTableLayout[0] = new MyTableLayoutPanel("page1MainTableLayout", 2, 1, DockStyle.Fill);
 
-            inputDataLabel = new MyLabel("inputDataLabel", "Исходные данные");
-            inputDataLabel.Anchor = AnchorStyles.Top;
-            inputDataLabel.Font = new System.Drawing.Font(DefaultFonts.Any.FontFamily, DefaultFonts.Any.Size + 4, DefaultFonts.Any.Style, DefaultFonts.Any.Unit);
-            pagesMainTableLayout[0].Add(inputDataLabel, 0, 0);
+            page1InputDataLabel = new MyLabel("page1InputDataLabel", "Исходные данные");
+            page1InputDataLabel.Anchor = AnchorStyles.Top;
+            page1InputDataLabel.Font = new System.Drawing.Font(DefaultFonts.Any.FontFamily, DefaultFonts.Any.Size + 4, DefaultFonts.Any.Style, DefaultFonts.Any.Unit);
+            pagesMainTableLayout[0].Add(page1InputDataLabel, 0, 0);
 
             page1TableLayout = new MyTableLayoutPanel("page1TableLayout", 11, 4, DockStyle.Fill);
             page1TableLayout.ColumnStyles[2] = new ColumnStyle(SizeType.Percent, 100);
@@ -305,9 +326,100 @@ namespace Schizophrenia
             cStarTextBox = new InputTextBox<double>("cStarTextBox", Validators.DefaultDoubleValidator, (value) => cStar = value);
             page1TableLayout.Add(cStarTextBox, 10, 3);
 
+            // Page 2
+
+            pagesMainTableLayout[1] = new MyTableLayoutPanel("page2MainTableLayout", 2, 1, DockStyle.Fill);
+
+            page2InputDataLabel = new MyLabel("page2InputDataLabel", "Исходные данные");
+            page2InputDataLabel.Anchor = AnchorStyles.Top;
+            page2InputDataLabel.Font = new System.Drawing.Font(DefaultFonts.Any.FontFamily, DefaultFonts.Any.Size + 4, DefaultFonts.Any.Style, DefaultFonts.Any.Unit);
+            pagesMainTableLayout[1].Add(page2InputDataLabel, 0, 0);
+
+            page2TableLayout = new MyTableLayoutPanel("page2TableLayout", 9, 4, DockStyle.Fill);
+            page2TableLayout.ColumnStyles[2] = new ColumnStyle(SizeType.Percent, 100);
+            pagesMainTableLayout[1].Add(page2TableLayout, 1, 0);
+
+            // Page 3
+
+            pagesMainTableLayout[2] = new MyTableLayoutPanel("page3MainTableLayout", 2, 1, DockStyle.Fill);
+
+            page3InputDataLabel = new MyLabel("page3InputDataLabel", "Исходные данные");
+            page3InputDataLabel.Anchor = AnchorStyles.Top;
+            page3InputDataLabel.Font = new System.Drawing.Font(DefaultFonts.Any.FontFamily, DefaultFonts.Any.Size + 4, DefaultFonts.Any.Style, DefaultFonts.Any.Unit);
+            pagesMainTableLayout[2].Add(page3InputDataLabel, 0, 0);
+
+            page3TableLayout = new MyTableLayoutPanel("page3TableLayout", 11, 4, DockStyle.Fill);
+            page3TableLayout.ColumnStyles[2] = new ColumnStyle(SizeType.Percent, 100);
+            pagesMainTableLayout[2].Add(page3TableLayout, 1, 0);
+
+            // Page 4
+
+            pagesMainTableLayout[3] = new MyTableLayoutPanel("page4MainTableLayout", 2, 1, DockStyle.Fill);
+
+            page4InputDataLabel = new MyLabel("page4InputDataLabel", "Исходные данные");
+            page4InputDataLabel.Anchor = AnchorStyles.Top;
+            page4InputDataLabel.Font = new System.Drawing.Font(DefaultFonts.Any.FontFamily, DefaultFonts.Any.Size + 4, DefaultFonts.Any.Style, DefaultFonts.Any.Unit);
+            pagesMainTableLayout[3].Add(page4InputDataLabel, 0, 0);
+
+            page4TableLayout = new MyTableLayoutPanel("page4TableLayout", 10, 4, DockStyle.Fill);
+            page4TableLayout.ColumnStyles[2] = new ColumnStyle(SizeType.Percent, 100);
+            pagesMainTableLayout[3].Add(page4TableLayout, 1, 0);
+
+            // Page 5
+
+            pagesMainTableLayout[4] = new MyTableLayoutPanel("page5MainTableLayout", 5, 1, DockStyle.Fill);
+
+            // Page 6
+
+            pagesMainTableLayout[5] = new MyTableLayoutPanel("page6MainTableLayout", 6, 1, DockStyle.Fill);
+
+            // Page 7
+
+            pagesMainTableLayout[6] = new MyTableLayoutPanel("page7MainTableLayout", 2, 1, DockStyle.Fill);
+
+            // Page 8
+
+            pagesMainTableLayout[7] = new MyTableLayoutPanel("page8MainTableLayout", 3, 4, DockStyle.Fill);
+
+            // Page 9
+
+            pagesMainTableLayout[8] = new MyTableLayoutPanel("page9MainTableLayout", 3, 4, DockStyle.Fill);
+
+            // Page 10
+
+            pagesMainTableLayout[9] = new MyTableLayoutPanel("page10MainTableLayout", 4, 4, DockStyle.Fill);
+
+            // Page 11
+
+            pagesMainTableLayout[10] = new MyTableLayoutPanel("page11MainTableLayout", 3, 3, DockStyle.Fill);
+
+            // Page 12
+
+            pagesMainTableLayout[11] = new MyTableLayoutPanel("page12MainTableLayout", 3, 3, DockStyle.Fill);
+
+            // Page 13
+
+            pagesMainTableLayout[12] = new MyTableLayoutPanel("page13MainTableLayout", 2, 1, DockStyle.Fill);
+
+            // Page 14
+
+            pagesMainTableLayout[13] = new MyTableLayoutPanel("page14MainTableLayout", 2, 1, DockStyle.Fill);
+
+            // Page 15
+
+            pagesMainTableLayout[14] = new MyTableLayoutPanel("page15MainTableLayout", 2, 1, DockStyle.Fill);
+
             // END
 
+            currentPage = 0;
             mainTableLayout.Add(pagesMainTableLayout[0], 0, 0);
+
+            for (int i = 1; i < 15; i++)
+            {
+                pagesMainTableLayout[i].Visible = false;
+                mainTableLayout.Add(pagesMainTableLayout[i], i, 0);
+            }
+
             Controls.Add(mainTableLayout);
 
             ResumeLayout(false);
