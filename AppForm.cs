@@ -12,6 +12,7 @@ namespace Schizophrenia
 {
     public partial class AppForm : Form
     {
+        private Stack<int> pagesHistory = new Stack<int>(15);
         public AppForm()
         {
             InitializeComponent();
@@ -25,14 +26,52 @@ namespace Schizophrenia
 
             //
 
-            printButton.Click += new EventHandler(printButton_Click);
+            
         }
 
         // General
 
+        public void backButton_Click(object sender, EventArgs e)
+        {
+            nextButton.Enabled = true;
+
+            mainTableLayout.SuspendLayout();
+
+            pagesMainTableLayout[currentPage].Visible = false;
+            currentPage = pagesHistory.Pop();
+            pagesMainTableLayout[currentPage].Visible = true;
+
+            mainTableLayout.ResumeLayout();
+
+            if (currentPage == 0)
+            {
+                backButton.Enabled = false;
+            }
+        }
+
+        public void nextButton_Click(object sender, EventArgs e)
+        {
+            pagesHistory.Push(currentPage);
+            backButton.Enabled = true;
+
+            mainTableLayout.SuspendLayout();
+
+            pagesMainTableLayout[currentPage].Visible = false;
+            currentPage++;
+            pagesMainTableLayout[currentPage].Visible = true;
+
+            mainTableLayout.ResumeLayout();
+
+            if (currentPage == 14)
+            {
+                nextButton.Enabled = false;
+            }
+
+            
+        }
+
         public void printButton_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(standartAlpha.ToString());
         }
 
         // Page 1

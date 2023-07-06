@@ -40,12 +40,12 @@ namespace Schizophrenia
     
     public class InputTextBox<T> : TextBox
     {
-        private T Value;
-        private Action<T> OutterVauleSetter;
         private AnyValidator<T> Validator;
+        private T Value;
         private bool IsValid;
-        private string Hint;
+        private Action<T> OutterVauleSetter;
         private ToolTip HintToolTip;
+        private string Hint;
 
         public InputTextBox(string name, AnyValidator<T> validator, Action<T> outterVauleSetter)
         {
