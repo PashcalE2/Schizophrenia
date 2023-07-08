@@ -20,6 +20,7 @@ namespace Schizophrenia
     {
         public static readonly Size TextBox = new Size(130, 40);
         public static readonly Size Button = new Size(80, 30);
+        public static readonly Size ComboBox = new Size(130, 40);
     }
 
     public static class DefaultFonts
@@ -32,9 +33,20 @@ namespace Schizophrenia
         public MyRadioButton(string name, string text)
         {
             AutoSize = true;
+            Font = DefaultFonts.Any;
             Name = name;
             Text = text;
+        }
+    }
+
+    public class OutputTextBox : TextBox
+    {
+        public OutputTextBox(string name)
+        {
+            Name = name;
+            Size = DefaultSizes.TextBox;
             Font = DefaultFonts.Any;
+            Enabled = false;
         }
     }
     
@@ -159,8 +171,8 @@ namespace Schizophrenia
 
         private void DefaultInit(string name, string text)
         {
-            Name = name;
             Font = DefaultFonts.Any;
+            Name = name;
             Text = text;
             UseVisualStyleBackColor = true;
         }
@@ -188,16 +200,19 @@ namespace Schizophrenia
 
             AutoSize = true;
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
+            Margin = new Padding(3);
+            Padding = new Padding(3);
 
             for (int i = 0; i < columnCount; i++)
             {
-                ColumnStyles.Add(new ColumnStyle());
+                ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
                 //ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100f));
             }
 
             for (int i = 0; i < rowCount; i++)
             {
-                RowStyles.Add(new RowStyle());
+                RowStyles.Add(new RowStyle(SizeType.AutoSize));
                 //RowStyles.Add(new RowStyle(SizeType.Percent, 100f));
             }
         }
@@ -216,15 +231,24 @@ namespace Schizophrenia
         }
     }
 
+    public class MyComboBox : ComboBox
+    {
+        public MyComboBox(string name)
+        {
+            Font = DefaultFonts.Any;
+            Name = name;
+            Size = DefaultSizes.ComboBox;
+        }
+    }
+
     public class MyLabel : Label
     {
         public MyLabel(string name, string text)
         {
             AutoSize = true;
+            Font = DefaultFonts.Any;
             Name = name;
             Text = text;
-
-            Font = DefaultFonts.Any;
         }
 
         public string GetText()

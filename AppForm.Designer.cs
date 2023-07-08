@@ -115,6 +115,40 @@ namespace Schizophrenia
         private MyTableLayoutPanel page2TableLayout;
         private MyLabel page2InputDataLabel;
 
+        private MyRadioButton identityRadioButton;
+        private MyRadioButton notIdentityRadioButton;
+
+        private MyLabel page2GearLabel;
+        private MyLabel page2WheelLabel;
+
+        private MyLabel materialLabel;
+        private MyComboBox gearMaterialComboBox;
+        private MyComboBox wheelMaterialComboBox;
+
+        private MyLabel TOLabel;
+        private MyComboBox TO1ComboBox;
+        private MyComboBox TO2ComboBox;
+
+        // Hints
+
+        private MyLabel strengthLabel;
+
+        private MyLabel HBLabel;
+        private OutputTextBox HB1TextBox;
+        private OutputTextBox HB2TextBox;
+
+        private MyLabel HRCLabel;
+        private OutputTextBox HRC1TextBox;
+        private OutputTextBox HRC2TextBox;
+
+        private MyLabel HVLabel;
+        private OutputTextBox HV1TextBox;
+        private OutputTextBox HV2TextBox;
+
+        private MyLabel coreStrengthLabel;
+        private OutputTextBox HRCs1TextBox;
+        private OutputTextBox HRCs2TextBox;
+
         // Page 3
 
         private MyTableLayoutPanel page3TableLayout;
@@ -335,9 +369,89 @@ namespace Schizophrenia
             page2InputDataLabel.Font = new System.Drawing.Font(DefaultFonts.Any.FontFamily, DefaultFonts.Any.Size + 4, DefaultFonts.Any.Style, DefaultFonts.Any.Unit);
             pagesMainTableLayout[1].Add(page2InputDataLabel, 0, 0);
 
-            page2TableLayout = new MyTableLayoutPanel("page2TableLayout", 9, 4, DockStyle.Fill);
-            page2TableLayout.ColumnStyles[2] = new ColumnStyle(SizeType.Percent, 100);
+            page2TableLayout = new MyTableLayoutPanel("page2TableLayout", 9, 3, DockStyle.Fill);
             pagesMainTableLayout[1].Add(page2TableLayout, 1, 0);
+
+            // Radio Group
+
+            identityRadioButton = new MyRadioButton("identityRadioButton", "Материалы идентичны");
+            page2TableLayout.Add(identityRadioButton, 0, 0);
+
+            notIdentityRadioButton = new MyRadioButton("notIdentityRadioButton", "Материалы различны");
+            page2TableLayout.Add(notIdentityRadioButton, 1, 0);
+
+            // Gear, Wheel
+
+            page2GearLabel = new MyLabel("page2GearLabel", "Шестерня");
+            page2GearLabel.Anchor = AnchorStyles.None;
+            page2TableLayout.Add(page2GearLabel, 1, 1);
+
+            page2WheelLabel = new MyLabel("page2WheelLabel", "Колесо");
+            page2WheelLabel.Anchor = AnchorStyles.None;
+            page2TableLayout.Add(page2WheelLabel, 1, 2);
+
+            // Material
+
+            materialLabel = new MyLabel("materialLabel", "Материал");
+            page2TableLayout.Add(materialLabel, 2, 0);
+
+            gearMaterialComboBox = new MyComboBox("gearMaterialComboBox");
+            page2TableLayout.Add(gearMaterialComboBox, 2, 1);
+
+            wheelMaterialComboBox = new MyComboBox("wheelMaterialComboBox");
+            page2TableLayout.Add(wheelMaterialComboBox, 2, 2);
+
+            // TO
+
+            TOLabel = new MyLabel("TOLabel", "Термическая обработка");
+            page2TableLayout.Add(TOLabel, 3, 0);
+
+            TO1ComboBox = new MyComboBox("TO1ComboBox");
+            page2TableLayout.Add(TO1ComboBox, 3, 1);
+
+            TO2ComboBox = new MyComboBox("TO2ComboBox");
+            page2TableLayout.Add(TO2ComboBox, 3, 2);
+
+            // Hints
+
+            strengthLabel = new MyLabel("strengthLabel", "Твёрдость раб. поверхности зубьев");
+            page2TableLayout.Add(strengthLabel, 4, 0);
+
+            HBLabel = new MyLabel("HBLabel", "по шкале Бриннеля, HB");
+            page2TableLayout.Add(HBLabel, 5, 0);
+
+            HB1TextBox = new OutputTextBox("HB1TextBox");
+            page2TableLayout.Add(HB1TextBox, 5, 1);
+
+            HB2TextBox = new OutputTextBox("HB2TextBox");
+            page2TableLayout.Add(HB2TextBox, 5, 2);
+
+            HRCLabel = new MyLabel("HRCLabel", "по шкале Роквелла, HRC");
+            page2TableLayout.Add(HRCLabel, 6, 0);
+
+            HRC1TextBox = new OutputTextBox("HRC1TextBox");
+            page2TableLayout.Add(HRC1TextBox, 6, 1);
+
+            HRC2TextBox = new OutputTextBox("HRC2TextBox");
+            page2TableLayout.Add(HRC2TextBox, 6, 2);
+
+            HVLabel = new MyLabel("HVLabel", "по шкале Виккерса, HV");
+            page2TableLayout.Add(HVLabel, 7, 0);
+
+            HV1TextBox = new OutputTextBox("HV1TextBox");
+            page2TableLayout.Add(HV1TextBox, 7, 1);
+
+            HV2TextBox = new OutputTextBox("HV2TextBox");
+            page2TableLayout.Add(HV2TextBox, 7, 2);
+
+            coreStrengthLabel = new MyLabel("coreStrengthLabel", "Твёрдость сердцевины зубьев, HRCs");
+            page2TableLayout.Add(coreStrengthLabel, 8, 0);
+
+            HRCs1TextBox = new OutputTextBox("HRCs1TextBox");
+            page2TableLayout.Add(HRCs1TextBox, 8, 1);
+
+            HRCs2TextBox = new OutputTextBox("HRCs2TextBox");
+            page2TableLayout.Add(HRCs2TextBox, 8, 2);
 
             // Page 3
 

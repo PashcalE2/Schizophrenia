@@ -72,6 +72,9 @@ namespace Schizophrenia
 
         public void printButton_Click(object sender, EventArgs e)
         {
+            u = u / 2;
+            uTextBox.SetValue(u);
+            MessageBox.Show(u.ToString() + " " + uTextBox.GetValue().ToString());
         }
 
         // Page 1
