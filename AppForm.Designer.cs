@@ -134,25 +134,80 @@ namespace Schizophrenia
         private MyLabel strengthLabel;
 
         private MyLabel HBLabel;
-        private OutputTextBox HB1TextBox;
-        private OutputTextBox HB2TextBox;
+        private InputTextBox<double> HB1TextBox;
+        private double HB1;
+        private InputTextBox<double> HB2TextBox;
+        private double HB2;
 
         private MyLabel HRCLabel;
-        private OutputTextBox HRC1TextBox;
-        private OutputTextBox HRC2TextBox;
+        private InputTextBox<double> HRC1TextBox;
+        private double HRC1;
+        private InputTextBox<double> HRC2TextBox;
+        private double HRC2;
 
         private MyLabel HVLabel;
-        private OutputTextBox HV1TextBox;
-        private OutputTextBox HV2TextBox;
+        private InputTextBox<double> HV1TextBox;
+        private double HV1;
+        private InputTextBox<double> HV2TextBox;
+        private double HV2;
 
         private MyLabel coreStrengthLabel;
-        private OutputTextBox HRCs1TextBox;
-        private OutputTextBox HRCs2TextBox;
+        private InputTextBox<double> HRCs1TextBox;
+        private double HRCs1;
+        private InputTextBox<double> HRCs2TextBox;
+        private double HRCs2;
 
         // Page 3
 
         private MyTableLayoutPanel page3TableLayout;
         private MyLabel page3InputDataLabel;
+
+        private MyLabel page3GearLabel;
+        private MyLabel page3WheelLabel;
+
+        private MyLabel sigmaHLimbLabel;
+        private InputTextBox<double> sigmaH1LimbTextBox;
+        private double sigmaH1Limb;
+        private InputTextBox<double> sigmaH2LimbTextBox;
+        private double sigmaH2Limb;
+
+        private MyLabel sigmaFLimbLabel;
+        private InputTextBox<double> sigmaF1LimbTextBox;
+        private double sigmaF1Limb;
+        private InputTextBox<double> sigmaF2LimbTextBox;
+        private double sigmaF2Limb;
+
+        private MyLabel cLabel;
+        private InputTextBox<double> c1TextBox;
+        private double c1;
+        private InputTextBox<double> c2TextBox;
+        private double c2;
+
+        private MyLabel KFCLabel;
+        private InputTextBox<double> KFC1TextBox;
+        private double KFC1;
+        private InputTextBox<double> KFC2TextBox;
+        private double KFC2;
+
+        private MyLabel SHLabel;
+        private InputTextBox<double> SHTextBox;
+        private double SH;
+
+        private MyLabel SFLabel;
+        private InputTextBox<double> SFTextBox;
+        private double SF;
+
+        private MyLabel workModeLabel;
+        private MyRadioButton constModeRadioButton;
+        private MyRadioButton diffModeRadioButton;
+
+        private MyLabel KHELabel;
+        private InputTextBox<double> KHETextBox;
+        private double KHE;
+
+        private MyLabel KFELabel;
+        private InputTextBox<double> KFETextBox;
+        private double KFE;
 
         // Page 4
 
@@ -420,37 +475,37 @@ namespace Schizophrenia
             HBLabel = new MyLabel("HBLabel", "по шкале Бриннеля, HB");
             page2TableLayout.Add(HBLabel, 5, 0);
 
-            HB1TextBox = new OutputTextBox("HB1TextBox");
+            HB1TextBox = new InputTextBox<double>("HB1TextBox", Validators.DefaultDoubleValidator, (value) => HB1 = value);
             page2TableLayout.Add(HB1TextBox, 5, 1);
 
-            HB2TextBox = new OutputTextBox("HB2TextBox");
+            HB2TextBox = new InputTextBox<double>("HB2TextBox", Validators.DefaultDoubleValidator, (value) => HB2 = value);
             page2TableLayout.Add(HB2TextBox, 5, 2);
 
             HRCLabel = new MyLabel("HRCLabel", "по шкале Роквелла, HRC");
             page2TableLayout.Add(HRCLabel, 6, 0);
 
-            HRC1TextBox = new OutputTextBox("HRC1TextBox");
+            HRC1TextBox = new InputTextBox<double>("HRC1TextBox", Validators.DefaultDoubleValidator, (value) => HRC1 = value);
             page2TableLayout.Add(HRC1TextBox, 6, 1);
 
-            HRC2TextBox = new OutputTextBox("HRC2TextBox");
+            HRC2TextBox = new InputTextBox<double>("HRC2TextBox", Validators.DefaultDoubleValidator, (value) => HRC2 = value);
             page2TableLayout.Add(HRC2TextBox, 6, 2);
 
             HVLabel = new MyLabel("HVLabel", "по шкале Виккерса, HV");
             page2TableLayout.Add(HVLabel, 7, 0);
 
-            HV1TextBox = new OutputTextBox("HV1TextBox");
+            HV1TextBox = new InputTextBox<double>("HV1TextBox", Validators.DefaultDoubleValidator, (value) => HV1 = value);
             page2TableLayout.Add(HV1TextBox, 7, 1);
 
-            HV2TextBox = new OutputTextBox("HV2TextBox");
+            HV2TextBox = new InputTextBox<double>("HV2TextBox", Validators.DefaultDoubleValidator, (value) => HV2 = value);
             page2TableLayout.Add(HV2TextBox, 7, 2);
 
             coreStrengthLabel = new MyLabel("coreStrengthLabel", "Твёрдость сердцевины зубьев, HRCs");
             page2TableLayout.Add(coreStrengthLabel, 8, 0);
 
-            HRCs1TextBox = new OutputTextBox("HRCs1TextBox");
+            HRCs1TextBox = new InputTextBox<double>("HRCs1TextBox", Validators.DefaultDoubleValidator, (value) => HRCs1 = value);
             page2TableLayout.Add(HRCs1TextBox, 8, 1);
 
-            HRCs2TextBox = new OutputTextBox("HRCs2TextBox");
+            HRCs2TextBox = new InputTextBox<double>("HRCs2TextBox", Validators.DefaultDoubleValidator, (value) => HRCs2 = value);
             page2TableLayout.Add(HRCs2TextBox, 8, 2);
 
             // Page 3
@@ -465,6 +520,94 @@ namespace Schizophrenia
             page3TableLayout = new MyTableLayoutPanel("page3TableLayout", 11, 4, DockStyle.Fill);
             page3TableLayout.ColumnStyles[2] = new ColumnStyle(SizeType.Percent, 100);
             pagesMainTableLayout[2].Add(page3TableLayout, 1, 0);
+
+            // Gear, Wheel
+
+            page3GearLabel = new MyLabel("page3GearLabel", "Шестерня");
+            page3GearLabel.Anchor = AnchorStyles.None;
+            page3TableLayout.Add(page3GearLabel, 0, 1);
+
+            page3WheelLabel = new MyLabel("page3WheelLabel", "Колесо");
+            page3WheelLabel.Anchor = AnchorStyles.None;
+            page3TableLayout.Add(page3WheelLabel, 0, 2);
+
+            // HLimb
+
+            sigmaHLimbLabel = new MyLabel("sigmaHLimbLabel", "Базовый предел контактной выносливости");
+            page3TableLayout.Add(sigmaHLimbLabel, 1, 0);
+
+            sigmaH1LimbTextBox = new InputTextBox<double>("sigmaH1LimbTextBox", Validators.DefaultDoubleValidator, (value) => sigmaH1Limb = value);
+            page3TableLayout.Add(sigmaH1LimbTextBox, 1, 1);
+
+            sigmaH2LimbTextBox = new InputTextBox<double>("sigmaH2LimbTextBox", Validators.DefaultDoubleValidator, (value) => sigmaH2Limb = value);
+            page3TableLayout.Add(sigmaH2LimbTextBox, 1, 2);
+
+            // FLimb
+
+            sigmaFLimbLabel = new MyLabel("sigmaFLimbLabel", "Базовый предел изгибной выносливости");
+            page3TableLayout.Add(sigmaFLimbLabel, 2, 0);
+
+            sigmaF1LimbTextBox = new InputTextBox<double>("sigmaF1LimbTextBox", Validators.DefaultDoubleValidator, (value) => sigmaF1Limb = value);
+            page3TableLayout.Add(sigmaF1LimbTextBox, 2, 1);
+
+            sigmaF2LimbTextBox = new InputTextBox<double>("sigmaF2LimbTextBox", Validators.DefaultDoubleValidator, (value) => sigmaF2Limb = value);
+            page3TableLayout.Add(sigmaF2LimbTextBox, 2, 2);
+
+            // c
+
+            cLabel = new MyLabel("cLabel", "Число нагружений зуба за один оборот");
+            page3TableLayout.Add(cLabel, 3, 0);
+
+            c1TextBox = new InputTextBox<double>("c1TextBox", Validators.DefaultDoubleValidator, (value) => c1 = value);
+            page3TableLayout.Add(c1TextBox, 3, 1);
+
+            c2TextBox = new InputTextBox<double>("c2TextBox", Validators.DefaultDoubleValidator, (value) => c2 = value);
+            page3TableLayout.Add(c2TextBox, 3, 2);
+
+            // KFC
+
+            KFCLabel = new MyLabel("KFCLabel", "Коэф-т, учитывающий двустороннее нагружение");
+            page3TableLayout.Add(KFCLabel, 4, 0);
+
+            KFC1TextBox = new InputTextBox<double>("KFC1TextBox", Validators.DefaultDoubleValidator, (value) => KFC1 = value);
+            page3TableLayout.Add(KFC1TextBox, 4, 1);
+
+            KFC2TextBox = new InputTextBox<double>("KFC2TextBox", Validators.DefaultDoubleValidator, (value) => KFC2 = value);
+            page3TableLayout.Add(KFC2TextBox, 4, 2);
+
+            // SH
+
+            SHLabel = new MyLabel("SHLabel", "Запас проности по контактным напряжениям");
+            page3TableLayout.Add(SHLabel, 5, 0);
+
+            SHTextBox = new InputTextBox<double>("SHTextBox", Validators.DefaultDoubleValidator, (value) => SH = value);
+            page3TableLayout.Add(SHTextBox, 5, 1);
+
+            // SF
+
+            SFLabel = new MyLabel("SFLabel", "Запас прочности по изгибным напряжениям");
+            page3TableLayout.Add(SFLabel, 6, 0);
+
+            SFTextBox = new InputTextBox<double>("SFTextBox", Validators.DefaultDoubleValidator, (value) => SF = value);
+            page3TableLayout.Add(SFTextBox, 6, 1);
+
+            // model
+
+            workModeLabel = new MyLabel("workModeLabel", "Режим работы");
+            page3TableLayout.Add(workModeLabel, 7, 0);
+
+            constModeRadioButton = new MyRadioButton("constModeRadioButton", "Постоянный");
+            page3TableLayout.Add(constModeRadioButton, 7, 1);
+
+            diffModeRadioButton = new MyRadioButton("diffModeRadioButton", "Переменный");
+            page3TableLayout.Add(diffModeRadioButton, 8, 1);
+
+            // KHE
+
+
+
+            // KFE
+
 
             // Page 4
 
