@@ -214,9 +214,45 @@ namespace Schizophrenia
         private MyTableLayoutPanel page4TableLayout;
         private MyLabel page4InputDataLabel;
 
+        private MyLabel aWLabel;
+        private MyTableLayoutPanel aWRadioGroup;
+        private MyRadioButton aWKnownRadioButton;
+        private MyRadioButton aWUnknownRadioButton;
+        private InputTextBox<double> aWKnownTextBox;
+        private double aW;
+
+        private MyLabel standartAWLabel;
+        private MyTableLayoutPanel standartAWRadioGroup;
+        private MyRadioButton standartAWYesRadioButton;
+        private MyRadioButton standartAWNoRadioButton;
+
+        private MyLabel psibaLabel;
+        private InputTextBox<double> psibaTextBox;
+        private double psiba;
+
+        private MyLabel psibaCommentLabel;
+
+        private MyLabel symmCommentLabel;
+        private MyLabel symmLabel;
+
+        private MyLabel asymmCommentLabel;
+        private MyLabel asymmLabel;
+
+        private MyLabel consoleCommentLabel;
+        private MyLabel consoleLabel;
+
+        private MyLabel internalCommentLabel;
+        private MyLabel internalLabel;
+
+        private MyLabel chevronCommentLabel;
+        private MyLabel chevronLabel;
+
+        private MyLabel transmissionCommentLabel;
+        private MyLabel transmissionLabel;
+
         // Page 5
 
-        
+
 
         // Buttons panel
 
@@ -274,7 +310,7 @@ namespace Schizophrenia
             pagesMainTableLayout[0].Add(page1InputDataLabel, 0, 0);
 
             page1TableLayout = new MyTableLayoutPanel("page1TableLayout", 11, 4, DockStyle.Fill);
-            page1TableLayout.ColumnStyles[2] = new ColumnStyle(SizeType.Percent, 100);
+            //page1TableLayout.ColumnStyles[2] = new ColumnStyle(SizeType.Percent, 100);
             pagesMainTableLayout[0].Add(page1TableLayout, 1, 0);
 
             // gear type
@@ -518,7 +554,7 @@ namespace Schizophrenia
             pagesMainTableLayout[2].Add(page3InputDataLabel, 0, 0);
 
             page3TableLayout = new MyTableLayoutPanel("page3TableLayout", 11, 4, DockStyle.Fill);
-            page3TableLayout.ColumnStyles[2] = new ColumnStyle(SizeType.Percent, 100);
+            //page3TableLayout.ColumnStyles[2] = new ColumnStyle(SizeType.Percent, 100);
             pagesMainTableLayout[2].Add(page3TableLayout, 1, 0);
 
             // Gear, Wheel
@@ -604,10 +640,19 @@ namespace Schizophrenia
 
             // KHE
 
+            KHELabel = new MyLabel("KHELabel", "Коэф-т эквивалентности по контактным напряжениям");
+            page3TableLayout.Add(KHELabel, 9, 0);
 
+            KHETextBox = new InputTextBox<double>("KHETextBox", Validators.DefaultDoubleValidator, (value) => KHE = value);
+            page3TableLayout.Add(KHETextBox, 9, 1);
 
             // KFE
 
+            KFELabel = new MyLabel("KFELabel", "Коэф-т эквивалентности по контактным напряжениям");
+            page3TableLayout.Add(KFELabel, 10, 0);
+
+            KFETextBox = new InputTextBox<double>("KFETextBox", Validators.DefaultDoubleValidator, (value) => KFE = value);
+            page3TableLayout.Add(KFETextBox, 10, 1);
 
             // Page 4
 
@@ -619,8 +664,50 @@ namespace Schizophrenia
             pagesMainTableLayout[3].Add(page4InputDataLabel, 0, 0);
 
             page4TableLayout = new MyTableLayoutPanel("page4TableLayout", 10, 4, DockStyle.Fill);
-            page4TableLayout.ColumnStyles[2] = new ColumnStyle(SizeType.Percent, 100);
+            //page4TableLayout.ColumnStyles[2] = new ColumnStyle(SizeType.Percent, 100);
             pagesMainTableLayout[3].Add(page4TableLayout, 1, 0);
+
+            // Aw
+
+            aWLabel = new MyLabel("aWLabel", "Межосевое расстояние");
+            page4TableLayout.Add(aWLabel, 0, 0);
+
+            aWRadioGroup = new MyTableLayoutPanel("aWRadioGroup", 2, 1, DockStyle.Fill);
+            page4TableLayout.Add(aWRadioGroup, 0, 1);
+
+            aWKnownRadioButton = new MyRadioButton("aWKnownRadioButton", "Задано");
+            aWRadioGroup.Add(aWKnownRadioButton, 0, 0);
+
+            aWUnknownRadioButton = new MyRadioButton("aWUnknownRadioButton", "Не задано");
+            aWRadioGroup.Add(aWUnknownRadioButton, 1, 0);
+
+            aWKnownTextBox = new InputTextBox<double>("aWKnownTextBox", Validators.DefaultDoubleValidator, (value) => aW = value);
+            page4TableLayout.Add(aWKnownTextBox, 0, 2);
+
+            // StandartAW
+
+            standartAWLabel = new MyLabel("standartAWLabel", "Стандартное межосевое расстояние");
+            page4TableLayout.Add(standartAWLabel, 1, 0);
+
+            standartAWRadioGroup = new MyTableLayoutPanel("standartAWRadioGroup", 2, 1);
+            page4TableLayout.Add(standartAWRadioGroup, 1, 1);
+
+            standartAWYesRadioButton = new MyRadioButton("standartAWYesRadioButton", "Да");
+            standartAWRadioGroup.Add(standartAWYesRadioButton, 0, 0);
+
+            standartAWNoRadioButton = new MyRadioButton("standartAWNoRadioButton", "Нет");
+            standartAWRadioGroup.Add(standartAWNoRadioButton, 1, 0);
+
+            // psiba
+
+            psibaLabel = new MyLabel("psibaLabel", "Коэф-т ширины относительного межосевого расстояния");
+            page4TableLayout.Add(psibaLabel, 2, 0);
+
+            psibaTextBox = new InputTextBox<double>("psibaTextBox", Validators.DefaultDoubleValidator, (value) => psiba = value);
+            page4TableLayout.Add(psibaTextBox, 2, 2);
+
+            // Hints
+
 
             // Page 5
 
