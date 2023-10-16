@@ -69,6 +69,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -82,6 +83,36 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="resources\minMTable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="resources\standartMTable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\standartAWTable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\asymm.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\console.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\symm.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\zfunc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\KBettaTable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\KVTable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\YFTable.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,5 +1,7 @@
 ﻿using System.Windows.Forms;
 using System.Reflection;
+using System.Drawing;
+using System;
 
 namespace Schizophrenia
 {
@@ -41,7 +43,6 @@ namespace Schizophrenia
             this.Name = "AppForm";
             this.Text = "AppForm";
             this.ResumeLayout(false);
-
         }
 
         #endregion
@@ -86,8 +87,8 @@ namespace Schizophrenia
         private InputTextBox<double> thTextBox;
         private double th;
 
-        private MyLabel CTLabel;
-        private InputTextBox<int> CTTextBox;
+        private MyLabel page1CTLabel;
+        private InputTextBox<int> page1CTTextBox;
         private int CT;
 
         private MyLabel alphaLabel;
@@ -252,7 +253,169 @@ namespace Schizophrenia
 
         // Page 5
 
+        private MyTableLayoutPanel page5MiGroup;
+        private MyLabel miLabel;
+        private OutputTextBox miTextBox;
 
+        private MyLabel mComentLabel;
+
+        private MyTableLayoutPanel page5MGroup;
+        private MyLabel mLabel;
+        private InputTextBox<double> mTextBox;
+        private double m;
+
+        private PictureBox mPicture;
+
+        private PictureBox standartMPicture;
+
+        // Page 6
+
+        private MyLabel z1iLabel;
+        private OutputTextBox z1iTextBox;
+
+        private MyLabel z1Label;
+        private InputTextBox<double> z1TextBox;
+        private double z1;
+
+        private MyLabel z2iLabel;
+        private OutputTextBox z2iTextBox;
+
+        private MyLabel z2Label;
+        private InputTextBox<double> z2TextBox;
+        private double z2;
+
+        private MyLabel badDeltaU1label;
+        private MyLabel badDeltaU2label;
+
+        // Page 7
+
+        private MyTableLayoutPanel page7AWGroup;
+
+        private MyLabel aWiLabel;
+        private OutputTextBox aWiTextBox;
+
+        private InputTextBox<double> aWTextBox;
+
+        private PictureBox standartAWPicture;
+
+        // Page 8
+
+        private MyLabel page8GearLabel;
+        private MyLabel page8WheelLabel;
+
+        private MyLabel xLabel;
+        private OutputTextBox x1iTextBox;
+        private OutputTextBox x2iTextBox;
+
+        private InputTextBox<double> x1TextBox;
+        private double x1;
+
+        private InputTextBox<double> x2TextBox;
+        private double x2;
+
+        // Page 9
+
+        private MyLabel xCor1Label;
+        private MyLabel page9GearLabel;
+        private MyLabel page9WheelLabel;
+
+        private MyRadioButton withoutOffsetRadioButton;
+        private OutputTextBox x1iCor1TextBox;
+        private OutputTextBox x2iCor1TextBox;
+
+        private MyRadioButton withOffsetRadioButton;
+        private InputTextBox<double> x1Cor1TextBox;
+        private InputTextBox<double> x2Cor1TextBox;
+
+        // Page 10
+
+        private MyLabel xSigmaLabel;
+        private OutputTextBox xSigmaTextBox;
+
+        private MyLabel page10GearLabel;
+        private MyLabel page10WheelLabel;
+
+        private MyLabel xCor2Label;
+        private OutputTextBox x1iCor2TextBox;
+        private OutputTextBox x2iCor2TextBox;
+
+        private InputTextBox<double> x1Cor2TextBox;
+        private InputTextBox<double> x2Cor2TextBox;
+
+        // Page 11
+
+        private MyLabel page11AWLabel;
+        private OutputTextBox page11AW;
+
+        private MyRadioButton withoutRoundRadioButton;
+        private MyRadioButton roundRadioButton;
+        private InputTextBox<double> aWG3TextBox;
+
+        // Page 12
+
+        private MyLabel psibdLabel;
+        private OutputTextBox psibdTextBox;
+
+        private MyLabel KBettaLabel;
+        private InputTextBox<double> KBettaTextBox;
+        private double KBetta;
+
+        private PictureBox page12KBettaPicture;
+        private MyTableLayoutPanel page11PicturesGroup;
+        private PictureBox page12SymmPicture;
+        private PictureBox page12AsymmPicture;
+        private PictureBox page12ConsolePicture;
+
+        // Page 13
+
+        private MyLabel VLabel;
+        private OutputTextBox VTextBox;
+
+        private MyLabel HBMinLabel;
+        private OutputTextBox HBMinTextBox;
+
+        private MyLabel page13CTLabel;
+        private OutputTextBox page13CTTextBox;
+
+        private MyLabel KVLabel;
+        private InputTextBox<double> KVTextBox;
+
+        private PictureBox KVPicture;
+
+        // Page 14
+
+        private MyLabel page14Z1Label;
+        private OutputTextBox page14Z1TextBox;
+
+        private MyLabel YF1Label;
+        private InputTextBox<double> YF1TextBox;
+
+        private MyLabel page14Z2Label;
+        private OutputTextBox page14Z2TextBox;
+
+        private MyLabel YF2Label;
+        private InputTextBox<double> YF2TextBox;
+
+        private PictureBox YFPicture;
+
+        // Page 15
+
+        private MyLabel page15GearLabel;
+        private MyLabel page15WheelLabel;
+
+        private MyLabel zOffsetLabel;
+        private OutputTextBox z1OffsetTextBox;
+        private OutputTextBox z2OffsetTextBox;
+
+        private MyLabel xOffsetLabel;
+        private OutputTextBox x1OffsetTextBox;
+        private OutputTextBox x2OffsetTextBox;
+
+        private MyLabel YFOffsetLabel;
+        private InputTextBox<double> YF1OffsetTextBox;
+        private InputTextBox<double> YF2OffsetTextBox;
+
+        private PictureBox zPicture;
 
         // Buttons panel
 
@@ -265,6 +428,8 @@ namespace Schizophrenia
 
         private void InitializeChildren()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AppForm));
+
             SuspendLayout();
 
             AutoSize = true;
@@ -398,11 +563,11 @@ namespace Schizophrenia
 
             // CT input
 
-            CTLabel = new MyLabel("CTLabel", "Степень точности");
-            page1TableLayout.Add(CTLabel, 6, 0);
+            page1CTLabel = new MyLabel("CTLabel", "Степень точности");
+            page1TableLayout.Add(page1CTLabel, 6, 0);
 
-            CTTextBox = new InputTextBox<int>("CTTextBox", Validators.CTValidator, (value) => CT = value, "Натуральное число, от 5 до 9");
-            page1TableLayout.Add(CTTextBox, 6, 3);
+            page1CTTextBox = new InputTextBox<int>("page1CTTextBox", Validators.CTValidator, (value) => CT = value, "Натуральное число, от 5 до 9");
+            page1TableLayout.Add(page1CTTextBox, 6, 3);
 
             // alpha input
 
@@ -553,7 +718,7 @@ namespace Schizophrenia
             page3InputDataLabel.Font = new System.Drawing.Font(DefaultFonts.Any.FontFamily, DefaultFonts.Any.Size + 4, DefaultFonts.Any.Style, DefaultFonts.Any.Unit);
             pagesMainTableLayout[2].Add(page3InputDataLabel, 0, 0);
 
-            page3TableLayout = new MyTableLayoutPanel("page3TableLayout", 11, 4, DockStyle.Fill);
+            page3TableLayout = new MyTableLayoutPanel("page3TableLayout", 11, 3, DockStyle.Fill);
             //page3TableLayout.ColumnStyles[2] = new ColumnStyle(SizeType.Percent, 100);
             pagesMainTableLayout[2].Add(page3TableLayout, 1, 0);
 
@@ -663,7 +828,7 @@ namespace Schizophrenia
             page4InputDataLabel.Font = new System.Drawing.Font(DefaultFonts.Any.FontFamily, DefaultFonts.Any.Size + 4, DefaultFonts.Any.Style, DefaultFonts.Any.Unit);
             pagesMainTableLayout[3].Add(page4InputDataLabel, 0, 0);
 
-            page4TableLayout = new MyTableLayoutPanel("page4TableLayout", 10, 4, DockStyle.Fill);
+            page4TableLayout = new MyTableLayoutPanel("page4TableLayout", 10, 3, DockStyle.Fill);
             //page4TableLayout.ColumnStyles[2] = new ColumnStyle(SizeType.Percent, 100);
             pagesMainTableLayout[3].Add(page4TableLayout, 1, 0);
 
@@ -708,34 +873,253 @@ namespace Schizophrenia
 
             // Hints
 
+            psibaCommentLabel = new MyLabel("psibaCommentLabel", "Принимается в зависимости от положения колёс относительно опор");
+            page4TableLayout.Add(psibaCommentLabel, 3, 0);
+
+            symmCommentLabel = new MyLabel("symmCommentLabel", "При симметричном расположении");
+            page4TableLayout.Add(symmCommentLabel, 4, 0);
+
+            symmLabel = new MyLabel("symmLabel", "0,315...0,400");
+            page4TableLayout.Add(symmLabel, 4, 1);
+
+            asymmCommentLabel = new MyLabel("asymmCommentLabel", "При несимметричном расположении");
+            page4TableLayout.Add(asymmCommentLabel, 5, 0);
+
+            asymmLabel = new MyLabel("asymmLabel", "0,250...0,315");
+            page4TableLayout.Add(asymmLabel, 5, 1);
+
+            consoleCommentLabel = new MyLabel("consoleCommentLabel", "При консольном расположении");
+            page4TableLayout.Add(consoleCommentLabel, 6, 0);
+
+            consoleLabel = new MyLabel("consoleLabel", "0,20...0,25");
+            page4TableLayout.Add(consoleLabel, 6, 1);
+
+            internalCommentLabel = new MyLabel("internalCommentLabel", "Для передач внутреннего зацепления");
+            page4TableLayout.Add(internalCommentLabel, 7, 0);
+
+            internalLabel = new MyLabel("internalLabel", "0,315...0,400");
+            page4TableLayout.Add(internalLabel, 7, 1);
+
+            chevronCommentLabel = new MyLabel("chevronCommentLabel", "Для шевронных передач");
+            page4TableLayout.Add(chevronCommentLabel, 8, 0);
+
+            chevronLabel = new MyLabel("chevronLabel", "0,4...0,5");
+            page4TableLayout.Add(chevronLabel, 8, 1);
+
+            transmissionCommentLabel = new MyLabel("transmissionCommentLabel", "Для коробок передач:");
+            page4TableLayout.Add(transmissionCommentLabel, 9, 0);
+
+            transmissionLabel = new MyLabel("transmissionLabel", "0,1...0,2");
+            page4TableLayout.Add(transmissionLabel, 9, 1);
 
             // Page 5
 
             pagesMainTableLayout[4] = new MyTableLayoutPanel("page5MainTableLayout", 5, 1, DockStyle.Fill);
 
+            // mi
+
+            page5MiGroup = new MyTableLayoutPanel("page5MiGroup", 1, 3);
+            page5MiGroup.Margin = new Padding(0);
+            page5MiGroup.Padding = new Padding(0);
+            page5MiGroup.ColumnStyles[1] = new ColumnStyle(SizeType.Percent, 100);
+            pagesMainTableLayout[4].Add(page5MiGroup, 0, 0);
+
+            miLabel = new MyLabel("miLabel", "Расчетное значение модуля зацепления");
+            page5MiGroup.Add(miLabel, 0, 0);
+
+            miTextBox = new OutputTextBox("miTextBox");
+            page5MiGroup.Add(miTextBox, 0, 2);
+
+            // comment
+
+            mComentLabel = new MyLabel("mComentLabel", "Введите стандартное значение модуля не менее минимального по таблицам");
+            pagesMainTableLayout[4].Add(mComentLabel, 1, 0);
+
+            // m
+
+            page5MGroup = new MyTableLayoutPanel("page5MGroup", 1, 3);
+            page5MGroup.Margin = new Padding(0);
+            page5MGroup.Padding = new Padding(0);
+            page5MGroup.ColumnStyles[1] = new ColumnStyle(SizeType.Percent, 100);
+            pagesMainTableLayout[4].Add(page5MGroup, 2, 0);
+
+            mLabel = new MyLabel("mLabel", "Модуль зацепления, мм");
+            page5MGroup.Add(mLabel, 0, 0);
+
+            mTextBox = new InputTextBox<double>("mTextBox", Validators.DefaultDoubleValidator, (value) => m = value);
+            page5MGroup.Add(mTextBox, 0, 2);
+
+            // min m picture
+
+            mPicture = new PictureBox();
+            mPicture.Image = Properties.Resources.minMTable;
+            mPicture.Anchor = AnchorStyles.Top;
+            mPicture.SizeMode = PictureBoxSizeMode.AutoSize;
+            pagesMainTableLayout[4].Add(mPicture, 3, 0);
+
+            standartMPicture = new PictureBox();
+            standartMPicture.Image = Properties.Resources.standartMTable;
+            standartMPicture.Anchor = AnchorStyles.Top;
+            standartMPicture.SizeMode = PictureBoxSizeMode.AutoSize;
+            pagesMainTableLayout[4].Add(standartMPicture, 4, 0);
+
             // Page 6
 
-            pagesMainTableLayout[5] = new MyTableLayoutPanel("page6MainTableLayout", 6, 1, DockStyle.Fill);
+            pagesMainTableLayout[5] = new MyTableLayoutPanel("page6MainTableLayout", 6, 2, DockStyle.Fill);
+
+            // z1
+
+            z1iLabel = new MyLabel("z1iLabel", "Расчетное значение числа зубьев шестерни");
+            pagesMainTableLayout[5].Add(z1iLabel, 0, 0);
+
+            z1iTextBox = new OutputTextBox("z1iTextBox");
+            pagesMainTableLayout[5].Add(z1iTextBox, 0, 1);
+
+            z1Label = new MyLabel("z1Label", "Округлите до целого и введите число зубьев шестерни");
+            pagesMainTableLayout[5].Add(z1Label, 1, 0);
+
+            z1TextBox = new InputTextBox<double>("z1TextBox", Validators.DefaultDoubleValidator, (value) => z1 = value);
+            pagesMainTableLayout[5].Add(z1TextBox, 1, 1);
+
+            // z2
+
+            z2iLabel = new MyLabel("z2iLabel", "Расчетное значение числа зубьев колеса");
+            pagesMainTableLayout[5].Add(z2iLabel, 2, 0);
+
+            z2iTextBox = new OutputTextBox("z2iTextBox");
+            pagesMainTableLayout[5].Add(z2iTextBox, 2, 1);
+
+            z2Label = new MyLabel("z2Label", "Округлите до целого и введите число зубьев колеса");
+            pagesMainTableLayout[5].Add(z2Label, 3, 0);
+
+            z2TextBox = new InputTextBox<double>("z2TextBox", Validators.DefaultDoubleValidator, (value) => z2 = value);
+            pagesMainTableLayout[5].Add(z2TextBox, 3, 1);
+
+            // bad delta u
+
+            badDeltaU1label = new MyLabel("badDeltaU1label", "Отклонение передаточного отношения от исходного превышает 3%");
+            pagesMainTableLayout[5].Add(badDeltaU1label, 4, 0);
+
+            badDeltaU2label = new MyLabel("badDeltaU2label", "Измените числа зубьев шестерни и/или колеса");
+            pagesMainTableLayout[5].Add(badDeltaU2label, 5, 0);
 
             // Page 7
 
             pagesMainTableLayout[6] = new MyTableLayoutPanel("page7MainTableLayout", 2, 1, DockStyle.Fill);
 
+            page7AWGroup = new MyTableLayoutPanel("page7AWGroup", 2, 3, DockStyle.Fill);
+            page7AWGroup.Margin = new Padding(0);
+            page7AWGroup.Padding = new Padding(0);
+            page7AWGroup.ColumnStyles[1] = new ColumnStyle(SizeType.Percent, 100);
+            pagesMainTableLayout[6].Add(page7AWGroup, 0, 0);
+
+            aWiLabel = new MyLabel("aWiLabel", "Введите стандартное межосевое расстояние по таблице");
+            page7AWGroup.Add(aWiLabel, 0, 0);
+
+            aWiTextBox = new OutputTextBox("aWiTextBox");
+            page7AWGroup.Add(aWiTextBox, 0, 1);
+
+            aWTextBox = new InputTextBox<double>("aWTextBox", Validators.DefaultDoubleValidator, (value) => aW = value);
+            page7AWGroup.Add(aWTextBox, 1, 1);
+
+            standartAWPicture = new PictureBox();
+            standartAWPicture.Image = Properties.Resources.standartAWTable;
+            standartAWPicture.Anchor = AnchorStyles.Top;
+            standartAWPicture.SizeMode = PictureBoxSizeMode.AutoSize;
+            pagesMainTableLayout[6].Add(standartAWPicture, 1, 0);
+
             // Page 8
 
-            pagesMainTableLayout[7] = new MyTableLayoutPanel("page8MainTableLayout", 3, 4, DockStyle.Fill);
+            pagesMainTableLayout[7] = new MyTableLayoutPanel("page8MainTableLayout", 3, 3, DockStyle.Fill);
+
+            page8GearLabel = new MyLabel("page8GearLabel", "Шестерня");
+            pagesMainTableLayout[7].Add(page8GearLabel, 0, 1);
+
+            page8WheelLabel = new MyLabel("page8WheelLabel", "Колесо");
+            pagesMainTableLayout[7].Add(page8WheelLabel, 0, 2);
+
+            xLabel = new MyLabel("xLabel", "Задайте коэффициент смещения не менее");
+            pagesMainTableLayout[7].Add(xLabel, 1, 0);
+
+            x1iTextBox = new OutputTextBox("x1iTextBox");
+            pagesMainTableLayout[7].Add(x1iTextBox, 1, 1);
+
+            x2iTextBox = new OutputTextBox("x2iTextBox");
+            pagesMainTableLayout[7].Add(x2iTextBox, 1, 2);
+
+            x1TextBox = new InputTextBox<double>("x1TextBox", Validators.DefaultDoubleValidator, (value) => x1 = value);
+            pagesMainTableLayout[7].Add(x1TextBox, 2, 1);
+
+            x2TextBox = new InputTextBox<double>("x2TextBox", Validators.DefaultDoubleValidator, (value) => x2 = value);
+            pagesMainTableLayout[7].Add(x2TextBox, 2, 2);
 
             // Page 9
 
-            pagesMainTableLayout[8] = new MyTableLayoutPanel("page9MainTableLayout", 3, 4, DockStyle.Fill);
+            pagesMainTableLayout[8] = new MyTableLayoutPanel("page9MainTableLayout", 3, 3, DockStyle.Fill);
+
+            xCor1Label = new MyLabel("xCor1Label", "Задайте коэффициент смещения");
+            pagesMainTableLayout[8].Add(xCor1Label, 0, 0);
+
+            page9GearLabel = new MyLabel("page9GearLabel", "Шестерня");
+            pagesMainTableLayout[8].Add(page9GearLabel, 0, 1);
+
+            page9WheelLabel = new MyLabel("page9WheelLabel", "Колесо");
+            pagesMainTableLayout[8].Add(page9WheelLabel, 0, 2);
+
+            withoutOffsetRadioButton = new MyRadioButton("withoutOffsetRadioButton", "Без смещения (для шестерни x1=0, для колеса x2=0)");
+            pagesMainTableLayout[8].Add(withoutOffsetRadioButton, 1, 0);
+
+            x1iCor1TextBox = new OutputTextBox("x1iCor1TextBox");
+            pagesMainTableLayout[8].Add(x1iCor1TextBox, 1, 1);
+
+            x2iCor1TextBox = new OutputTextBox("x2iCor1TextBox");
+            pagesMainTableLayout[8].Add(x2iCor1TextBox, 1, 2);
+
+            withOffsetRadioButton = new MyRadioButton("withOffsetRadioButton", "Высотная коррекция: коэффициент смещения не менее");
+            pagesMainTableLayout[8].Add(withOffsetRadioButton, 2, 0);
+
+            x1Cor1TextBox = new InputTextBox<double>("x1Cor1TextBox", Validators.DefaultDoubleValidator, (value) => x1 = value);
+            pagesMainTableLayout[8].Add(x1Cor1TextBox, 2, 1);
+
+            x2Cor1TextBox = new InputTextBox<double>("x2Cor1TextBox", Validators.DefaultDoubleValidator, (value) => x2 = value);
+            pagesMainTableLayout[8].Add(x2Cor1TextBox, 2, 2);
 
             // Page 10
 
-            pagesMainTableLayout[9] = new MyTableLayoutPanel("page10MainTableLayout", 4, 4, DockStyle.Fill);
+            pagesMainTableLayout[9] = new MyTableLayoutPanel("page10MainTableLayout", 4, 3, DockStyle.Fill);
+
+            xSigmaLabel = new MyLabel("xSigmaLabel", "Суммарный коэффициент смещения");
+            pagesMainTableLayout[9].Add(xSigmaLabel, 0, 0);
+
+            xSigmaTextBox = new OutputTextBox("xSigmaTextBox");
+            pagesMainTableLayout[9].Add(xSigmaTextBox, 0, 1);
+
+            page10GearLabel = new MyLabel("page10GearLabel", "Шестерня");
+            pagesMainTableLayout[9].Add(page10GearLabel, 1, 1);
+
+            page10WheelLabel = new MyLabel("page10WheelLabel", "Колесо");
+            pagesMainTableLayout[9].Add(page10WheelLabel, 1, 2);
+
+            xCor2Label = new MyLabel("xCor2Label", "Задайте коэффициент смещения не менее");
+            pagesMainTableLayout[9].Add(xCor2Label, 2, 0);
+
+            x1iCor2TextBox = new OutputTextBox("x1iCor2TextBox");
+            pagesMainTableLayout[9].Add(x1iCor2TextBox, 2, 1);
+
+            x2iCor2TextBox = new OutputTextBox("x2iCor2TextBox");
+            pagesMainTableLayout[9].Add(x2iCor2TextBox, 2, 2);
+
+            x1Cor2TextBox = new InputTextBox<double>("x1Cor2TextBox", Validators.DefaultDoubleValidator, (value) => x1 = value);
+            pagesMainTableLayout[9].Add(x1Cor2TextBox, 3, 1);
+
+            x2Cor2TextBox = new InputTextBox<double>("x2Cor2TextBox", Validators.DefaultDoubleValidator, (value) => x2 = value);
+            pagesMainTableLayout[9].Add(x2Cor2TextBox, 3, 2);
 
             // Page 11
 
-            pagesMainTableLayout[10] = new MyTableLayoutPanel("page11MainTableLayout", 3, 3, DockStyle.Fill);
+            pagesMainTableLayout[10] = new MyTableLayoutPanel("page11MainTableLayout", 3, 2, DockStyle.Fill);
+
+
 
             // Page 12
 

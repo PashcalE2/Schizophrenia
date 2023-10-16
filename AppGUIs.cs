@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
 
@@ -184,6 +181,7 @@ namespace Schizophrenia
         public MyTableLayoutPanel(string name, int rowCount, int columnCount)
         {
             DefaultInit(name, rowCount, columnCount);
+            Dock = DockStyle.Fill;
         }
 
         public MyTableLayoutPanel(string name, int rowCount, int columnCount, DockStyle dock)
