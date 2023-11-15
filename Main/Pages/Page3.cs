@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Schizophrenia.Main.Pages
@@ -74,10 +70,10 @@ namespace Schizophrenia.Main.Pages
             sigmaHLimbLabel = new MyLabel("sigmaHLimbLabel", "Базовый предел контактной выносливости");
             page3TableLayout.Add(sigmaHLimbLabel, 1, 0);
 
-            sigmaH1LimbTextBox = new InputTextBox<double>("sigmaH1LimbTextBox", Validators.DefaultDoubleValidator, (value) => appForm.sigmaH1Limb = value);
+            sigmaH1LimbTextBox = new InputTextBox<double>("sigmaH1LimbTextBox", Validators.DefaultDoubleValidator, (value) => appForm.context.sigmaH1Limb = value);
             page3TableLayout.Add(sigmaH1LimbTextBox, 1, 1);
 
-            sigmaH2LimbTextBox = new InputTextBox<double>("sigmaH2LimbTextBox", Validators.DefaultDoubleValidator, (value) => appForm.sigmaH2Limb = value);
+            sigmaH2LimbTextBox = new InputTextBox<double>("sigmaH2LimbTextBox", Validators.DefaultDoubleValidator, (value) => appForm.context.sigmaH2Limb = value);
             page3TableLayout.Add(sigmaH2LimbTextBox, 1, 2);
 
             // FLimb
@@ -85,10 +81,10 @@ namespace Schizophrenia.Main.Pages
             sigmaFLimbLabel = new MyLabel("sigmaFLimbLabel", "Базовый предел изгибной выносливости");
             page3TableLayout.Add(sigmaFLimbLabel, 2, 0);
 
-            sigmaF1LimbTextBox = new InputTextBox<double>("sigmaF1LimbTextBox", Validators.DefaultDoubleValidator, (value) => appForm.sigmaF1Limb = value);
+            sigmaF1LimbTextBox = new InputTextBox<double>("sigmaF1LimbTextBox", Validators.DefaultDoubleValidator, (value) => appForm.context.sigmaF1Limb = value);
             page3TableLayout.Add(sigmaF1LimbTextBox, 2, 1);
 
-            sigmaF2LimbTextBox = new InputTextBox<double>("sigmaF2LimbTextBox", Validators.DefaultDoubleValidator, (value) => appForm.sigmaF2Limb = value);
+            sigmaF2LimbTextBox = new InputTextBox<double>("sigmaF2LimbTextBox", Validators.DefaultDoubleValidator, (value) => appForm.context.sigmaF2Limb = value);
             page3TableLayout.Add(sigmaF2LimbTextBox, 2, 2);
 
             // c
@@ -96,10 +92,10 @@ namespace Schizophrenia.Main.Pages
             cLabel = new MyLabel("cLabel", "Число нагружений зуба за один оборот");
             page3TableLayout.Add(cLabel, 3, 0);
 
-            c1TextBox = new InputTextBox<double>("c1TextBox", Validators.DefaultDoubleValidator, (value) => appForm.c1 = value);
+            c1TextBox = new InputTextBox<double>("c1TextBox", Validators.DefaultDoubleValidator, (value) => appForm.context.c1 = value);
             page3TableLayout.Add(c1TextBox, 3, 1);
 
-            c2TextBox = new InputTextBox<double>("c2TextBox", Validators.DefaultDoubleValidator, (value) => appForm.c2 = value);
+            c2TextBox = new InputTextBox<double>("c2TextBox", Validators.DefaultDoubleValidator, (value) => appForm.context.c2 = value);
             page3TableLayout.Add(c2TextBox, 3, 2);
 
             // KFC
@@ -107,10 +103,10 @@ namespace Schizophrenia.Main.Pages
             KFCLabel = new MyLabel("KFCLabel", "Коэф-т, учитывающий двустороннее нагружение");
             page3TableLayout.Add(KFCLabel, 4, 0);
 
-            KFC1TextBox = new InputTextBox<double>("KFC1TextBox", Validators.DefaultDoubleValidator, (value) => appForm.KFC1 = value);
+            KFC1TextBox = new InputTextBox<double>("KFC1TextBox", Validators.DefaultDoubleValidator, (value) => appForm.context.KFC1 = value);
             page3TableLayout.Add(KFC1TextBox, 4, 1);
 
-            KFC2TextBox = new InputTextBox<double>("KFC2TextBox", Validators.DefaultDoubleValidator, (value) => appForm.KFC2 = value);
+            KFC2TextBox = new InputTextBox<double>("KFC2TextBox", Validators.DefaultDoubleValidator, (value) => appForm.context.KFC2 = value);
             page3TableLayout.Add(KFC2TextBox, 4, 2);
 
             // SH
@@ -118,7 +114,7 @@ namespace Schizophrenia.Main.Pages
             SHLabel = new MyLabel("SHLabel", "Запас проности по контактным напряжениям");
             page3TableLayout.Add(SHLabel, 5, 0);
 
-            SHTextBox = new InputTextBox<double>("SHTextBox", Validators.DefaultDoubleValidator, (value) => appForm.SH = value);
+            SHTextBox = new InputTextBox<double>("SHTextBox", Validators.DefaultDoubleValidator, (value) => appForm.context.SH = value);
             page3TableLayout.Add(SHTextBox, 5, 1);
 
             // SF
@@ -126,7 +122,7 @@ namespace Schizophrenia.Main.Pages
             SFLabel = new MyLabel("SFLabel", "Запас прочности по изгибным напряжениям");
             page3TableLayout.Add(SFLabel, 6, 0);
 
-            SFTextBox = new InputTextBox<double>("SFTextBox", Validators.DefaultDoubleValidator, (value) => appForm.SF = value);
+            SFTextBox = new InputTextBox<double>("SFTextBox", Validators.DefaultDoubleValidator, (value) => appForm.context.SF = value);
             page3TableLayout.Add(SFTextBox, 6, 1);
 
             // model
@@ -147,7 +143,7 @@ namespace Schizophrenia.Main.Pages
             KHELabel = new MyLabel("KHELabel", "Коэф-т эквивалентности по контактным напряжениям");
             page3TableLayout.Add(KHELabel, 9, 0);
 
-            KHETextBox = new InputTextBox<double>("KHETextBox", Validators.DefaultDoubleValidator, (value) => appForm.KHE = value);
+            KHETextBox = new InputTextBox<double>("KHETextBox", Validators.DefaultDoubleValidator, (value) => appForm.context.KHE = value);
             page3TableLayout.Add(KHETextBox, 9, 1);
 
             // KFE
@@ -155,12 +151,14 @@ namespace Schizophrenia.Main.Pages
             KFELabel = new MyLabel("KFELabel", "Коэф-т эквивалентности по изгибным напряжениям");
             page3TableLayout.Add(KFELabel, 10, 0);
 
-            KFETextBox = new InputTextBox<double>("KFETextBox", Validators.DefaultDoubleValidator, (value) => appForm.KFE = value);
+            KFETextBox = new InputTextBox<double>("KFETextBox", Validators.DefaultDoubleValidator, (value) => appForm.context.KFE = value);
             page3TableLayout.Add(KFETextBox, 10, 1);
 
             // after init
 
             constModeRadioButton.Checked = true;
+            KHETextBox.SetValue(1);
+            KFETextBox.SetValue(1);
         }
 
         private void constModeRadioButton_CheckedChanged(object sender, EventArgs e)

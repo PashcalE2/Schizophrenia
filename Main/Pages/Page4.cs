@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Schizophrenia.Main.Pages
@@ -75,7 +71,7 @@ namespace Schizophrenia.Main.Pages
             aWUnknownRadioButton.CheckedChanged += new EventHandler(aWUnknownRadioButton_CheckedChanged);
             aWRadioGroup.Add(aWUnknownRadioButton, 1, 0);
 
-            aWKnownTextBox = new InputTextBox<double>("aWKnownTextBox", Validators.DefaultDoubleValidator, (value) => appForm.aW = value);
+            aWKnownTextBox = new InputTextBox<double>("aWKnownTextBox", Validators.DefaultDoubleValidator, (value) => appForm.context.aW = value);
             page4TableLayout.Add(aWKnownTextBox, 0, 2);
 
             // StandartAW
@@ -97,7 +93,7 @@ namespace Schizophrenia.Main.Pages
             psibaLabel = new MyLabel("psibaLabel", "Коэф-т ширины относительного межосевого расстояния");
             page4TableLayout.Add(psibaLabel, 2, 0);
 
-            psibaTextBox = new InputTextBox<double>("psibaTextBox", Validators.DefaultDoubleValidator, (value) => appForm.psiba = value);
+            psibaTextBox = new InputTextBox<double>("psibaTextBox", Validators.DefaultDoubleValidator, (value) => appForm.context.psiba = value);
             page4TableLayout.Add(psibaTextBox, 2, 2);
 
             // Hints

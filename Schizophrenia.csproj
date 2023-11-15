@@ -55,6 +55,7 @@
       <DependentUpon>AppForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Main\AppGUIs.cs" />
+    <Compile Include="Main\Context.cs" />
     <Compile Include="Main\Pages\Page2.cs" />
     <Compile Include="Main\Pages\Page1.cs" />
     <Compile Include="Main\Pages\Page10.cs" />

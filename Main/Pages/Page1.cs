@@ -97,11 +97,9 @@ namespace Schizophrenia.Main.Pages
             page1TableLayout.Add(page1RadioGroup2, 1, 1);
 
             internalTypeButton = new MyRadioButton("internalTypeButton", "Внутреннее зацепление");
-            internalTypeButton.CheckedChanged += new System.EventHandler(internalTypeButton_CheckedChanged);
             page1RadioGroup2.Add(internalTypeButton, 0, 0);
 
             externalTypeButton = new MyRadioButton("externalTypeButton", "Внешнее зацепление");
-            externalTypeButton.CheckedChanged += new System.EventHandler(externalTypeButton_CheckedChanged);
             page1RadioGroup2.Add(externalTypeButton, 1, 0);
 
             // Group 3
@@ -110,11 +108,9 @@ namespace Schizophrenia.Main.Pages
             page1TableLayout.Add(page1RadioGroup3, 1, 2);
 
             singleEntryTypeButton = new MyRadioButton("singleEntryTypeButton", "Одновенцовый сателит");
-            singleEntryTypeButton.CheckedChanged += new System.EventHandler(singleEntryTypeButton_CheckedChanged);
             page1RadioGroup3.Add(singleEntryTypeButton, 0, 0);
 
             doubleEntryTypeButton = new MyRadioButton("doubleEntryTypeButton", "Двухвенцовый сателит");
-            doubleEntryTypeButton.CheckedChanged += new System.EventHandler(doubleEntryTypeButton_CheckedChanged);
             page1RadioGroup3.Add(doubleEntryTypeButton, 1, 0);
 
             // U input
@@ -122,7 +118,7 @@ namespace Schizophrenia.Main.Pages
             uLabel = new MyLabel("uLabel", "Предаточное отношение");
             page1TableLayout.Add(uLabel, 2, 0);
 
-            uTextBox = new InputTextBox<double>("uTextBox", Validators.PositiveDoubleValidator, (value) => appForm.u = value, "Действительное, больше 0");
+            uTextBox = new InputTextBox<double>("uTextBox", Validators.PositiveDoubleValidator, (value) => appForm.context.u = value, "Действительное, больше 0");
             page1TableLayout.Add(uTextBox, 2, 3);
 
             // n1 input
@@ -130,7 +126,7 @@ namespace Schizophrenia.Main.Pages
             n1Label = new MyLabel("n1Label", "Частота вращения шестерни, об/мин");
             page1TableLayout.Add(n1Label, 3, 0);
 
-            n1TextBox = new InputTextBox<double>("n1TextBox", Validators.PositiveDoubleValidator, (value) => appForm.n1 = value, "Действительное, больше 0");
+            n1TextBox = new InputTextBox<double>("n1TextBox", Validators.PositiveDoubleValidator, (value) => appForm.context.n1 = value, "Действительное, больше 0");
             page1TableLayout.Add(n1TextBox, 3, 3);
 
             // T1 input
@@ -138,7 +134,7 @@ namespace Schizophrenia.Main.Pages
             T1Label = new MyLabel("T1Label", "Крутящий момент на валу шестерни, Н*мм");
             page1TableLayout.Add(T1Label, 4, 0);
 
-            T1TextBox = new InputTextBox<double>("T1TextBox", Validators.PositiveDoubleValidator, (value) => appForm.T1 = value, "Действительное, больше 0");
+            T1TextBox = new InputTextBox<double>("T1TextBox", Validators.PositiveDoubleValidator, (value) => appForm.context.T1 = value, "Действительное, больше 0");
             page1TableLayout.Add(T1TextBox, 4, 3);
 
             // th input
@@ -146,7 +142,7 @@ namespace Schizophrenia.Main.Pages
             thLabel = new MyLabel("thLabel", "Срок службы, ч");
             page1TableLayout.Add(thLabel, 5, 0);
 
-            thTextBox = new InputTextBox<double>("thTextBox", Validators.PositiveDoubleValidator, (value) => appForm.th = value, "Действительное, больше 0");
+            thTextBox = new InputTextBox<double>("thTextBox", Validators.PositiveDoubleValidator, (value) => appForm.context.th = value, "Действительное, больше 0");
             page1TableLayout.Add(thTextBox, 5, 3);
 
             // CT input
@@ -154,7 +150,7 @@ namespace Schizophrenia.Main.Pages
             page1CTLabel = new MyLabel("CTLabel", "Степень точности");
             page1TableLayout.Add(page1CTLabel, 6, 0);
 
-            page1CTTextBox = new InputTextBox<int>("page1CTTextBox", Validators.CTValidator, (value) => appForm.CT = value, "Натуральное число, от 5 до 9");
+            page1CTTextBox = new InputTextBox<int>("page1CTTextBox", Validators.CTValidator, (value) => appForm.context.CT = value, "Натуральное число, от 5 до 9");
             page1TableLayout.Add(page1CTTextBox, 6, 3);
 
             // alpha input
@@ -162,7 +158,7 @@ namespace Schizophrenia.Main.Pages
             alphaLabel = new MyLabel("alphaLabel", "Угол между осями, град");
             page1TableLayout.Add(alphaLabel, 7, 0);
 
-            alphaTextBox = new InputTextBox<double>("alphaTextBox", Validators.DefaultDoubleValidator, (value) => appForm.alpha = value);
+            alphaTextBox = new InputTextBox<double>("alphaTextBox", Validators.DefaultDoubleValidator, (value) => appForm.context.alpha = value);
             page1TableLayout.Add(alphaTextBox, 7, 3);
 
             // standart contour
@@ -185,7 +181,7 @@ namespace Schizophrenia.Main.Pages
             standartAlphaLabel = new MyLabel("standartAlphaLabel", "alpha");
             page1TableLayout.Add(standartAlphaLabel, 8, 2);
 
-            standartAlphaTextBox = new InputTextBox<double>("standartAlphaTextBox", Validators.DefaultDoubleValidator, (value) => appForm.standartAlpha = value * System.Math.PI / 180.0);
+            standartAlphaTextBox = new InputTextBox<double>("standartAlphaTextBox", Validators.DefaultDoubleValidator, (value) => appForm.context.standartAlpha = value * System.Math.PI / 180.0);
             page1TableLayout.Add(standartAlphaTextBox, 8, 3);
 
             // haStar
@@ -193,7 +189,7 @@ namespace Schizophrenia.Main.Pages
             haStarLabel = new MyLabel("haStarLabel", "ha*");
             page1TableLayout.Add(haStarLabel, 9, 2);
 
-            haStarTextBox = new InputTextBox<double>("haStarTextBox", Validators.DefaultDoubleValidator, (value) => appForm.haStar = value);
+            haStarTextBox = new InputTextBox<double>("haStarTextBox", Validators.DefaultDoubleValidator, (value) => appForm.context.haStar = value);
             page1TableLayout.Add(haStarTextBox, 9, 3);
 
             // cStar
@@ -201,7 +197,7 @@ namespace Schizophrenia.Main.Pages
             cStarLabel = new MyLabel("cStarLabel", "c*");
             page1TableLayout.Add(cStarLabel, 10, 2);
 
-            cStarTextBox = new InputTextBox<double>("cStarTextBox", Validators.DefaultDoubleValidator, (value) => appForm.cStar = value);
+            cStarTextBox = new InputTextBox<double>("cStarTextBox", Validators.DefaultDoubleValidator, (value) => appForm.context.cStar = value);
             page1TableLayout.Add(cStarTextBox, 10, 3);
 
             // after init
@@ -263,30 +259,6 @@ namespace Schizophrenia.Main.Pages
 
                 T1Label.Text = "Крутящий момент на валу шестерни, Н*мм:";
             }
-        }
-
-        private void internalTypeButton_CheckedChanged(object sender, EventArgs e)
-        {
-            if (internalTypeButton.Checked)
-                appForm.checkedSubTypeRadioButton = internalTypeButton.Text;
-        }
-
-        private void externalTypeButton_CheckedChanged(object sender, EventArgs e)
-        {
-            if (externalTypeButton.Checked)
-                appForm.checkedSubTypeRadioButton = externalTypeButton.Text;
-        }
-
-        private void singleEntryTypeButton_CheckedChanged(object sender, EventArgs e)
-        {
-            if (singleEntryTypeButton.Checked)
-                appForm.checkedSubTypeRadioButton = singleEntryTypeButton.Text;
-        }
-
-        private void doubleEntryTypeButton_CheckedChanged(object sender, EventArgs e)
-        {
-            if (doubleEntryTypeButton.Checked)
-                appForm.checkedSubTypeRadioButton = doubleEntryTypeButton.Text;
         }
 
         private void standartContourYesButton_CheckedChanged(object sender, EventArgs e)

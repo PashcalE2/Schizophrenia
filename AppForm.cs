@@ -13,42 +13,12 @@ namespace Schizophrenia
             InitializeComponent();
             InitializeChildren();
 
-            // Page 1
-
-            // Page 2
-
             page2.identityRadioButton.CheckedChanged += new EventHandler(identityRadioButton_CheckedChanged);
             page2.identityRadioButton.Checked = true;
-
             page2.notIdentityRadioButton.CheckedChanged += new EventHandler(notIdentityRadioButton_CheckedChanged);
 
-            // Page 3
+            page11.aWG3TextBox.Enabled = false;
 
-            // Page 4
-
-            // Page 5
-
-            // Page 6
-
-            // Page 7
-
-            // Page 8
-
-            // Page 9
-
-            // Page 10
-
-            // Page 11
-
-            aWG3TextBox.Enabled = false;
-
-            // Page 12
-
-            // Page 13
-
-            // Page 14
-
-            // Page 15
         }
 
 
@@ -58,11 +28,15 @@ namespace Schizophrenia
         public void backButton_Click(object sender, EventArgs e)
         {
             nextButton.Enabled = true;
+            context = contextHistory.Pop();
 
             mainTableLayout.SuspendLayout();
 
             pagesMainTableLayout[currentPage].Visible = false;
             currentPage = pagesHistory.Pop();
+
+            // update currentpage view by context
+
             pagesMainTableLayout[currentPage].Visible = true;
 
             mainTableLayout.ResumeLayout();
@@ -75,13 +49,17 @@ namespace Schizophrenia
 
         public void nextButton_Click(object sender, EventArgs e)
         {
-            pagesHistory.Push(currentPage);
             backButton.Enabled = true;
+            contextHistory.Push(context);
+            pagesHistory.Push(currentPage);
 
             mainTableLayout.SuspendLayout();
 
             pagesMainTableLayout[currentPage].Visible = false;
             currentPage++;
+
+            // update currentpage view by context
+
             pagesMainTableLayout[currentPage].Visible = true;
 
             mainTableLayout.ResumeLayout();
@@ -90,15 +68,11 @@ namespace Schizophrenia
             {
                 nextButton.Enabled = false;
             }
-
-            
         }
 
         public void printButton_Click(object sender, EventArgs e)
         {
-            u = u / 2;
-            page1.uTextBox.SetValue(u);
-            MessageBox.Show(u.ToString() + " " + page1.uTextBox.GetValue().ToString());
+            MessageBox.Show("Implement me");
         }
 
         // Page 2
