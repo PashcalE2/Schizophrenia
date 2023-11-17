@@ -43,7 +43,7 @@ namespace Schizophrenia.Main.Pages
         public MyLabel KFELabel;
         public InputTextBox<double> KFETextBox;
 
-        public Page3(AppForm appForm) : base(appForm)
+        public Page3(AppForm appForm, PageID ID) : base(appForm, ID)
         {
             mainTableLayout = new MyTableLayoutPanel("page3MainTableLayout", 2, 1, DockStyle.Fill);
 
@@ -53,6 +53,7 @@ namespace Schizophrenia.Main.Pages
             mainTableLayout.Add(page3InputDataLabel, 0, 0);
 
             page3TableLayout = new MyTableLayoutPanel("page3TableLayout", 11, 3, DockStyle.Fill);
+            page3TableLayout.ColumnStyles[0] = new ColumnStyle(SizeType.Percent, 100);
             mainTableLayout.Add(page3TableLayout, 1, 0);
 
             // Gear, Wheel
@@ -67,7 +68,7 @@ namespace Schizophrenia.Main.Pages
 
             // HLimb
 
-            sigmaHLimbLabel = new MyLabel("sigmaHLimbLabel", "Базовый предел контактной выносливости");
+            sigmaHLimbLabel = new MyLabel("sigmaHLimbLabel", "Базовый предел контактной выносливости:");
             page3TableLayout.Add(sigmaHLimbLabel, 1, 0);
 
             sigmaH1LimbTextBox = new InputTextBox<double>("sigmaH1LimbTextBox", Validators.DefaultDoubleValidator, (value) => appForm.context.sigmaH1Limb = value);
@@ -78,7 +79,7 @@ namespace Schizophrenia.Main.Pages
 
             // FLimb
 
-            sigmaFLimbLabel = new MyLabel("sigmaFLimbLabel", "Базовый предел изгибной выносливости");
+            sigmaFLimbLabel = new MyLabel("sigmaFLimbLabel", "Базовый предел изгибной выносливости:");
             page3TableLayout.Add(sigmaFLimbLabel, 2, 0);
 
             sigmaF1LimbTextBox = new InputTextBox<double>("sigmaF1LimbTextBox", Validators.DefaultDoubleValidator, (value) => appForm.context.sigmaF1Limb = value);
@@ -89,7 +90,7 @@ namespace Schizophrenia.Main.Pages
 
             // c
 
-            cLabel = new MyLabel("cLabel", "Число нагружений зуба за один оборот");
+            cLabel = new MyLabel("cLabel", "Число нагружений зуба за один оборот:");
             page3TableLayout.Add(cLabel, 3, 0);
 
             c1TextBox = new InputTextBox<double>("c1TextBox", Validators.DefaultDoubleValidator, (value) => appForm.context.c1 = value);
@@ -100,7 +101,7 @@ namespace Schizophrenia.Main.Pages
 
             // KFC
 
-            KFCLabel = new MyLabel("KFCLabel", "Коэф-т, учитывающий двустороннее нагружение");
+            KFCLabel = new MyLabel("KFCLabel", "Коэф-т, учитывающий двустороннее нагружение:");
             page3TableLayout.Add(KFCLabel, 4, 0);
 
             KFC1TextBox = new InputTextBox<double>("KFC1TextBox", Validators.DefaultDoubleValidator, (value) => appForm.context.KFC1 = value);
@@ -111,7 +112,7 @@ namespace Schizophrenia.Main.Pages
 
             // SH
 
-            SHLabel = new MyLabel("SHLabel", "Запас проности по контактным напряжениям");
+            SHLabel = new MyLabel("SHLabel", "Запас проности по контактным напряжениям:");
             page3TableLayout.Add(SHLabel, 5, 0);
 
             SHTextBox = new InputTextBox<double>("SHTextBox", Validators.DefaultDoubleValidator, (value) => appForm.context.SH = value);
@@ -119,7 +120,7 @@ namespace Schizophrenia.Main.Pages
 
             // SF
 
-            SFLabel = new MyLabel("SFLabel", "Запас прочности по изгибным напряжениям");
+            SFLabel = new MyLabel("SFLabel", "Запас прочности по изгибным напряжениям:");
             page3TableLayout.Add(SFLabel, 6, 0);
 
             SFTextBox = new InputTextBox<double>("SFTextBox", Validators.DefaultDoubleValidator, (value) => appForm.context.SF = value);
@@ -127,7 +128,7 @@ namespace Schizophrenia.Main.Pages
 
             // model
 
-            workModeLabel = new MyLabel("workModeLabel", "Режим работы");
+            workModeLabel = new MyLabel("workModeLabel", "Режим работы:");
             page3TableLayout.Add(workModeLabel, 7, 0);
 
             constModeRadioButton = new MyRadioButton("constModeRadioButton", "Постоянный");
@@ -140,7 +141,7 @@ namespace Schizophrenia.Main.Pages
 
             // KHE
 
-            KHELabel = new MyLabel("KHELabel", "Коэф-т эквивалентности по контактным напряжениям");
+            KHELabel = new MyLabel("KHELabel", "Коэф-т эквивалентности по контактным напряжениям:");
             page3TableLayout.Add(KHELabel, 9, 0);
 
             KHETextBox = new InputTextBox<double>("KHETextBox", Validators.DefaultDoubleValidator, (value) => appForm.context.KHE = value);
@@ -148,7 +149,7 @@ namespace Schizophrenia.Main.Pages
 
             // KFE
 
-            KFELabel = new MyLabel("KFELabel", "Коэф-т эквивалентности по изгибным напряжениям");
+            KFELabel = new MyLabel("KFELabel", "Коэф-т эквивалентности по изгибным напряжениям:");
             page3TableLayout.Add(KFELabel, 10, 0);
 
             KFETextBox = new InputTextBox<double>("KFETextBox", Validators.DefaultDoubleValidator, (value) => appForm.context.KFE = value);
@@ -161,25 +162,134 @@ namespace Schizophrenia.Main.Pages
             KFETextBox.SetValue(1);
         }
 
+        public override bool CanMoveOn()
+        {
+            return
+                (!sigmaH1LimbTextBox.Enabled || sigmaH1LimbTextBox.GetIsValid()) &&
+                (!sigmaH2LimbTextBox.Enabled || sigmaH2LimbTextBox.GetIsValid()) &&
+                (!sigmaF1LimbTextBox.Enabled || sigmaF1LimbTextBox.GetIsValid()) &&
+                (!sigmaF2LimbTextBox.Enabled || sigmaF2LimbTextBox.GetIsValid()) &&
+                (!c1TextBox.Enabled || c1TextBox.GetIsValid()) &&
+                (!c2TextBox.Enabled || c2TextBox.GetIsValid()) &&
+                (!KFC1TextBox.Enabled || KFC1TextBox.GetIsValid()) &&
+                (!KFC2TextBox.Enabled || KFC2TextBox.GetIsValid()) &&
+                (!SHTextBox.Enabled || SHTextBox.GetIsValid()) &&
+                (!SFTextBox.Enabled || SFTextBox.GetIsValid()) &&
+                (constModeRadioButton.Checked || diffModeRadioButton.Checked) &&
+                (!KHETextBox.Enabled || KHETextBox.GetIsValid()) &&
+                (!KFETextBox.Enabled || KFETextBox.GetIsValid());
+        }
+
+        public override PageID NextPage()
+        {
+            Context ctx = appForm.context;
+
+            ctx.NHE1 = 60.0 * ctx.c1 * ctx.n1 * ctx.th * ctx.KHE;
+            ctx.NHE2 = 60.0 * ctx.c2 * ctx.n2 * ctx.th * ctx.KFE;
+
+            if (ctx.NHE1 >= ctx.NH01) { ctx.KHL1 = 1.0; }
+            else { ctx.KHL1 = Math.Pow((ctx.NH01 / ctx.NHE1), (1.0 / 6.0)); }
+
+            if (ctx.NHE2 >= ctx.NH02) { ctx.KHL2 = 1.0; }
+            else { ctx.KHL2 = Math.Pow((ctx.NH02 / ctx.NHE2), (1.0 / 6.0)); }
+
+            if (ctx.KHL1 > 1.8 && (appForm.page2.TO1ComboBox.Text == "Цементация" || appForm.page2.TO1ComboBox.Text == "Азотирование" || appForm.page2.TO1ComboBox.Text == "Пов. закалка")) { ctx.KHL1 = 1.8; }
+            if (ctx.KHL2 > 1.8 && (appForm.page2.TO2ComboBox.Text == "Цементация" || appForm.page2.TO2ComboBox.Text == "Азотирование" || appForm.page2.TO2ComboBox.Text == "Пов. закалка")) { ctx.KHL2 = 1.8; }
+
+            if (ctx.KHL1 > 2.6 && (appForm.page2.TO1ComboBox.Text == "Нормализация" || appForm.page2.TO1ComboBox.Text == "Улучшение" || appForm.page2.TO1ComboBox.Text == "Об. закалка")) { ctx.KHL1 = 2.6; }
+            if (ctx.KHL2 > 2.6 && (appForm.page2.TO2ComboBox.Text == "Нормализация" || appForm.page2.TO2ComboBox.Text == "Улучшение" || appForm.page2.TO2ComboBox.Text == "Об. закалка")) { ctx.KHL2 = 2.6; }
+
+            ctx.sigmaH1Allow = (ctx.sigmaH1Limb * ctx.KHL1) / ctx.SH;
+            ctx.sigmaH2Allow = (ctx.sigmaH2Limb * ctx.KHL2) / ctx.SH;
+
+            if (ctx.sigmaH1Allow < ctx.sigmaH2Allow) { ctx.sigmaHAllow = ctx.sigmaH1Allow; }
+            else { ctx.sigmaHAllow = ctx.sigmaH2Allow; }
+
+            ctx.NFE1 = 60.0 * ctx.c1 * ctx.n1 * ctx.th * ctx.KFE;
+            ctx.NFE2 = 60.0 * ctx.c2 * ctx.n2 * ctx.th * ctx.KFE;
+
+            if (ctx.NFE1 >= 4000000.0) { ctx.KFL1 = 1.0; }
+            else
+            {
+                if (ctx.HB1 <= 350.0)
+                { ctx.KFL1 = Math.Pow(4000000.0 / ctx.NFE1, (1.0 / 6.0)); }
+                else
+                { ctx.KFL1 = Math.Pow(4000000.0 / ctx.NFE1, (1.0 / 9.0)); }
+            }
+            if (ctx.HB1 <= 350.0)
+            {
+                if (ctx.KFL1 > 4.0)
+                {
+                    ctx.KFL1 = 4.0;
+                }
+            }
+            else
+            {
+                if (ctx.KFL1 > 2.5)
+                {
+                    ctx.KFL1 = 2.5;
+                }
+            }
+
+            if (ctx.NFE2 >= 4000000.0) { ctx.KFL2 = 1.0; }
+            else
+            {
+                if (ctx.HB2 <= 350.0)
+                { ctx.KFL2 = Math.Pow(4000000.0 / ctx.NFE2, (1.0 / 6.0)); }
+                else
+                { ctx.KFL2 = Math.Pow(4000000.0 / ctx.NFE2, (1.0 / 9.0)); }
+            }
+            if (ctx.HB2 <= 350.0)
+            {
+                if (ctx.KFL2 > 4.0)
+                {
+                    ctx.KFL2 = 4.0;
+                }
+            }
+            else
+            {
+                if (ctx.KFL2 > 2.5)
+                {
+                    ctx.KFL2 = 2.5;
+                }
+            }
+
+            ctx.sigmaF1Allow = (ctx.sigmaF1Limb * ctx.KFL1) * ctx.KFC1 / ctx.SF;
+            ctx.sigmaF2Allow = (ctx.sigmaF2Limb * ctx.KFL2) * ctx.KFC2 / ctx.SF;
+
+            return PageID.Page4;
+        }
+
         private void constModeRadioButton_CheckedChanged(object sender, EventArgs e)
         {
+            appForm.context.constMode = constModeRadioButton.Checked;
+
             if (constModeRadioButton.Checked)
             {
                 KHELabel.Visible = false;
                 KFELabel.Visible = false;
                 KHETextBox.Visible = false;
+                KHETextBox.Enabled = false;
                 KFETextBox.Visible = false;
+                KFETextBox.Enabled = false;
+
+                appForm.context.KHE = 1;
+                appForm.context.KFE = 1;
             }
         }
 
         private void diffModeRadioBtn_CheckedChanged(object sender, EventArgs e)
         {
+            appForm.context.diffMode = diffModeRadioButton.Checked;
+
             if (diffModeRadioButton.Checked)
             {
                 KHELabel.Visible = true;
                 KFELabel.Visible = true;
                 KHETextBox.Visible = true;
+                KHETextBox.Enabled = true;
                 KFETextBox.Visible = true;
+                KFETextBox.Enabled = true;
             }
         }
     }

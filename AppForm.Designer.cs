@@ -2,6 +2,7 @@
 using System;
 using Schizophrenia.Main.Pages;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Schizophrenia
 {
@@ -50,10 +51,10 @@ namespace Schizophrenia
         // gui
         public MyTableLayoutPanel mainTableLayout;
 
-        public MyTableLayoutPanel[] pagesMainTableLayout = new MyTableLayoutPanel[15];
-        public int currentPage;
+        public Dictionary<PageID, AnyPage> pages;
+        public AnyPage currentPage;
 
-        public Stack<Context> contextHistory = new Stack<Context>(1);
+        public Stack<Context> contextHistory = new Stack<Context>(15);
         public Context context = new Context();
 
         public Page1 page1;
@@ -81,18 +82,23 @@ namespace Schizophrenia
 
         public ToolTip toolTip;
 
+        public string Title = "Приложение";
+
         public void InitializeChildren()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AppForm));
 
             SuspendLayout();
 
-            AutoSize = true;
-            AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            Size = new System.Drawing.Size(1008, 682);
+            //AutoSize = true;
+            //AutoSizeMode = AutoSizeMode.GrowAndShrink;
 
             // BEGIN
 
-            mainTableLayout = new MyTableLayoutPanel("mainTableLayout", 16, 1, DockStyle.Fill);
+            contextHistory.Push(context);
+
+            mainTableLayout = new MyTableLayoutPanel("mainTableLayout", 2, 1, DockStyle.Fill);
 
             toolTip = new ToolTip();
             toolTip.AutomaticDelay = 0;
@@ -107,80 +113,72 @@ namespace Schizophrenia
             buttonsTableLayout.ColumnStyles[0] = new ColumnStyle(SizeType.Percent, 100);
 
             printButton = new MyButton("printButton", "Печать");
+            printButton.Anchor = AnchorStyles.Left | AnchorStyles.Bottom;
+            // printButton.Enabled = false;
             printButton.Click += new System.EventHandler(printButton_Click);
             buttonsTableLayout.Add(printButton, 0, 0);
 
             backButton = new MyButton("backButton", "Назад");
+            backButton.Anchor = AnchorStyles.Bottom;
             backButton.Click += new System.EventHandler(backButton_Click);
             buttonsTableLayout.Add(backButton, 0, 1);
 
             nextButton = new MyButton("nextButton", "Далее");
+            nextButton.Anchor = AnchorStyles.Bottom;
             nextButton.Click += new System.EventHandler(nextButton_Click);
             buttonsTableLayout.Add(nextButton, 0, 2);
 
-            mainTableLayout.Add(buttonsTableLayout, 15, 0);
+            mainTableLayout.Add(buttonsTableLayout, 1, 0);
 
-            // Page 1
+            // Pages
 
-            page1 = new Page1(this);
-            pagesMainTableLayout[0] = page1.mainTableLayout;
+            page1 = new Page1(this, PageID.Page1);
+            page2 = new Page2(this, PageID.Page2);
+            page3 = new Page3(this, PageID.Page3);
+            page4 = new Page4(this, PageID.Page4);
+            page5 = new Page5(this, PageID.Page5);
+            page6 = new Page6(this, PageID.Page6);
+            page7 = new Page7(this, PageID.Page7);
+            page8 = new Page8(this, PageID.Page8);
+            page9 = new Page9(this, PageID.Page9);
+            page10 = new Page10(this, PageID.Page10);
+            page11 = new Page11(this, PageID.Page11);
+            page12 = new Page12(this, PageID.Page12);
+            page13 = new Page13(this, PageID.Page13);
+            page14 = new Page14(this, PageID.Page14);
+            page15 = new Page15(this, PageID.Page15);
 
-            page2 = new Page2(this);
-            pagesMainTableLayout[1] = page2.mainTableLayout;
-
-            page3 = new Page3(this);
-            pagesMainTableLayout[2] = page3.mainTableLayout;
-
-            page4 = new Page4(this);
-            pagesMainTableLayout[3] = page4.mainTableLayout;
-
-            page5 = new Page5(this);
-            pagesMainTableLayout[4] = page5.mainTableLayout;
-
-            page6 = new Page6(this);
-            pagesMainTableLayout[5] = page6.mainTableLayout;
-
-            page7 = new Page7(this);
-            pagesMainTableLayout[6] = page7.mainTableLayout;
-
-            page8 = new Page8(this);
-            pagesMainTableLayout[7] = page8.mainTableLayout;
-
-            page9 = new Page9(this);
-            pagesMainTableLayout[8] = page9.mainTableLayout;
-
-            page10 = new Page10(this);
-            pagesMainTableLayout[9] = page10.mainTableLayout;
-
-            page11 = new Page11(this);
-            pagesMainTableLayout[10] = page11.mainTableLayout;
-
-            page12 = new Page12(this);
-            pagesMainTableLayout[11] = page12.mainTableLayout;
-
-            page13 = new Page13(this);
-            pagesMainTableLayout[12] = page13.mainTableLayout;
-
-            page14 = new Page14(this);
-            pagesMainTableLayout[13] = page14.mainTableLayout;
-
-            page15 = new Page15(this);
-            pagesMainTableLayout[14] = page15.mainTableLayout;
-
-            // END
-
-            currentPage = 0;
-            mainTableLayout.Add(pagesMainTableLayout[0], 0, 0);
-
-            for (int i = 1; i < 15; i++)
+            pages = new Dictionary<PageID, AnyPage>()
             {
-                pagesMainTableLayout[i].Visible = false;
-                mainTableLayout.Add(pagesMainTableLayout[i], i, 0);
-            }
+                [page1.ID] = page1,
+                [page2.ID] = page2,
+                [page3.ID] = page3,
+                [page4.ID] = page4,
+                [page5.ID] = page5,
+                [page6.ID] = page6,
+                [page7.ID] = page7,
+                [page8.ID] = page8,
+                [page9.ID] = page9,
+                [page10.ID] = page10,
+                [page11.ID] = page11,
+                [page12.ID] = page12,
+                [page13.ID] = page13,
+                [page14.ID] = page14,
+                [page15.ID] = page15
+            };
 
+            currentPage = page1;
+            mainTableLayout.Add(page1.mainTableLayout, 0, 0);
             Controls.Add(mainTableLayout);
 
+            SetTitle(currentPage);
+
             ResumeLayout(false);
+        }
+
+        public void SetTitle(AnyPage page)
+        {
+            Text = String.Format("{0} | Страница {1}", Title, page.ID);
         }
     }
 }

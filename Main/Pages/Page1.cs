@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.NetworkInformation;
 using System.Windows.Forms;
 
 namespace Schizophrenia.Main.Pages
@@ -34,8 +35,8 @@ namespace Schizophrenia.Main.Pages
         public MyLabel thLabel;
         public InputTextBox<double> thTextBox;
 
-        public MyLabel page1CTLabel;
-        public InputTextBox<int> page1CTTextBox;
+        public MyLabel CTLabel;
+        public InputTextBox<int> CTInputTextBox;
 
         public MyLabel alphaLabel;
         public InputTextBox<double> alphaTextBox;
@@ -53,7 +54,7 @@ namespace Schizophrenia.Main.Pages
         public MyLabel cStarLabel;
         public InputTextBox<double> cStarTextBox;
 
-        public Page1(AppForm appForm) : base(appForm)
+        public Page1(AppForm appForm, PageID ID) : base(appForm, ID)
         {
             mainTableLayout = new MyTableLayoutPanel("page1MainTableLayout", 2, 1, DockStyle.Fill);
 
@@ -63,7 +64,7 @@ namespace Schizophrenia.Main.Pages
             mainTableLayout.Add(page1InputDataLabel, 0, 0);
 
             page1TableLayout = new MyTableLayoutPanel("page1TableLayout", 11, 4, DockStyle.Fill);
-            //page1TableLayout.ColumnStyles[2] = new ColumnStyle(SizeType.Percent, 100);
+            page1TableLayout.ColumnStyles[0] = new ColumnStyle(SizeType.Percent, 100);
             mainTableLayout.Add(page1TableLayout, 1, 0);
 
             // gear type
@@ -88,7 +89,7 @@ namespace Schizophrenia.Main.Pages
             page1RadioGroup1.Add(conicalTypeButton, 1, 0);
 
             planetaryTypeButton = new MyRadioButton("planetaryTypeButton", "Планетарная");
-            planetaryTypeButton.CheckedChanged += new System.EventHandler(planetTypeButton_CheckedChanged);
+            planetaryTypeButton.CheckedChanged += new System.EventHandler(planetaryTypeButton_CheckedChanged);
             page1RadioGroup1.Add(planetaryTypeButton, 2, 0);
 
             // Group 2
@@ -97,9 +98,17 @@ namespace Schizophrenia.Main.Pages
             page1TableLayout.Add(page1RadioGroup2, 1, 1);
 
             internalTypeButton = new MyRadioButton("internalTypeButton", "Внутреннее зацепление");
+            internalTypeButton.CheckedChanged += new EventHandler((sender, e) => {
+                appForm.context.checkedSubType = internalTypeButton.Text; 
+                appForm.context.internalType = internalTypeButton.Checked;
+            });
             page1RadioGroup2.Add(internalTypeButton, 0, 0);
 
             externalTypeButton = new MyRadioButton("externalTypeButton", "Внешнее зацепление");
+            externalTypeButton.CheckedChanged += new EventHandler((sender, e) => {
+                appForm.context.checkedSubType = externalTypeButton.Text;
+                appForm.context.internalType = externalTypeButton.Checked;
+            });
             page1RadioGroup2.Add(externalTypeButton, 1, 0);
 
             // Group 3
@@ -108,54 +117,63 @@ namespace Schizophrenia.Main.Pages
             page1TableLayout.Add(page1RadioGroup3, 1, 2);
 
             singleEntryTypeButton = new MyRadioButton("singleEntryTypeButton", "Одновенцовый сателит");
+            singleEntryTypeButton.CheckedChanged += new EventHandler((sender, e) => {
+                appForm.context.checkedSubType = singleEntryTypeButton.Text;
+                appForm.context.internalType = singleEntryTypeButton.Checked;
+            });
             page1RadioGroup3.Add(singleEntryTypeButton, 0, 0);
 
             doubleEntryTypeButton = new MyRadioButton("doubleEntryTypeButton", "Двухвенцовый сателит");
+            doubleEntryTypeButton.CheckedChanged += new EventHandler((sender, e) => {
+                appForm.context.checkedSubType = doubleEntryTypeButton.Text;
+                appForm.context.internalType = doubleEntryTypeButton.Checked;
+            });
             page1RadioGroup3.Add(doubleEntryTypeButton, 1, 0);
 
             // U input
 
-            uLabel = new MyLabel("uLabel", "Предаточное отношение");
+            uLabel = new MyLabel("uLabel", "Предаточное отношение:");
             page1TableLayout.Add(uLabel, 2, 0);
 
-            uTextBox = new InputTextBox<double>("uTextBox", Validators.PositiveDoubleValidator, (value) => appForm.context.u = value, "Действительное, больше 0");
+            DoubleValidator positiveDoubleValidator = new DoubleValidator((value) => value > 0);
+            uTextBox = new InputTextBox<double>("uTextBox", positiveDoubleValidator, (value) => appForm.context.u = value, "Действительное, больше 0");
             page1TableLayout.Add(uTextBox, 2, 3);
 
             // n1 input
 
-            n1Label = new MyLabel("n1Label", "Частота вращения шестерни, об/мин");
+            n1Label = new MyLabel("n1Label", "Частота вращения шестерни, об/мин:");
             page1TableLayout.Add(n1Label, 3, 0);
 
-            n1TextBox = new InputTextBox<double>("n1TextBox", Validators.PositiveDoubleValidator, (value) => appForm.context.n1 = value, "Действительное, больше 0");
+            n1TextBox = new InputTextBox<double>("n1TextBox", positiveDoubleValidator, (value) => appForm.context.n1 = value, "Действительное, больше 0");
             page1TableLayout.Add(n1TextBox, 3, 3);
 
             // T1 input
 
-            T1Label = new MyLabel("T1Label", "Крутящий момент на валу шестерни, Н*мм");
+            T1Label = new MyLabel("T1Label", "Крутящий момент на валу шестерни, Н*мм:");
             page1TableLayout.Add(T1Label, 4, 0);
 
-            T1TextBox = new InputTextBox<double>("T1TextBox", Validators.PositiveDoubleValidator, (value) => appForm.context.T1 = value, "Действительное, больше 0");
+            T1TextBox = new InputTextBox<double>("T1TextBox", positiveDoubleValidator, (value) => appForm.context.T1 = value, "Действительное, больше 0");
             page1TableLayout.Add(T1TextBox, 4, 3);
 
             // th input
 
-            thLabel = new MyLabel("thLabel", "Срок службы, ч");
+            thLabel = new MyLabel("thLabel", "Срок службы, ч:");
             page1TableLayout.Add(thLabel, 5, 0);
 
-            thTextBox = new InputTextBox<double>("thTextBox", Validators.PositiveDoubleValidator, (value) => appForm.context.th = value, "Действительное, больше 0");
+            thTextBox = new InputTextBox<double>("thTextBox", positiveDoubleValidator, (value) => appForm.context.th = value, "Действительное, больше 0");
             page1TableLayout.Add(thTextBox, 5, 3);
 
             // CT input
 
-            page1CTLabel = new MyLabel("CTLabel", "Степень точности");
-            page1TableLayout.Add(page1CTLabel, 6, 0);
+            CTLabel = new MyLabel("CTLabel", "Степень точности:");
+            page1TableLayout.Add(CTLabel, 6, 0);
 
-            page1CTTextBox = new InputTextBox<int>("page1CTTextBox", Validators.CTValidator, (value) => appForm.context.CT = value, "Натуральное число, от 5 до 9");
-            page1TableLayout.Add(page1CTTextBox, 6, 3);
+            CTInputTextBox = new InputTextBox<int>("page1CTTextBox", new IntValidator((value) => (value >= 5) && (value <= 9)), (value) => appForm.context.CT = value, "Натуральное число, от 5 до 9");
+            page1TableLayout.Add(CTInputTextBox, 6, 3);
 
             // alpha input
 
-            alphaLabel = new MyLabel("alphaLabel", "Угол между осями, град");
+            alphaLabel = new MyLabel("alphaLabel", "Угол между осями, град:");
             page1TableLayout.Add(alphaLabel, 7, 0);
 
             alphaTextBox = new InputTextBox<double>("alphaTextBox", Validators.DefaultDoubleValidator, (value) => appForm.context.alpha = value);
@@ -163,7 +181,7 @@ namespace Schizophrenia.Main.Pages
 
             // standart contour
 
-            standartContourLabel = new MyLabel("standartContourLabel", "Стандартный исходный контур");
+            standartContourLabel = new MyLabel("standartContourLabel", "Стандартный исходный контур:");
             page1TableLayout.Add(standartContourLabel, 8, 0);
 
             // Radio Group 4
@@ -181,7 +199,7 @@ namespace Schizophrenia.Main.Pages
             standartAlphaLabel = new MyLabel("standartAlphaLabel", "alpha");
             page1TableLayout.Add(standartAlphaLabel, 8, 2);
 
-            standartAlphaTextBox = new InputTextBox<double>("standartAlphaTextBox", Validators.DefaultDoubleValidator, (value) => appForm.context.standartAlpha = value * System.Math.PI / 180.0);
+            standartAlphaTextBox = new InputTextBox<double>("standartAlphaTextBox", Validators.DefaultDoubleValidator, (value) => appForm.context.standartAlpha = value * Math.PI / 180.0);
             page1TableLayout.Add(standartAlphaTextBox, 8, 3);
 
             // haStar
@@ -207,8 +225,35 @@ namespace Schizophrenia.Main.Pages
             standartContourYesButton.Checked = true;
         }
 
+        public override bool CanMoveOn()
+        {
+            return
+                (cylindricalTypeButton.Checked || conicalTypeButton.Checked || planetaryTypeButton.Checked) &&
+                (internalTypeButton.Checked || externalTypeButton.Checked || singleEntryTypeButton.Checked || doubleEntryTypeButton.Checked) &&
+                (!uTextBox.Enabled || uTextBox.GetIsValid()) &&
+                (!n1TextBox.Enabled || n1TextBox.GetIsValid()) &&
+                (!T1TextBox.Enabled || T1TextBox.GetIsValid()) &&
+                (!thTextBox.Enabled || thTextBox.GetIsValid()) &&
+                (!CTInputTextBox.Enabled || CTInputTextBox.GetIsValid()) &&
+                (!alphaTextBox.Enabled || alphaTextBox.GetIsValid()) &&
+                (!standartAlphaTextBox.Enabled || standartAlphaTextBox.GetIsValid()) &&
+                (!haStarTextBox.Enabled || haStarTextBox.GetIsValid()) &&
+                (!cStarTextBox.Enabled || cStarTextBox.GetIsValid());
+        }
+
+        public override PageID NextPage()
+        {
+            Context ctx = appForm.context;
+            ctx.n2 = ctx.n1 / ctx.u;
+
+            return PageID.Page2;
+        }
+
         public void cylindricalTypeButton_CheckedChanged(object sender, EventArgs e)
         {
+            appForm.context.cylindricalType = cylindricalTypeButton.Checked;
+            appForm.context.checkedType = cylindricalTypeButton.Text;
+
             if (cylindricalTypeButton.Checked)
             {
                 internalTypeButton.Enabled = true;
@@ -227,6 +272,9 @@ namespace Schizophrenia.Main.Pages
 
         private void conicalTypeButton_CheckedChanged(object sender, EventArgs e)
         {
+            appForm.context.conicalType = conicalTypeButton.Checked;
+            appForm.context.checkedType = conicalTypeButton.Text;
+
             if (conicalTypeButton.Checked)
             {
                 internalTypeButton.Enabled = true;
@@ -243,8 +291,11 @@ namespace Schizophrenia.Main.Pages
             }
         }
 
-        private void planetTypeButton_CheckedChanged(object sender, EventArgs e)
+        private void planetaryTypeButton_CheckedChanged(object sender, EventArgs e)
         {
+            appForm.context.planetaryType = planetaryTypeButton.Checked;
+            appForm.context.checkedType = planetaryTypeButton.Text;
+
             if (planetaryTypeButton.Checked)
             {
                 internalTypeButton.Enabled = false;
@@ -263,6 +314,8 @@ namespace Schizophrenia.Main.Pages
 
         private void standartContourYesButton_CheckedChanged(object sender, EventArgs e)
         {
+            appForm.context.standartContourYes = standartContourYesButton.Checked;
+
             if (standartContourYesButton.Checked)
             {
                 standartAlphaTextBox.SetValue(20);
@@ -278,6 +331,8 @@ namespace Schizophrenia.Main.Pages
 
         private void standartContourNoButton_CheckedChanged(object sender, EventArgs e)
         {
+            appForm.context.standartContourNo = standartContourNoButton.Checked;
+
             if (standartContourNoButton.Checked)
             {
                 standartAlphaTextBox.Enabled = true;

@@ -189,6 +189,11 @@ namespace Schizophrenia
             Value = value;
             Text = value.ToString();
         }
+
+        public bool GetIsValid()
+        {
+            return IsValid;
+        }
     }
 
     public class MyButton : Button
@@ -240,17 +245,18 @@ namespace Schizophrenia
             GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
             Margin = new Padding(3);
             Padding = new Padding(3);
+            // CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
 
             for (int i = 0; i < columnCount; i++)
             {
                 ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
-                //ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100f));
+                //ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100.0));
             }
 
             for (int i = 0; i < rowCount; i++)
             {
                 RowStyles.Add(new RowStyle(SizeType.AutoSize));
-                //RowStyles.Add(new RowStyle(SizeType.Percent, 100f));
+                //RowStyles.Add(new RowStyle(SizeType.Percent, 100.0));
             }
         }
 

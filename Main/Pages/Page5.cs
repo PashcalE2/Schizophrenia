@@ -20,7 +20,7 @@ namespace Schizophrenia.Main.Pages
 
         public PictureBox standartMPicture;
 
-        public Page5(AppForm appForm) : base(appForm)
+        public Page5(AppForm appForm, PageID ID) : base(appForm, ID)
         {
             mainTableLayout = new MyTableLayoutPanel("page5MainTableLayout", 5, 1, DockStyle.Fill);
 
@@ -32,7 +32,7 @@ namespace Schizophrenia.Main.Pages
             page5MiGroup.ColumnStyles[0] = new ColumnStyle(SizeType.Percent, 100);
             mainTableLayout.Add(page5MiGroup, 0, 0);
 
-            miLabel = new MyLabel("miLabel", "Расчетное значение модуля зацепления");
+            miLabel = new MyLabel("miLabel", "Расчетное значение модуля зацепления:");
             page5MiGroup.Add(miLabel, 0, 0);
 
             miTextBox = new OutputTextBox("miTextBox");
@@ -51,7 +51,7 @@ namespace Schizophrenia.Main.Pages
             page5MGroup.ColumnStyles[0] = new ColumnStyle(SizeType.Percent, 100);
             mainTableLayout.Add(page5MGroup, 2, 0);
 
-            mLabel = new MyLabel("mLabel", "Модуль зацепления, мм");
+            mLabel = new MyLabel("mLabel", "Модуль зацепления, мм:");
             page5MGroup.Add(mLabel, 0, 0);
 
             mTextBox = new InputTextBox<double>("mTextBox", Validators.DefaultDoubleValidator, (value) => appForm.context.m = value);
@@ -72,6 +72,20 @@ namespace Schizophrenia.Main.Pages
             mainTableLayout.Add(standartMPicture, 4, 0);
         }
 
+        public override bool CanMoveOn()
+        {
+            return !mTextBox.Enabled || mTextBox.GetIsValid();
+        }
+
+        public override PageID NextPage()
+        {
+            Context ctx = appForm.context;
+
+            ctx.z1i = ctx.dW1 / ctx.m;
+            appForm.page6.z1iTextBox.Text = ctx.z1i.ToString("0.##");
+
+            return PageID.Page6;
+        }
 
     }
 }

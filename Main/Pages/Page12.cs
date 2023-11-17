@@ -7,8 +7,8 @@ namespace Schizophrenia.Main.Pages
         public MyLabel psibdLabel;
         public OutputTextBox psibdTextBox;
 
-        public MyLabel KBettaLabel;
-        public InputTextBox<double> KBettaTextBox;
+        public MyLabel KBetaLabel;
+        public InputTextBox<double> KBetaTextBox;
 
         public PictureBox page12KBettaPicture;
         public MyTableLayoutPanel page12PicturesGroup;
@@ -16,21 +16,22 @@ namespace Schizophrenia.Main.Pages
         public PictureBox page12AsymmPicture;
         public PictureBox page12ConsolePicture;
 
-        public Page12(AppForm appForm) : base(appForm)
+        public Page12(AppForm appForm, PageID ID) : base(appForm, ID)
         {
             mainTableLayout = new MyTableLayoutPanel("page12MainTableLayout", 3, 2, DockStyle.Fill);
+            mainTableLayout.ColumnStyles[0] = new ColumnStyle(SizeType.Percent, 100);
 
-            psibdLabel = new MyLabel("psibdLabel", "Коэффициент ширины относительно диаметра шестерни");
+            psibdLabel = new MyLabel("psibdLabel", "Коэффициент ширины относительно диаметра шестерни:");
             mainTableLayout.Add(psibdLabel, 0, 0);
 
             psibdTextBox = new OutputTextBox("psibdTextBox");
             mainTableLayout.Add(psibdTextBox, 0, 1);
 
-            KBettaLabel = new MyLabel("KBettaLabel", "Введите начальный коэффициент неравномерности распределения нагрузки");
-            mainTableLayout.Add(KBettaLabel, 1, 0);
+            KBetaLabel = new MyLabel("KBettaLabel", "Введите начальный коэффициент неравномерности распределения нагрузки:");
+            mainTableLayout.Add(KBetaLabel, 1, 0);
 
-            KBettaTextBox = new InputTextBox<double>("KBettaTextBox", Validators.DefaultDoubleValidator, (value) => appForm.context.KBetta = value);
-            mainTableLayout.Add(KBettaTextBox, 1, 1);
+            KBetaTextBox = new InputTextBox<double>("KBettaTextBox", Validators.DefaultDoubleValidator, (value) => appForm.context.KBeta = value);
+            mainTableLayout.Add(KBetaTextBox, 1, 1);
 
             page12KBettaPicture = new PictureBox();
             page12KBettaPicture.Image = Properties.Resources.KBettaTable;
@@ -60,6 +61,24 @@ namespace Schizophrenia.Main.Pages
             page12PicturesGroup.Add(page12ConsolePicture, 2, 0);
         }
 
+        public override bool CanMoveOn()
+        {
+            return !KBetaTextBox.Enabled || KBetaTextBox.GetIsValid();
+        }
 
+        public override PageID NextPage()
+        {
+            Context ctx = appForm.context;
+
+            if (ctx.HB1 <= 350)
+            {
+                if (ctx.diffMode)
+                {
+                    ctx.KBeta = 0.5 * (ctx.KBeta + 1.0);
+                }
+            }
+
+            return PageID.Page13;
+        }
     }
 }

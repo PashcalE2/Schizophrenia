@@ -73,6 +73,7 @@
     <Compile Include="Main\Pages\Page4.cs" />
     <Compile Include="Main\Pages\Page3.cs" />
     <Compile Include="Main\Program.cs" />
+    <Compile Include="Main\SomeUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Main\Validator.cs" />
     <EmbeddedResource Include="AppForm.resx">

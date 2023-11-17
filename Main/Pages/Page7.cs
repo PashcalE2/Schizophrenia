@@ -13,17 +13,17 @@ namespace Schizophrenia.Main.Pages
 
         public PictureBox standartAWPicture;
 
-        public Page7(AppForm appForm) : base(appForm)
+        public Page7(AppForm appForm, PageID ID) : base(appForm, ID)
         {
             mainTableLayout = new MyTableLayoutPanel("page7MainTableLayout", 2, 1, DockStyle.Fill);
 
             page7AWGroup = new MyTableLayoutPanel("page7AWGroup", 2, 3, DockStyle.Fill);
             page7AWGroup.Margin = new Padding(0);
             page7AWGroup.Padding = new Padding(0);
-            page7AWGroup.ColumnStyles[1] = new ColumnStyle(SizeType.Percent, 100);
+            page7AWGroup.ColumnStyles[0] = new ColumnStyle(SizeType.Percent, 100);
             mainTableLayout.Add(page7AWGroup, 0, 0);
 
-            aWiLabel = new MyLabel("aWiLabel", "Введите стандартное межосевое расстояние по таблице");
+            aWiLabel = new MyLabel("aWiLabel", "Введите стандартное межосевое расстояние по таблице:");
             page7AWGroup.Add(aWiLabel, 0, 0);
 
             aWiTextBox = new OutputTextBox("aWiTextBox");
@@ -39,6 +39,17 @@ namespace Schizophrenia.Main.Pages
             mainTableLayout.Add(standartAWPicture, 1, 0);
         }
 
+        public override bool CanMoveOn()
+        {
+            return !aWTextBox.Enabled || aWTextBox.GetIsValid();
+        }
+
+        public override PageID NextPage()
+        {
+            appForm.page6.z();
+
+            return PageID.Page8;
+        }
 
     }
 }

@@ -1,10 +1,29 @@
-﻿namespace Schizophrenia
+﻿using System;
+
+namespace Schizophrenia
 {
     public abstract class AnyValidator<T>
     {
         protected T Result;
+        protected Func<T, bool> Condition;
 
-        public abstract bool Validate(string value);
+        public AnyValidator()
+        {
+            Condition = (value) => true;
+        }
+
+        public AnyValidator(Func<T, bool> condition)
+        {
+            Condition = condition;
+        }
+
+        protected abstract bool ValidateValue(string value);
+
+        public bool Validate(string value)
+        {
+            bool isValidated = ValidateValue(value);
+            return isValidated && Condition.Invoke(Result);
+        }
 
         public T GetResult()
         {
@@ -14,41 +33,39 @@
 
     public class DoubleValidator : AnyValidator<double>
     {
-        public override bool Validate(string value)
+        public DoubleValidator() : base()
+        {
+        }
+
+        public DoubleValidator(Func<double, bool> condition) : base(condition)
+        {
+        }
+
+        protected override bool ValidateValue(string value)
         {
             return double.TryParse(value, out Result);
         }
     }
 
-    public class PositiveDoubleValidator : DoubleValidator
-    {
-        public override bool Validate(string value)
-        {
-            return base.Validate(value) && (Result > 0);
-        }
-    }
-
     public class IntValidator : AnyValidator<int>
     {
-        public override bool Validate(string value)
+        public IntValidator() : base()
+        {
+        }
+
+        public IntValidator(Func<int, bool> condition) : base(condition)
+        {
+        }
+
+        protected override bool ValidateValue(string value)
         {
             return int.TryParse(value, out Result);
-        }
-    }
-
-    public class CTValidator : IntValidator
-    {
-        public override bool Validate(string value)
-        {
-            return base.Validate(value) && (Result >= 5) && (Result <= 9);
         }
     }
 
     public static class Validators
     {
         public static readonly DoubleValidator DefaultDoubleValidator = new DoubleValidator();
-        public static readonly PositiveDoubleValidator PositiveDoubleValidator = new PositiveDoubleValidator();
         public static readonly IntValidator DefaultIntValidator = new IntValidator();
-        public static readonly CTValidator CTValidator = new CTValidator();
     }
 }

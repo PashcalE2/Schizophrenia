@@ -42,7 +42,7 @@ namespace Schizophrenia.Main.Pages
         public MyLabel transmissionCommentLabel;
         public MyLabel transmissionLabel;
 
-        public Page4(AppForm appForm) : base(appForm)
+        public Page4(AppForm appForm, PageID ID) : base(appForm, ID)
         {
             mainTableLayout = new MyTableLayoutPanel("page4MainTableLayout", 2, 1, DockStyle.Fill);
 
@@ -52,12 +52,12 @@ namespace Schizophrenia.Main.Pages
             mainTableLayout.Add(page4InputDataLabel, 0, 0);
 
             page4TableLayout = new MyTableLayoutPanel("page4TableLayout", 10, 3, DockStyle.Fill);
-            //page4TableLayout.ColumnStyles[2] = new ColumnStyle(SizeType.Percent, 100);
+            page4TableLayout.ColumnStyles[0] = new ColumnStyle(SizeType.Percent, 100);
             mainTableLayout.Add(page4TableLayout, 1, 0);
 
             // Aw
 
-            aWLabel = new MyLabel("aWLabel", "Межосевое расстояние");
+            aWLabel = new MyLabel("aWLabel", "Межосевое расстояние:");
             page4TableLayout.Add(aWLabel, 0, 0);
 
             aWRadioGroup = new MyTableLayoutPanel("aWRadioGroup", 2, 1, DockStyle.Fill);
@@ -76,21 +76,23 @@ namespace Schizophrenia.Main.Pages
 
             // StandartAW
 
-            standartAWLabel = new MyLabel("standartAWLabel", "Стандартное межосевое расстояние");
+            standartAWLabel = new MyLabel("standartAWLabel", "Стандартное межосевое расстояние:");
             page4TableLayout.Add(standartAWLabel, 1, 0);
 
             standartAWRadioGroup = new MyTableLayoutPanel("standartAWRadioGroup", 2, 1);
             page4TableLayout.Add(standartAWRadioGroup, 1, 1);
 
             standartAWYesRadioButton = new MyRadioButton("standartAWYesRadioButton", "Да");
+            standartAWYesRadioButton.CheckedChanged += new EventHandler(standartAWYesRadioButton_CheckedChanged);
             standartAWRadioGroup.Add(standartAWYesRadioButton, 0, 0);
 
             standartAWNoRadioButton = new MyRadioButton("standartAWNoRadioButton", "Нет");
+            standartAWNoRadioButton.CheckedChanged += new EventHandler(standartAWNoRadioButton_CheckedChanged);
             standartAWRadioGroup.Add(standartAWNoRadioButton, 1, 0);
 
             // psiba
 
-            psibaLabel = new MyLabel("psibaLabel", "Коэф-т ширины относительного межосевого расстояния");
+            psibaLabel = new MyLabel("psibaLabel", "Коэф-т ширины относительного межосевого расстояния:");
             page4TableLayout.Add(psibaLabel, 2, 0);
 
             psibaTextBox = new InputTextBox<double>("psibaTextBox", Validators.DefaultDoubleValidator, (value) => appForm.context.psiba = value);
@@ -98,34 +100,34 @@ namespace Schizophrenia.Main.Pages
 
             // Hints
 
-            psibaCommentLabel = new MyLabel("psibaCommentLabel", "Принимается в зависимости от положения колёс относительно опор");
+            psibaCommentLabel = new MyLabel("psibaCommentLabel", "Принимается в зависимости от положения колёс относительно опор:");
             page4TableLayout.Add(psibaCommentLabel, 3, 0);
 
-            symmCommentLabel = new MyLabel("symmCommentLabel", "При симметричном расположении");
+            symmCommentLabel = new MyLabel("symmCommentLabel", "При симметричном расположении:");
             page4TableLayout.Add(symmCommentLabel, 4, 0);
 
             symmLabel = new MyLabel("symmLabel", "0,315...0,400");
             page4TableLayout.Add(symmLabel, 4, 1);
 
-            asymmCommentLabel = new MyLabel("asymmCommentLabel", "При несимметричном расположении");
+            asymmCommentLabel = new MyLabel("asymmCommentLabel", "При несимметричном расположении:");
             page4TableLayout.Add(asymmCommentLabel, 5, 0);
 
             asymmLabel = new MyLabel("asymmLabel", "0,250...0,315");
             page4TableLayout.Add(asymmLabel, 5, 1);
 
-            consoleCommentLabel = new MyLabel("consoleCommentLabel", "При консольном расположении");
+            consoleCommentLabel = new MyLabel("consoleCommentLabel", "При консольном расположении:");
             page4TableLayout.Add(consoleCommentLabel, 6, 0);
 
             consoleLabel = new MyLabel("consoleLabel", "0,20...0,25");
             page4TableLayout.Add(consoleLabel, 6, 1);
 
-            internalCommentLabel = new MyLabel("internalCommentLabel", "Для передач внутреннего зацепления");
+            internalCommentLabel = new MyLabel("internalCommentLabel", "Для передач внутреннего зацепления:");
             page4TableLayout.Add(internalCommentLabel, 7, 0);
 
             internalLabel = new MyLabel("internalLabel", "0,315...0,400");
             page4TableLayout.Add(internalLabel, 7, 1);
 
-            chevronCommentLabel = new MyLabel("chevronCommentLabel", "Для шевронных передач");
+            chevronCommentLabel = new MyLabel("chevronCommentLabel", "Для шевронных передач:");
             page4TableLayout.Add(chevronCommentLabel, 8, 0);
 
             chevronLabel = new MyLabel("chevronLabel", "0,4...0,5");
@@ -143,17 +145,58 @@ namespace Schizophrenia.Main.Pages
             standartAWYesRadioButton.Checked = true;
         }
 
+        public override bool CanMoveOn()
+        {
+            return
+                (aWKnownRadioButton.Checked || aWUnknownRadioButton.Checked) &&
+                (standartAWYesRadioButton.Checked || standartAWNoRadioButton.Checked) &&
+                (!aWKnownTextBox.Enabled || aWKnownTextBox.GetIsValid()) &&
+                (!psibaTextBox.Enabled || psibaTextBox.GetIsValid());
+        }
+
+        public override PageID NextPage()
+        {
+            Context ctx = appForm.context;
+
+            if (ctx.aWKnown)
+            {
+                // B1
+
+                ctx.dW1 = 2.0 * ctx.aW / (ctx.u + 1.0);
+                ctx.bW = 570000.0 * ctx.T1 * (ctx.u + 1.0) / (ctx.u * Math.Pow(ctx.dW1, 2.0) * Math.Pow(ctx.sigmaHAllow, 2.0));
+                ctx.psibd = ctx.bW / ctx.dW1;
+            }
+
+            else
+            {
+                // B2
+
+                ctx.psibd = ctx.psiba * (ctx.u + 1.0) / 2.0;
+                ctx.dW1 = 85.0 * Math.Pow((ctx.T1 * (ctx.u + 1.0)) / (ctx.psibd * ctx.u * Math.Pow(ctx.sigmaHAllow, 2.0)), 1.0 / 3.0);
+            }
+
+            ctx.mi = 10 * ctx.T1 / (ctx.psibd * Math.Pow(ctx.dW1, 2) * ctx.sigmaF1Allow);
+
+            appForm.page5.miTextBox.Text = ctx.mi.ToString("0.##");
+
+            return PageID.Page5;
+        }
+
         private void aWKnownRadioButton_CheckedChanged(object sender, EventArgs e)
         {
+            appForm.context.aWKnown = aWKnownRadioButton.Checked;
+
             if (aWKnownRadioButton.Checked)
             {
                 aWKnownTextBox.Visible = true;
+                aWKnownTextBox.Enabled = true;
 
                 standartAWLabel.Visible = false;
                 standartAWYesRadioButton.Visible = false;
                 standartAWNoRadioButton.Visible = false;
                 psibaLabel.Visible = false;
                 psibaTextBox.Visible = false;
+                psibaTextBox.Enabled = false;
 
                 psibaCommentLabel.Visible = false;
                 symmCommentLabel.Visible = false;
@@ -173,15 +216,19 @@ namespace Schizophrenia.Main.Pages
 
         private void aWUnknownRadioButton_CheckedChanged(object sender, EventArgs e)
         {
+            appForm.context.aWUnknown = aWUnknownRadioButton.Checked;
+
             if (aWUnknownRadioButton.Checked)
             {
                 aWKnownTextBox.Visible = false;
+                aWKnownTextBox.Enabled = false;
 
                 standartAWLabel.Visible = true;
                 standartAWYesRadioButton.Visible = true;
                 standartAWNoRadioButton.Visible = true;
                 psibaLabel.Visible = true;
                 psibaTextBox.Visible = true;
+                psibaTextBox.Enabled = true;
 
                 psibaCommentLabel.Visible = true;
                 symmCommentLabel.Visible = true;
@@ -197,6 +244,16 @@ namespace Schizophrenia.Main.Pages
                 transmissionCommentLabel.Visible = true;
                 transmissionLabel.Visible = true;
             }
+        }
+
+        private void standartAWYesRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            appForm.context.standartAWYes = standartAWYesRadioButton.Checked;
+        }
+
+        private void standartAWNoRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            appForm.context.standartAWNo = standartAWNoRadioButton.Checked;
         }
     }
 }
