@@ -54,10 +54,28 @@
     <Compile Include="AppForm.Designer.cs">
       <DependentUpon>AppForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="AppGUIs.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Main\AppGUIs.cs" />
+    <Compile Include="Main\Context.cs" />
+    <Compile Include="Main\Pages\Page2.cs" />
+    <Compile Include="Main\Pages\Page1.cs" />
+    <Compile Include="Main\Pages\Page10.cs" />
+    <Compile Include="Main\Pages\Page11.cs" />
+    <Compile Include="Main\Pages\Page12.cs" />
+    <Compile Include="Main\Pages\Page13.cs" />
+    <Compile Include="Main\Pages\Page14.cs" />
+    <Compile Include="Main\Pages\Page15.cs" />
+    <Compile Include="Main\Pages\AnyPage.cs" />
+    <Compile Include="Main\Pages\Page9.cs" />
+    <Compile Include="Main\Pages\Page8.cs" />
+    <Compile Include="Main\Pages\Page7.cs" />
+    <Compile Include="Main\Pages\Page6.cs" />
+    <Compile Include="Main\Pages\Page5.cs" />
+    <Compile Include="Main\Pages\Page4.cs" />
+    <Compile Include="Main\Pages\Page3.cs" />
+    <Compile Include="Main\Program.cs" />
+    <Compile Include="Main\SomeUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Validator.cs" />
+    <Compile Include="Main\Validator.cs" />
     <EmbeddedResource Include="AppForm.resx">
       <DependentUpon>AppForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -69,6 +87,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -83,5 +102,36 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="resources\minMTable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="resources\standartMTable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\standartAWTable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\asymm.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\console.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\symm.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\zfunc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\KBettaTable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\KVTable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\YFTable.png" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
 
@@ -13,13 +10,15 @@ namespace Schizophrenia
         public static readonly Color ErrorTextBoxColor = Color.FromArgb(255, 255, 127, 64);
         public static readonly Color EmptyTextBoxColor = Color.FromArgb(255, 223, 239, 255);
         public static readonly Color ValidTextBoxColor = SystemColors.Window;
-        public static readonly Color DisabledTextBoxColor = SystemColors.Control;
+        public static readonly Color AlwaysDisabledTextBoxColor = Color.FromArgb(255, 223, 255, 191);
+        public static readonly Color NowDisabledTextBoxColor = Color.FromArgb(255, 239, 223, 255);
     }
 
     public static class DefaultSizes
     {
         public static readonly Size TextBox = new Size(130, 40);
         public static readonly Size Button = new Size(80, 30);
+        public static readonly Size ComboBox = new Size(130, 40);
     }
 
     public static class DefaultFonts
@@ -32,9 +31,21 @@ namespace Schizophrenia
         public MyRadioButton(string name, string text)
         {
             AutoSize = true;
+            Font = DefaultFonts.Any;
             Name = name;
             Text = text;
+        }
+    }
+
+    public class OutputTextBox : TextBox
+    {
+        public OutputTextBox(string name)
+        {
+            Name = name;
+            Size = DefaultSizes.TextBox;
             Font = DefaultFonts.Any;
+            BackColor = DefaultColors.AlwaysDisabledTextBoxColor;
+            Enabled = false;
         }
     }
     
@@ -43,19 +54,54 @@ namespace Schizophrenia
         private AnyValidator<T> Validator;
         private T Value;
         private bool IsValid;
-        private Action<T> OutterVauleSetter;
+        private List<Action<T>> TextValidated;
         private ToolTip HintToolTip;
         private string Hint;
 
-        public InputTextBox(string name, AnyValidator<T> validator, Action<T> outterVauleSetter)
+        public InputTextBox(string name, AnyValidator<T> validator)
         {
-            DefaultInit(name, validator, outterVauleSetter);
+            DefaultInit(name, validator, new List<Action<T>>(2));
         }
 
-        public InputTextBox(string name, AnyValidator<T> validator, Action<T> outterVauleSetter, string hint)
+        public InputTextBox(string name, AnyValidator<T> validator, Action<T> textValidated)
         {
-            DefaultInit(name, validator, outterVauleSetter);
+            DefaultInit(name, validator, new List<Action<T>>(2) { textValidated });
+        }
 
+        public InputTextBox(string name, AnyValidator<T> validator, List<Action<T>> textValidated)
+        {
+            DefaultInit(name, validator, textValidated);
+        }
+
+        public InputTextBox(string name, AnyValidator<T> validator, Action<T> textValidated, string hint)
+        {
+            DefaultInit(name, validator, new List<Action<T>>(2) { textValidated });
+            HintInit(hint);
+        }
+
+        public InputTextBox(string name, AnyValidator<T> validator, List<Action<T>> textValidated, string hint)
+        {
+            DefaultInit(name, validator, textValidated);
+            HintInit(hint);
+        }
+
+        private void DefaultInit(string name, AnyValidator<T> validator, List<Action<T>> textValidated)
+        {
+            Validator = validator;
+            TextValidated = textValidated;
+
+            Name = name;
+            Size = DefaultSizes.TextBox;
+            Font = DefaultFonts.Any;
+
+            BackColor = DefaultColors.EmptyTextBoxColor;
+
+            TextChanged += new EventHandler(ValidateText);
+            EnabledChanged += new EventHandler(EnabledChangedHandler);
+        }
+
+        private void HintInit(string hint)
+        {
             HintToolTip = new ToolTip();
             HintToolTip.AutomaticDelay = 0;
             HintToolTip.AutoPopDelay = 10000;
@@ -68,23 +114,12 @@ namespace Schizophrenia
             Leave += new EventHandler(HideHint);
         }
 
-        private void DefaultInit(string name, AnyValidator<T> validator, Action<T> outterVauleSetter)
-        {
-            Validator = validator;
-            OutterVauleSetter = outterVauleSetter;
-
-            Name = name;
-            Size = DefaultSizes.TextBox;
-            Font = DefaultFonts.Any;
-
-            BackColor = DefaultColors.EmptyTextBoxColor;
-
-            TextChanged += new EventHandler(ValidateText);
-            EnabledChanged += new EventHandler(EnabledChangedHandler);
-        }
-
         private void ValidateText(object sender, EventArgs e)
         {
+            if (!Enabled) {
+                return;
+            }
+
             IsValid = Validator.Validate(Text);
 
             if (Text == "")
@@ -106,7 +141,20 @@ namespace Schizophrenia
                 }
             }
 
-            OutterVauleSetter.Invoke(Value);
+            for (int i = 0; i < TextValidated.Count; i++)
+            {
+                TextValidated[i].Invoke(Value);
+            }
+        }
+
+        public void PushTextValidatedHandler(Action<T> action)
+        {
+            TextValidated.Add(action);
+        }
+
+        public void PopTextValidatedHandler()
+        {
+            TextValidated.RemoveAt(TextValidated.Count - 1);
         }
 
         private void EnabledChangedHandler(object sender, EventArgs e)
@@ -117,7 +165,7 @@ namespace Schizophrenia
             }
             else
             {
-                BackColor = DefaultColors.DisabledTextBoxColor;
+                BackColor = DefaultColors.NowDisabledTextBoxColor;
             }
         }
 
@@ -141,6 +189,11 @@ namespace Schizophrenia
             Value = value;
             Text = value.ToString();
         }
+
+        public bool GetIsValid()
+        {
+            return IsValid;
+        }
     }
 
     public class MyButton : Button
@@ -159,8 +212,8 @@ namespace Schizophrenia
 
         private void DefaultInit(string name, string text)
         {
-            Name = name;
             Font = DefaultFonts.Any;
+            Name = name;
             Text = text;
             UseVisualStyleBackColor = true;
         }
@@ -172,6 +225,7 @@ namespace Schizophrenia
         public MyTableLayoutPanel(string name, int rowCount, int columnCount)
         {
             DefaultInit(name, rowCount, columnCount);
+            Dock = DockStyle.Fill;
         }
 
         public MyTableLayoutPanel(string name, int rowCount, int columnCount, DockStyle dock)
@@ -188,17 +242,21 @@ namespace Schizophrenia
 
             AutoSize = true;
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
+            Margin = new Padding(3);
+            Padding = new Padding(3);
+            // CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
 
             for (int i = 0; i < columnCount; i++)
             {
-                ColumnStyles.Add(new ColumnStyle());
-                //ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100f));
+                ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+                //ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100.0));
             }
 
             for (int i = 0; i < rowCount; i++)
             {
-                RowStyles.Add(new RowStyle());
-                //RowStyles.Add(new RowStyle(SizeType.Percent, 100f));
+                RowStyles.Add(new RowStyle(SizeType.AutoSize));
+                //RowStyles.Add(new RowStyle(SizeType.Percent, 100.0));
             }
         }
 
@@ -216,15 +274,25 @@ namespace Schizophrenia
         }
     }
 
+    public class MyComboBox : ComboBox
+    {
+        public MyComboBox(string name)
+        {
+            Font = DefaultFonts.Any;
+            Name = name;
+            Size = DefaultSizes.ComboBox;
+            DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+        }
+    }
+
     public class MyLabel : Label
     {
         public MyLabel(string name, string text)
         {
             AutoSize = true;
+            Font = DefaultFonts.Any;
             Name = name;
             Text = text;
-
-            Font = DefaultFonts.Any;
         }
 
         public string GetText()
