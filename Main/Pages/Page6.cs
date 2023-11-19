@@ -38,6 +38,10 @@ namespace Schizophrenia.Main.Pages
 
             z1TextBox = new InputTextBox<double>("z1TextBox", Validators.DefaultDoubleValidator, (value) => appForm.context.z1 = value);
             z1TextBox.TextChanged += new EventHandler(badUCheck);
+            z1TextBox.TextChanged += new EventHandler((sender, e) => {
+                appForm.context.z2i = appForm.context.z1 * appForm.context.u;
+                z2iTextBox.Text = appForm.context.z2i.ToString("0.##");
+            });
             mainTableLayout.Add(z1TextBox, 1, 1);
 
             // z2

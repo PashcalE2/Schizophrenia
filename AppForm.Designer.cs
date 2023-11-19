@@ -91,6 +91,8 @@ namespace Schizophrenia
             SuspendLayout();
 
             Size = new System.Drawing.Size(1008, 682);
+            MaximumSize = Size;
+            MinimumSize = Size;
             //AutoSize = true;
             //AutoSizeMode = AutoSizeMode.GrowAndShrink;
 
