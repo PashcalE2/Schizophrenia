@@ -46,12 +46,30 @@ namespace Schizophrenia.Main.Pages
             x2iCor2TextBox = new OutputTextBox("x2iCor2TextBox");
             mainTableLayout.Add(x2iCor2TextBox, 2, 2);
 
-            x1Cor2TextBox = new InputTextBox<double>("x1Cor2TextBox", Validators.DefaultDoubleValidator, (value) => appForm.context.x1 = value);
-            x1Cor2TextBox.TextChanged += new EventHandler(x1Cor2TextBox_TextChanged);
+            x1Cor2TextBox = new InputTextBox<double>("x1Cor2TextBox", new DoubleValidator((value) => value >= appForm.context.x1Min), (value) => appForm.context.x1 = value);
+            x1Cor2TextBox.PushTextValidatedHandler((value) => {
+                if (x1Cor2TextBox.Enabled)
+                {
+                    x2Cor2TextBox.SetValue(appForm.context.xSigma - appForm.context.x1);
+                    x2Cor2TextBox.Text = appForm.context.x2.ToString("0.##");
+
+                    appForm.nextButton.Enabled = (!x1Cor2TextBox.Enabled || x1Cor2TextBox.GetIsValid()) && (!x2Cor2TextBox.Enabled || x2Cor2TextBox.GetIsValid());
+                }
+            });
+            x1Cor2TextBox.Enabled = false;
             mainTableLayout.Add(x1Cor2TextBox, 3, 1);
 
-            x2Cor2TextBox = new InputTextBox<double>("x2Cor2TextBox", Validators.DefaultDoubleValidator, (value) => appForm.context.x2 = value);
-            x1Cor2TextBox.TextChanged += new EventHandler(x2Cor2TextBox_TextChanged);
+            x2Cor2TextBox = new InputTextBox<double>("x2Cor2TextBox", new DoubleValidator((value) => value >= appForm.context.x2Min), (value) => appForm.context.x2 = value);
+            x2Cor2TextBox.PushTextValidatedHandler((value) => {
+                if (x2Cor2TextBox.Enabled)
+                {
+                    x1Cor2TextBox.SetValue(appForm.context.xSigma - appForm.context.x2);
+                    x1Cor2TextBox.Text = appForm.context.x1.ToString("0.##");
+
+                    appForm.nextButton.Enabled = (!x1Cor2TextBox.Enabled || x1Cor2TextBox.GetIsValid()) && (!x2Cor2TextBox.Enabled || x2Cor2TextBox.GetIsValid());
+                }
+            });
+            x2Cor2TextBox.Enabled = false;
             mainTableLayout.Add(x2Cor2TextBox, 3, 2);
         }
 
@@ -67,22 +85,6 @@ namespace Schizophrenia.Main.Pages
             appForm.page8.g4();
 
             return appForm.page8.kp_begining();
-        }
-
-        private void x1Cor2TextBox_TextChanged(object sender, EventArgs e)
-        {
-            appForm.context.x2 = appForm.context.xSigma - appForm.context.x1;
-            x2Cor2TextBox.SetValue(appForm.context.x2);
-
-            appForm.nextButton.Enabled = (appForm.context.x1 >= appForm.context.x1Min) && (appForm.context.x2 >= appForm.context.x2Min);
-        }
-
-        private void x2Cor2TextBox_TextChanged(object sender, EventArgs e)
-        {
-            appForm.context.x1 = appForm.context.xSigma - appForm.context.x2;
-            x1Cor2TextBox.SetValue(appForm.context.x1);
-
-            appForm.nextButton.Enabled = (appForm.context.x1 >= appForm.context.x1Min) && (appForm.context.x2 >= appForm.context.x2Min);
         }
     }
 }

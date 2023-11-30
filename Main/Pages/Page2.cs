@@ -283,37 +283,37 @@ namespace Schizophrenia.Main.Pages
                 TO2ComboBox.Enabled = false;
                 TO2ComboBox.SelectedItem = TO1ComboBox.SelectedItem;
 
-                HB1TextBox.PushTextValidatedHandler((value) => HB2TextBox.Text = HB1TextBox.Text);
+                HB1TextBox.PushTextValidatedHandler((value) => HB2TextBox.SetValue(HB1TextBox.GetValue()));
                 HB2TextBox.Enabled = false;
-                HB2TextBox.Text = HB1TextBox.Text;
+                HB2TextBox.SetValue(HB1TextBox.GetValue());
 
-                HRC1TextBox.PushTextValidatedHandler((value) => HRC2TextBox.Text = HRC1TextBox.Text);
+                HRC1TextBox.PushTextValidatedHandler((value) => HRC2TextBox.SetValue(HRC1TextBox.GetValue()));
                 HRC2TextBox.Enabled = false;
-                HRC2TextBox.Text = HRC1TextBox.Text;
+                HRC2TextBox.SetValue(HRC1TextBox.GetValue());
 
-                HV1TextBox.PushTextValidatedHandler((value) => HV2TextBox.Text = HV1TextBox.Text);
+                HV1TextBox.PushTextValidatedHandler((value) => HV2TextBox.SetValue(HV1TextBox.GetValue()));
                 HV2TextBox.Enabled = false;
-                HV2TextBox.Text = HV1TextBox.Text;
+                HV2TextBox.SetValue(HV1TextBox.GetValue());
 
-                HRCs1TextBox.PushTextValidatedHandler((value) => HRCs2TextBox.Text = HRCs1TextBox.Text);
+                HRCs1TextBox.PushTextValidatedHandler((value) => HRCs2TextBox.SetValue(HRCs1TextBox.GetValue()));
                 HRCs2TextBox.Enabled = false;
-                HRCs2TextBox.Text = HRCs1TextBox.Text;
+                HRCs2TextBox.SetValue(HRCs1TextBox.GetValue());
 
-                appForm.page3.sigmaH1LimbTextBox.PushTextValidatedHandler((value) => appForm.page3.sigmaH2LimbTextBox.Text = appForm.page3.sigmaH1LimbTextBox.Text);
+                appForm.page3.sigmaH1LimbTextBox.PushTextValidatedHandler((value) => appForm.page3.sigmaH2LimbTextBox.SetValue(appForm.page3.sigmaH1LimbTextBox.GetValue()));
                 appForm.page3.sigmaH2LimbTextBox.Enabled = false;
-                appForm.page3.sigmaH2LimbTextBox.Text = appForm.page3.sigmaH1LimbTextBox.Text;
+                appForm.page3.sigmaH2LimbTextBox.SetValue(appForm.page3.sigmaH1LimbTextBox.GetValue());
 
-                appForm.page3.sigmaF1LimbTextBox.PushTextValidatedHandler((value) => appForm.page3.sigmaF2LimbTextBox.Text = appForm.page3.sigmaF1LimbTextBox.Text);
+                appForm.page3.sigmaF1LimbTextBox.PushTextValidatedHandler((value) => appForm.page3.sigmaF2LimbTextBox.SetValue(appForm.page3.sigmaF1LimbTextBox.GetValue()));
                 appForm.page3.sigmaF2LimbTextBox.Enabled = false;
-                appForm.page3.sigmaF2LimbTextBox.Text = appForm.page3.sigmaF1LimbTextBox.Text;
+                appForm.page3.sigmaF2LimbTextBox.SetValue(appForm.page3.sigmaF1LimbTextBox.GetValue());
 
-                appForm.page3.c1TextBox.PushTextValidatedHandler((value) => appForm.page3.c2TextBox.Text = appForm.page3.c1TextBox.Text);
+                appForm.page3.c1TextBox.PushTextValidatedHandler((value) => appForm.page3.c2TextBox.SetValue(appForm.page3.c1TextBox.GetValue()));
                 appForm.page3.c2TextBox.Enabled = false;
-                appForm.page3.c2TextBox.Text = appForm.page3.c1TextBox.Text;
+                appForm.page3.c2TextBox.SetValue(appForm.page3.c1TextBox.GetValue());
 
-                appForm.page3.KFC1TextBox.PushTextValidatedHandler((value) => appForm.page3.KFC2TextBox.Text = appForm.page3.KFC1TextBox.Text);
+                appForm.page3.KFC1TextBox.PushTextValidatedHandler((value) => appForm.page3.KFC2TextBox.SetValue(appForm.page3.KFC1TextBox.GetValue()));
                 appForm.page3.KFC2TextBox.Enabled = false;
-                appForm.page3.KFC2TextBox.Text = appForm.page3.KFC1TextBox.Text;
+                appForm.page3.KFC2TextBox.SetValue(appForm.page3.KFC1TextBox.GetValue());
             }
         }
 

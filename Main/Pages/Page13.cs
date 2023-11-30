@@ -73,10 +73,11 @@ namespace Schizophrenia.Main.Pages
             ctx.zH = Math.Sqrt(2.0 / Math.Sin(2 * ctx.alphaW));
             ctx.zEpsilon = Math.Sqrt((4 - ctx.epsilonAlpha) / 3.0);
             ctx.sigmaH = 275.0 * ctx.zH * ctx.zEpsilon * Math.Sqrt(2.0 * ctx.T1 * ctx.KH * (ctx.Ui + 1) / ctx.psibd / ctx.Ui / Math.Pow(ctx.dW1, 3.0));
-            ctx.eh = Math.Abs(ctx.sigmaHAllow - ctx.sigmaH) * 100 / ctx.sigmaHAllow;
-
+            
             if (ctx.sigmaH <= ctx.sigmaHAllow)
             {
+                ctx.eh = Math.Abs(ctx.sigmaHAllow - ctx.sigmaH) * 100 / ctx.sigmaHAllow;
+
                 if (ctx.eh > 5)
                 {
                     if (ctx.aWKnown)
@@ -92,13 +93,15 @@ namespace Schizophrenia.Main.Pages
                     ctx.mi = 10.0 * ctx.T1 / (ctx.psibd * Math.Pow(ctx.dW1, 2.0) * ctx.sigmaF1Allow);
                     appForm.page5.miTextBox.Text = ctx.mi.ToString("0.##");
 
+                    MessageBox.Show(String.Format("Относительная недогрузка по контактным напряжениям: {0}%", Math.Round(ctx.eh)));
+
                     return PageID.Page5;
                 }
                 else
                 {
                     ctx.bW = Math.Ceiling(ctx.psibd * ctx.dW1);
 
-                    //IP, begining
+                    // Ip begining
 
                     if (ctx.CT <= 5)
                     {
@@ -140,7 +143,8 @@ namespace Schizophrenia.Main.Pages
             }
             else
             {
-                ctx.eh = Math.Abs(ctx.sigmaHAllow - ctx.sigmaH) * 100 / ctx.sigmaHAllow;
+                MessageBox.Show(String.Format("Превышение допускаемого контактного напряжения на {0} МПа", Math.Round(ctx.sigmaH - ctx.sigmaHAllow)));
+
                 if (ctx.aWKnown)
                 {
                     ctx.bW = ctx.bW * Math.Pow(ctx.sigmaH / ctx.sigmaHAllow, 2.0);

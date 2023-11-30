@@ -39,10 +39,10 @@ namespace Schizophrenia.Main.Pages
             x2iTextBox = new OutputTextBox("x2iTextBox");
             mainTableLayout.Add(x2iTextBox, 1, 2);
 
-            x1TextBox = new InputTextBox<double>("x1TextBox", Validators.DefaultDoubleValidator, (value) => appForm.context.x1 = value);
+            x1TextBox = new InputTextBox<double>("x1TextBox", new DoubleValidator((value) => value >= appForm.context.x1Min), (value) => appForm.context.x1 = value);
             mainTableLayout.Add(x1TextBox, 2, 1);
 
-            x2TextBox = new InputTextBox<double>("x2TextBox", Validators.DefaultDoubleValidator, (value) => appForm.context.x2 = value);
+            x2TextBox = new InputTextBox<double>("x2TextBox", new DoubleValidator((value) => value >= appForm.context.x2Min), (value) => appForm.context.x2 = value);
             mainTableLayout.Add(x2TextBox, 2, 2);
         }
 
@@ -136,11 +136,11 @@ namespace Schizophrenia.Main.Pages
                     double d;
                     if (ctx.invAlphaW > ctx.invAlpha)
                     {
-                        d = 0.01;
+                        d = 0.01 * Math.PI / 180;
                     }
                     else
                     {
-                        d = -0.01;
+                        d = -0.01 * Math.PI / 180;
                     }
 
                     double alphaWx = ctx.standartAlpha;
@@ -173,7 +173,7 @@ namespace Schizophrenia.Main.Pages
 
             ctx.alphaW = Math.Acos(ctx.a * Math.Cos(ctx.standartAlpha) / ctx.aW);
 
-            if (ctx.alphaW == double.NaN)
+            if (double.IsNaN(ctx.alphaW))
             {
                 MessageBox.Show("Увеличьте межосевое расстояние");
                 return PageID.Page7;
@@ -181,6 +181,7 @@ namespace Schizophrenia.Main.Pages
 
             ctx.invAlphaW = Math.Tan(ctx.alphaW) - ctx.alphaW;
             ctx.invAlpha = Math.Tan(ctx.standartAlpha) - ctx.standartAlpha;
+            // too high
             ctx.xSigma = (ctx.z1 + ctx.z2) / (2.0 * Math.Tan(ctx.standartAlpha)) * (ctx.invAlphaW - ctx.invAlpha);
 
             appForm.page10.xSigmaTextBox.Text = ctx.xSigma.ToString("0.##");
@@ -191,16 +192,16 @@ namespace Schizophrenia.Main.Pages
             if (ctx.x1Min >= ctx.x2Min)
             {
                 appForm.page10.x1Cor2TextBox.Enabled = true;
+                appForm.page10.x1Cor2TextBox.SetValue(ctx.x1);
 
                 appForm.page10.x2Cor2TextBox.Enabled = false;
-                appForm.page10.x2Cor2TextBox.Text = "";
             }
             else
             {
                 appForm.page10.x1Cor2TextBox.Enabled = false;
-                appForm.page10.x1Cor2TextBox.Text = "";
 
                 appForm.page10.x2Cor2TextBox.Enabled = true;
+                appForm.page10.x2Cor2TextBox.SetValue(ctx.x2);
             }
 
             return PageID.Page10;
@@ -229,6 +230,7 @@ namespace Schizophrenia.Main.Pages
             ctx.c = ctx.cStar * ctx.m;
             ctx.P = Math.PI * ctx.m;
             ctx.Pb = ctx.P * Math.Cos(ctx.standartAlpha);
+            // sqrt(-num)
             ctx.epsilonAlpha = (Math.Sqrt(Math.Pow(ctx.da1, 2.0) - Math.Pow(ctx.db1, 2.0)) + Math.Sqrt(Math.Pow(ctx.da2, 2.0) - Math.Pow(ctx.db2, 2.0)) - 2.0 * ctx.aW * Math.Sin(ctx.alphaW)) / (2.0 * ctx.Pb);
         }
 
@@ -257,6 +259,7 @@ namespace Schizophrenia.Main.Pages
             ctx.c = ctx.cStar * ctx.m;
             ctx.P = Math.PI * ctx.m;
             ctx.Pb = ctx.P * Math.Cos(ctx.standartAlpha);
+            // sqrt(-num)
             ctx.epsilonAlpha = (Math.Sqrt(Math.Pow(ctx.da1, 2.0) - Math.Pow(ctx.db1, 2.0)) + Math.Sqrt(Math.Pow(ctx.da2, 2.0) - Math.Pow(ctx.db2, 2.0)) - 2.0 * ctx.aW * Math.Sin(ctx.alphaW)) / (2.0 * ctx.Pb);
         }
 
@@ -280,12 +283,14 @@ namespace Schizophrenia.Main.Pages
             ctx.c = ctx.cStar * ctx.m;
             ctx.P = Math.PI * ctx.m;
             ctx.Pb = ctx.P * Math.Cos(ctx.standartAlpha);
+            // sqrt(-num)
             ctx.epsilonAlpha = (Math.Sqrt(Math.Pow(ctx.da1, 2.0) - Math.Pow(ctx.db1, 2.0)) + Math.Sqrt(Math.Pow(ctx.da2, 2.0) - Math.Pow(ctx.db2, 2.0)) - 2.0 * ctx.aW * Math.Sin(ctx.alphaW)) / (2.0 * ctx.Pb);
         }
 
         public PageID kp_begining()
         {
             Context ctx = appForm.context;
+            PageID next = PageID.Page12;
 
             ctx.V = Math.PI * ctx.dW1 * ctx.n1 / 60000;
             ctx.KHalpha = 1.0;
@@ -295,11 +300,7 @@ namespace Schizophrenia.Main.Pages
                 if (ctx.constMode)
                 {
                     ctx.KBeta = 1.0;
-
-                    appForm.page13.VTextBox.Text = ctx.V.ToString("0.##");
-                    appForm.page13.HBMinTextBox.Text = Math.Min(ctx.HB1, ctx.HB2).ToString("0.##");
-                    appForm.page13.CTOutputTextBox.Text = ctx.CT.ToString();
-                    return PageID.Page13;
+                    next = PageID.Page13;
                 }
                 else
                 {
@@ -311,7 +312,11 @@ namespace Schizophrenia.Main.Pages
                 appForm.page12.psibdTextBox.Text = ctx.psibd.ToString("0.##");
             }
 
-            return PageID.Page12;
+            appForm.page13.VTextBox.Text = ctx.V.ToString("0.##");
+            appForm.page13.HBMinTextBox.Text = Math.Min(ctx.HB1, ctx.HB2).ToString("0.##");
+            appForm.page13.CTOutputTextBox.Text = ctx.CT.ToString();
+
+            return next;
         }
     }
 }

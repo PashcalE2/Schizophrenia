@@ -188,6 +188,11 @@ namespace Schizophrenia
         {
             Value = value;
             Text = value.ToString();
+
+            for (int i = 0; i < TextValidated.Count; i++)
+            {
+                TextValidated[i].Invoke(Value);
+            }
         }
 
         public bool GetIsValid()
