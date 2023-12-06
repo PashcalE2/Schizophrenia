@@ -54,6 +54,7 @@
     <Compile Include="AppForm.Designer.cs">
       <DependentUpon>AppForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Main\AlgorithmTree.cs" />
     <Compile Include="Main\AppGUIs.cs" />
     <Compile Include="Main\Context.cs" />
     <Compile Include="Main\Pages\Page2.cs" />
