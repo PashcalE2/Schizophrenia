@@ -1,7 +1,5 @@
-﻿namespace Schizophrenia
-{
-    public class Context
-    {
+﻿namespace Schizophrenia {
+    public class Context {
         // Page 1
 
         public double u;
@@ -88,7 +86,7 @@
         public double sigmaHAllow;
         public double sigmaH1Allow;
         public double sigmaH2Allow;
-        
+
         public double NFE1;
         public double NFE2;
         public double KFL1;

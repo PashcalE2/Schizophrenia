@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace Schizophrenia.Main.Pages
-{
-    public class Page4 : AnyPage
-    {
+namespace Schizophrenia.Main.Pages {
+    public class Page4 : AnyPage {
         public MyTableLayoutPanel page4TableLayout;
         public MyLabel page4InputDataLabel;
 
@@ -42,8 +40,7 @@ namespace Schizophrenia.Main.Pages
         public MyLabel transmissionCommentLabel;
         public MyLabel transmissionLabel;
 
-        public Page4(AppForm appForm, PageID ID) : base(appForm, ID)
-        {
+        public Page4(AppForm appForm, PageID ID) : base(appForm, ID) {
             mainTableLayout = new MyTableLayoutPanel("page4MainTableLayout", 2, 1, DockStyle.Fill);
 
             page4InputDataLabel = new MyLabel("page4InputDataLabel", "Исходные данные");
@@ -145,8 +142,7 @@ namespace Schizophrenia.Main.Pages
             standartAWYesRadioButton.Checked = true;
         }
 
-        public override bool CanMoveOn()
-        {
+        public override bool CanMoveOn() {
             return
                 (aWKnownRadioButton.Checked || aWUnknownRadioButton.Checked) &&
                 (standartAWYesRadioButton.Checked || standartAWNoRadioButton.Checked) &&
@@ -154,12 +150,10 @@ namespace Schizophrenia.Main.Pages
                 (!psibaTextBox.Enabled || psibaTextBox.GetIsValid());
         }
 
-        public override PageID NextPage()
-        {
+        public override PageID NextPage() {
             Context ctx = appForm.context;
 
-            if (ctx.aWKnown)
-            {
+            if (ctx.aWKnown) {
                 // B1
 
                 ctx.dW1 = 2.0 * ctx.aW / (ctx.u + 1.0);
@@ -167,8 +161,7 @@ namespace Schizophrenia.Main.Pages
                 ctx.psibd = ctx.bW / ctx.dW1;
             }
 
-            else
-            {
+            else {
                 // B2
 
                 ctx.psibd = ctx.psiba * (ctx.u + 1.0) / 2.0;
@@ -182,12 +175,10 @@ namespace Schizophrenia.Main.Pages
             return PageID.Page5;
         }
 
-        private void aWKnownRadioButton_CheckedChanged(object sender, EventArgs e)
-        {
+        private void aWKnownRadioButton_CheckedChanged(object sender, EventArgs e) {
             appForm.context.aWKnown = aWKnownRadioButton.Checked;
 
-            if (aWKnownRadioButton.Checked)
-            {
+            if (aWKnownRadioButton.Checked) {
                 aWKnownTextBox.Visible = true;
                 aWKnownTextBox.Enabled = true;
 
@@ -214,12 +205,10 @@ namespace Schizophrenia.Main.Pages
             }
         }
 
-        private void aWUnknownRadioButton_CheckedChanged(object sender, EventArgs e)
-        {
+        private void aWUnknownRadioButton_CheckedChanged(object sender, EventArgs e) {
             appForm.context.aWUnknown = aWUnknownRadioButton.Checked;
 
-            if (aWUnknownRadioButton.Checked)
-            {
+            if (aWUnknownRadioButton.Checked) {
                 aWKnownTextBox.Visible = false;
                 aWKnownTextBox.Enabled = false;
 
@@ -246,13 +235,11 @@ namespace Schizophrenia.Main.Pages
             }
         }
 
-        private void standartAWYesRadioButton_CheckedChanged(object sender, EventArgs e)
-        {
+        private void standartAWYesRadioButton_CheckedChanged(object sender, EventArgs e) {
             appForm.context.standartAWYes = standartAWYesRadioButton.Checked;
         }
 
-        private void standartAWNoRadioButton_CheckedChanged(object sender, EventArgs e)
-        {
+        private void standartAWNoRadioButton_CheckedChanged(object sender, EventArgs e) {
             appForm.context.standartAWNo = standartAWNoRadioButton.Checked;
         }
     }

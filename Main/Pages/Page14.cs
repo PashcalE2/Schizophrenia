@@ -1,9 +1,7 @@
 ﻿using System.Windows.Forms;
 
-namespace Schizophrenia.Main.Pages
-{
-    public class Page14 : AnyPage
-    {
+namespace Schizophrenia.Main.Pages {
+    public class Page14 : AnyPage {
         public MyTableLayoutPanel page14LabelsBoxesGroup;
         public MyLabel page14Z1Label;
         public OutputTextBox z1OutputTextBox;
@@ -19,8 +17,7 @@ namespace Schizophrenia.Main.Pages
 
         public PictureBox YFPicture;
 
-        public Page14(AppForm appForm, PageID ID) : base(appForm, ID)
-        {
+        public Page14(AppForm appForm, PageID ID) : base(appForm, ID) {
             mainTableLayout = new MyTableLayoutPanel("page14MainTableLayout", 2, 1, DockStyle.Fill);
 
             page14LabelsBoxesGroup = new MyTableLayoutPanel("page14LabelsBoxesGroup", 4, 2);
@@ -58,45 +55,38 @@ namespace Schizophrenia.Main.Pages
             mainTableLayout.Add(YFPicture, 1, 0);
         }
 
-        public override bool CanMoveOn()
-        {
+        public override bool CanMoveOn() {
             return
                 (!YF1TextBox.Enabled || YF1TextBox.GetIsValid()) &&
                 (!YF2TextBox.Enabled || YF2TextBox.GetIsValid());
         }
 
-        public override PageID NextPage()
-        {
+        public override PageID NextPage() {
             return ip_ending();
         }
 
-        public PageID ip_ending()
-        {
+        public PageID ip_ending() {
             Context ctx = appForm.context;
 
             //IP, ending
             ctx.sigmaF1 = 2 * ctx.T1 * ctx.KF * ctx.YF1 / (ctx.dW1 * ctx.bW * ctx.m);
             ctx.sigmaF2 = ctx.sigmaF1 * ctx.YF2 / ctx.YF1;
 
-            if (ctx.sigmaF1 <= ctx.sigmaF1Allow)
-            {
-                if (ctx.sigmaF2 <= ctx.sigmaF2Allow)
-                {
+            if (ctx.sigmaF1 <= ctx.sigmaF1Allow) {
+                if (ctx.sigmaF2 <= ctx.sigmaF2Allow) {
                     // GG
                     MessageBox.Show("Расчёт завершён, воспользуйтесь кнопкой Печать");
 
                     appForm.printButton.Enabled = true;
                     return PageID.Page14;
                 }
-                else
-                {
+                else {
                     ctx.m = ctx.m * ctx.sigmaF2 / ctx.sigmaF2Allow; // [sigmaF2] means allowed sigmaF2
 
                     return PageID.Page5;
                 }
             }
-            else
-            {
+            else {
                 ctx.m = ctx.m * ctx.sigmaF1 / ctx.sigmaF1Allow;
 
                 return PageID.Page5;

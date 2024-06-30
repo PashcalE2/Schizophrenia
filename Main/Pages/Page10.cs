@@ -1,10 +1,7 @@
-﻿using System;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
-namespace Schizophrenia.Main.Pages
-{
-    public class Page10 : AnyPage
-    {
+namespace Schizophrenia.Main.Pages {
+    public class Page10 : AnyPage {
         public MyLabel xSigmaLabel;
         public OutputTextBox xSigmaTextBox;
 
@@ -18,8 +15,7 @@ namespace Schizophrenia.Main.Pages
         public InputTextBox<double> x1Cor2TextBox;
         public InputTextBox<double> x2Cor2TextBox;
 
-        public Page10(AppForm appForm, PageID ID) : base(appForm, ID)
-        {
+        public Page10(AppForm appForm, PageID ID) : base(appForm, ID) {
             mainTableLayout = new MyTableLayoutPanel("page10MainTableLayout", 4, 3, DockStyle.Fill);
             mainTableLayout.ColumnStyles[0] = new ColumnStyle(SizeType.Percent, 100);
 
@@ -48,8 +44,7 @@ namespace Schizophrenia.Main.Pages
 
             x1Cor2TextBox = new InputTextBox<double>("x1Cor2TextBox", new DoubleValidator((value) => value >= appForm.context.x1Min), (value) => appForm.context.x1 = value);
             x1Cor2TextBox.PushTextValidatedHandler((value) => {
-                if (x1Cor2TextBox.Enabled)
-                {
+                if (x1Cor2TextBox.Enabled) {
                     x2Cor2TextBox.SetValue(appForm.context.xSigma - appForm.context.x1);
                     x2Cor2TextBox.Text = appForm.context.x2.ToString("0.##");
 
@@ -61,8 +56,7 @@ namespace Schizophrenia.Main.Pages
 
             x2Cor2TextBox = new InputTextBox<double>("x2Cor2TextBox", new DoubleValidator((value) => value >= appForm.context.x2Min), (value) => appForm.context.x2 = value);
             x2Cor2TextBox.PushTextValidatedHandler((value) => {
-                if (x2Cor2TextBox.Enabled)
-                {
+                if (x2Cor2TextBox.Enabled) {
                     x1Cor2TextBox.SetValue(appForm.context.xSigma - appForm.context.x2);
                     x1Cor2TextBox.Text = appForm.context.x1.ToString("0.##");
 
@@ -73,15 +67,13 @@ namespace Schizophrenia.Main.Pages
             mainTableLayout.Add(x2Cor2TextBox, 3, 2);
         }
 
-        public override bool CanMoveOn()
-        {
+        public override bool CanMoveOn() {
             return
                 (!x1Cor2TextBox.Enabled || x1Cor2TextBox.GetIsValid()) &&
                 (!x2Cor2TextBox.Enabled || x2Cor2TextBox.GetIsValid());
         }
 
-        public override PageID NextPage()
-        {
+        public override PageID NextPage() {
             appForm.page8.g4();
 
             return appForm.page8.kp_begining();

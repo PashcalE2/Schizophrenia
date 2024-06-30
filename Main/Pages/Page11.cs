@@ -1,9 +1,7 @@
 ﻿using System.Windows.Forms;
 
-namespace Schizophrenia.Main.Pages
-{
-    public class Page11 : AnyPage
-    {
+namespace Schizophrenia.Main.Pages {
+    public class Page11 : AnyPage {
         public MyLabel aWG3Label;
         public OutputTextBox aWG3OutputTextBox;
 
@@ -11,8 +9,7 @@ namespace Schizophrenia.Main.Pages
         public MyRadioButton withRoundRadioButton;
         public InputTextBox<double> aWG3InputTextBox;
 
-        public Page11(AppForm appForm, PageID ID) : base(appForm, ID)
-        {
+        public Page11(AppForm appForm, PageID ID) : base(appForm, ID) {
             mainTableLayout = new MyTableLayoutPanel("page11MainTableLayout", 3, 2, DockStyle.Fill);
             mainTableLayout.ColumnStyles[0] = new ColumnStyle(SizeType.Percent, 100);
 
@@ -38,33 +35,27 @@ namespace Schizophrenia.Main.Pages
             withoutRoundRadioButton.Checked = true;
         }
 
-        public override bool CanMoveOn()
-        {
+        public override bool CanMoveOn() {
             return
                 (withoutRoundRadioButton.Checked || withRoundRadioButton.Checked) &&
                 (!aWG3InputTextBox.Enabled || aWG3InputTextBox.GetIsValid());
         }
 
-        public override PageID NextPage()
-        {
-            if (appForm.context.withoutRound)
-            {
+        public override PageID NextPage() {
+            if (appForm.context.withoutRound) {
                 appForm.page8.g4();
 
                 return appForm.page8.kp_begining();
             }
-            else
-            {
+            else {
                 return appForm.page8.x3();
             }
         }
 
-        private void withoutRoundRadioButton_CheckedChanged(object sender, System.EventArgs e)
-        {
+        private void withoutRoundRadioButton_CheckedChanged(object sender, System.EventArgs e) {
             appForm.context.withoutRound = withoutRoundRadioButton.Checked;
 
-            if (withoutRoundRadioButton.Checked)
-            {
+            if (withoutRoundRadioButton.Checked) {
                 appForm.context.aW = appForm.contextHistory.Peek().aW;
 
                 aWG3InputTextBox.Enabled = false;
@@ -72,12 +63,10 @@ namespace Schizophrenia.Main.Pages
             }
         }
 
-        private void roundRadioButton_CheckedChanged(object sender, System.EventArgs e)
-        {
+        private void roundRadioButton_CheckedChanged(object sender, System.EventArgs e) {
             appForm.context.withRound = withRoundRadioButton.Checked;
 
-            if (withRoundRadioButton.Checked)
-            {
+            if (withRoundRadioButton.Checked) {
                 aWG3InputTextBox.Enabled = true;
             }
         }

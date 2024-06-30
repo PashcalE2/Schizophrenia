@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Net.NetworkInformation;
 using System.Windows.Forms;
 
-namespace Schizophrenia.Main.Pages
-{
-    public class Page1 : AnyPage
-    {
+namespace Schizophrenia.Main.Pages {
+    public class Page1 : AnyPage {
         public MyTableLayoutPanel page1TableLayout;
         public MyLabel page1InputDataLabel;
         public MyLabel gearTypeLabel;
@@ -54,8 +51,7 @@ namespace Schizophrenia.Main.Pages
         public MyLabel cStarLabel;
         public InputTextBox<double> cStarTextBox;
 
-        public Page1(AppForm appForm, PageID ID) : base(appForm, ID)
-        {
+        public Page1(AppForm appForm, PageID ID) : base(appForm, ID) {
             mainTableLayout = new MyTableLayoutPanel("page1MainTableLayout", 2, 1, DockStyle.Fill);
 
             page1InputDataLabel = new MyLabel("page1InputDataLabel", "Исходные данные");
@@ -99,7 +95,7 @@ namespace Schizophrenia.Main.Pages
 
             internalTypeButton = new MyRadioButton("internalTypeButton", "Внутреннее зацепление");
             internalTypeButton.CheckedChanged += new EventHandler((sender, e) => {
-                appForm.context.checkedSubType = internalTypeButton.Text; 
+                appForm.context.checkedSubType = internalTypeButton.Text;
                 appForm.context.internalType = internalTypeButton.Checked;
             });
             page1RadioGroup2.Add(internalTypeButton, 0, 0);
@@ -225,8 +221,7 @@ namespace Schizophrenia.Main.Pages
             standartContourYesButton.Checked = true;
         }
 
-        public override bool CanMoveOn()
-        {
+        public override bool CanMoveOn() {
             return
                 (cylindricalTypeButton.Checked || conicalTypeButton.Checked || planetaryTypeButton.Checked) &&
                 (internalTypeButton.Checked || externalTypeButton.Checked || singleEntryTypeButton.Checked || doubleEntryTypeButton.Checked) &&
@@ -241,21 +236,18 @@ namespace Schizophrenia.Main.Pages
                 (!cStarTextBox.Enabled || cStarTextBox.GetIsValid());
         }
 
-        public override PageID NextPage()
-        {
+        public override PageID NextPage() {
             Context ctx = appForm.context;
             ctx.n2 = ctx.n1 / ctx.u;
 
             return PageID.Page2;
         }
 
-        public void cylindricalTypeButton_CheckedChanged(object sender, EventArgs e)
-        {
+        public void cylindricalTypeButton_CheckedChanged(object sender, EventArgs e) {
             appForm.context.cylindricalType = cylindricalTypeButton.Checked;
             appForm.context.checkedType = cylindricalTypeButton.Text;
 
-            if (cylindricalTypeButton.Checked)
-            {
+            if (cylindricalTypeButton.Checked) {
                 internalTypeButton.Enabled = true;
                 externalTypeButton.Enabled = true;
                 singleEntryTypeButton.Enabled = false;
@@ -270,13 +262,11 @@ namespace Schizophrenia.Main.Pages
             }
         }
 
-        private void conicalTypeButton_CheckedChanged(object sender, EventArgs e)
-        {
+        private void conicalTypeButton_CheckedChanged(object sender, EventArgs e) {
             appForm.context.conicalType = conicalTypeButton.Checked;
             appForm.context.checkedType = conicalTypeButton.Text;
 
-            if (conicalTypeButton.Checked)
-            {
+            if (conicalTypeButton.Checked) {
                 internalTypeButton.Enabled = true;
                 externalTypeButton.Enabled = true;
                 singleEntryTypeButton.Enabled = false;
@@ -291,13 +281,11 @@ namespace Schizophrenia.Main.Pages
             }
         }
 
-        private void planetaryTypeButton_CheckedChanged(object sender, EventArgs e)
-        {
+        private void planetaryTypeButton_CheckedChanged(object sender, EventArgs e) {
             appForm.context.planetaryType = planetaryTypeButton.Checked;
             appForm.context.checkedType = planetaryTypeButton.Text;
 
-            if (planetaryTypeButton.Checked)
-            {
+            if (planetaryTypeButton.Checked) {
                 internalTypeButton.Enabled = false;
                 externalTypeButton.Enabled = false;
                 singleEntryTypeButton.Enabled = true;
@@ -312,12 +300,10 @@ namespace Schizophrenia.Main.Pages
             }
         }
 
-        private void standartContourYesButton_CheckedChanged(object sender, EventArgs e)
-        {
+        private void standartContourYesButton_CheckedChanged(object sender, EventArgs e) {
             appForm.context.standartContourYes = standartContourYesButton.Checked;
 
-            if (standartContourYesButton.Checked)
-            {
+            if (standartContourYesButton.Checked) {
                 standartAlphaTextBox.SetValue(20);
                 standartAlphaTextBox.Enabled = false;
 
@@ -329,12 +315,10 @@ namespace Schizophrenia.Main.Pages
             }
         }
 
-        private void standartContourNoButton_CheckedChanged(object sender, EventArgs e)
-        {
+        private void standartContourNoButton_CheckedChanged(object sender, EventArgs e) {
             appForm.context.standartContourNo = standartContourNoButton.Checked;
 
-            if (standartContourNoButton.Checked)
-            {
+            if (standartContourNoButton.Checked) {
                 standartAlphaTextBox.Enabled = true;
                 haStarTextBox.Enabled = true;
                 cStarTextBox.Enabled = true;

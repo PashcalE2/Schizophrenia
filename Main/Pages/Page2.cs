@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace Schizophrenia.Main.Pages
-{
-    public class Page2 : AnyPage
-    {
+namespace Schizophrenia.Main.Pages {
+    public class Page2 : AnyPage {
         public MyTableLayoutPanel page2TableLayout;
         public MyLabel page2InputDataLabel;
 
@@ -59,8 +57,7 @@ namespace Schizophrenia.Main.Pages
         public InputTextBox<double> HRCs1TextBox;
         public InputTextBox<double> HRCs2TextBox;
 
-        public Page2(AppForm appForm, PageID ID) : base(appForm, ID)
-        {
+        public Page2(AppForm appForm, PageID ID) : base(appForm, ID) {
             mainTableLayout = new MyTableLayoutPanel("page2MainTableLayout", 2, 1, DockStyle.Fill);
 
             page2InputDataLabel = new MyLabel("page2InputDataLabel", "Исходные данные");
@@ -161,8 +158,7 @@ namespace Schizophrenia.Main.Pages
 
         }
 
-        public override bool CanMoveOn()
-        {
+        public override bool CanMoveOn() {
             return
                 (identityRadioButton.Checked || notIdentityRadioButton.Checked) &&
                 (gearMaterialComboBox.Text.Length > 0) &&
@@ -179,58 +175,47 @@ namespace Schizophrenia.Main.Pages
                 (!HRCs2TextBox.Enabled || HRCs2TextBox.GetIsValid());
         }
 
-        public override PageID NextPage()
-        {
+        public override PageID NextPage() {
             Context ctx = appForm.context;
-            
-            if (TO1ComboBox.Text == "Азотирование")
-            {
+
+            if (TO1ComboBox.Text == "Азотирование") {
                 appForm.page3.sigmaH1LimbTextBox.Text = "1050";
                 appForm.page3.sigmaF1LimbTextBox.Text = String.Format("{0}", 12.0 * ctx.HRCs1 + 300.0);
             }
-            else if (TO1ComboBox.Text == "Цементация")
-            {
+            else if (TO1ComboBox.Text == "Цементация") {
                 appForm.page3.sigmaH1LimbTextBox.Text = String.Format("{0}", 23.0 * ctx.HRC1);
                 appForm.page3.sigmaF1LimbTextBox.Text = "800";
             }
-            else if (TO1ComboBox.Text == "Пов. закалка")
-            {
+            else if (TO1ComboBox.Text == "Пов. закалка") {
                 appForm.page3.sigmaH1LimbTextBox.Text = String.Format("{0}", 17.0 * ctx.HRC1 + 200.0);
                 appForm.page3.sigmaF1LimbTextBox.Text = "650";
             }
-            else if (TO1ComboBox.Text == "Об. закалка")
-            {
+            else if (TO1ComboBox.Text == "Об. закалка") {
                 appForm.page3.sigmaH1LimbTextBox.Text = String.Format("{0}", 18.0 * ctx.HRC1 + 150.0);
                 appForm.page3.sigmaF1LimbTextBox.Text = "550";
             }
-            else if (TO1ComboBox.Text == "Нормализация" || TO1ComboBox.Text == "Улучшение")
-            {
+            else if (TO1ComboBox.Text == "Нормализация" || TO1ComboBox.Text == "Улучшение") {
                 appForm.page3.sigmaH1LimbTextBox.Text = String.Format("{0}", 2.0 * ctx.HB1 + 70.0);
                 appForm.page3.sigmaF1LimbTextBox.Text = String.Format("{0}", 1.8 * ctx.HB1);
             }
 
-            if (TO2ComboBox.Text == "Азотирование")
-            {
+            if (TO2ComboBox.Text == "Азотирование") {
                 appForm.page3.sigmaH2LimbTextBox.Text = "1050";
                 appForm.page3.sigmaF2LimbTextBox.Text = String.Format("{0}", 12.0 * ctx.HRCs1 + 300.0);
             }
-            else if (TO2ComboBox.Text == "Цементация")
-            {
+            else if (TO2ComboBox.Text == "Цементация") {
                 appForm.page3.sigmaH2LimbTextBox.Text = String.Format("{0}", 23.0 * ctx.HRC2);
                 appForm.page3.sigmaF2LimbTextBox.Text = "800";
             }
-            else if (TO2ComboBox.Text == "Пов. закалка")
-            {
+            else if (TO2ComboBox.Text == "Пов. закалка") {
                 appForm.page3.sigmaH2LimbTextBox.Text = String.Format("{0}", 17.0 * ctx.HRC2 + 200.0);
                 appForm.page3.sigmaF2LimbTextBox.Text = "650";
             }
-            else if (TO2ComboBox.Text == "Об. закалка")
-            {
+            else if (TO2ComboBox.Text == "Об. закалка") {
                 appForm.page3.sigmaH2LimbTextBox.Text = String.Format("{0}", 18.0 * ctx.HRC2 + 150.0);
                 appForm.page3.sigmaF2LimbTextBox.Text = "550";
             }
-            else if (TO2ComboBox.Text == "Нормализация" || TO2ComboBox.Text == "Улучшение")
-            {
+            else if (TO2ComboBox.Text == "Нормализация" || TO2ComboBox.Text == "Улучшение") {
                 appForm.page3.sigmaH2LimbTextBox.Text = String.Format("{0}", 2.0 * ctx.HB2 + 70.0);
                 appForm.page3.sigmaF2LimbTextBox.Text = String.Format("{0}", 1.8 * ctx.HB2);
             }
@@ -247,34 +232,28 @@ namespace Schizophrenia.Main.Pages
             return PageID.Page3;
         }
 
-        private void gearMaterialComboBox_SelectedValueChanged(object sender, EventArgs e)
-        {
+        private void gearMaterialComboBox_SelectedValueChanged(object sender, EventArgs e) {
             TO1ComboBox.Items.Clear();
             TO1ComboBox.Items.AddRange(TOOptions[gearMaterialComboBox.Text]);
         }
 
-        private void wheelMaterialComboBox_SelectedValueChanged(object sender, EventArgs e)
-        {
+        private void wheelMaterialComboBox_SelectedValueChanged(object sender, EventArgs e) {
             TO2ComboBox.Items.Clear();
             TO2ComboBox.Items.AddRange(TOOptions[wheelMaterialComboBox.Text]);
         }
 
-        public void gearCopyToWheel(object sender, EventArgs e)
-        {
+        public void gearCopyToWheel(object sender, EventArgs e) {
             wheelMaterialComboBox.SelectedItem = gearMaterialComboBox.SelectedItem;
         }
 
-        public void TO1CopyToTO2(object sender, EventArgs e)
-        {
+        public void TO1CopyToTO2(object sender, EventArgs e) {
             TO2ComboBox.SelectedItem = TO1ComboBox.SelectedItem;
         }
 
-        private void identityRadioButton_CheckedChanged(object sender, EventArgs e)
-        {
+        private void identityRadioButton_CheckedChanged(object sender, EventArgs e) {
             appForm.context.identity = identityRadioButton.Checked;
 
-            if (identityRadioButton.Checked)
-            {
+            if (identityRadioButton.Checked) {
                 gearMaterialComboBox.SelectedValueChanged += new EventHandler(gearCopyToWheel);
                 wheelMaterialComboBox.Enabled = false;
                 wheelMaterialComboBox.SelectedItem = gearMaterialComboBox.SelectedItem;
@@ -317,12 +296,10 @@ namespace Schizophrenia.Main.Pages
             }
         }
 
-        private void notIdentityRadioButton_CheckedChanged(object sender, EventArgs e)
-        {
+        private void notIdentityRadioButton_CheckedChanged(object sender, EventArgs e) {
             appForm.context.notIdentity = notIdentityRadioButton.Checked;
 
-            if (notIdentityRadioButton.Checked)
-            {
+            if (notIdentityRadioButton.Checked) {
                 gearMaterialComboBox.SelectedValueChanged -= new EventHandler(gearCopyToWheel);
                 wheelMaterialComboBox.Enabled = true;
 

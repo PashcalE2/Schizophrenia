@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace Schizophrenia.Main.Pages
-{
-    public class Page6 : AnyPage
-    {
+namespace Schizophrenia.Main.Pages {
+    public class Page6 : AnyPage {
         public MyLabel z1iLabel;
         public OutputTextBox z1iTextBox;
 
@@ -20,8 +18,7 @@ namespace Schizophrenia.Main.Pages
         public MyLabel badDeltaU1label;
         public MyLabel badDeltaU2label;
 
-        public Page6(AppForm appForm, PageID ID) : base(appForm, ID)
-        {
+        public Page6(AppForm appForm, PageID ID) : base(appForm, ID) {
             mainTableLayout = new MyTableLayoutPanel("page6MainTableLayout", 6, 2, DockStyle.Fill);
             mainTableLayout.ColumnStyles[0] = new ColumnStyle(SizeType.Percent, 100);
 
@@ -68,25 +65,21 @@ namespace Schizophrenia.Main.Pages
             mainTableLayout.Add(badDeltaU2label, 5, 0);
         }
 
-        public override bool CanMoveOn()
-        {
+        public override bool CanMoveOn() {
             return
                 (!z1TextBox.Enabled || z1TextBox.GetIsValid()) &&
                 (!z2TextBox.Enabled || z2TextBox.GetIsValid());
         }
 
-        public override PageID NextPage()
-        {
+        public override PageID NextPage() {
             Context ctx = appForm.context;
 
-            if (ctx.aWKnown)
-            {
+            if (ctx.aWKnown) {
                 // List 10_1
                 ctx.a = ctx.m / 2.0 * (ctx.z1 + ctx.z2);
                 z();
             }
-            else if (ctx.standartAWYes)
-            {
+            else if (ctx.standartAWYes) {
                 // List 10_2
                 ctx.a = ctx.m / 2.0 * (ctx.z1 + ctx.z2);
                 ctx.aMin = 1.0001 * ctx.a * Math.Cos(ctx.standartAlpha);
@@ -95,8 +88,7 @@ namespace Schizophrenia.Main.Pages
 
                 return PageID.Page7;
             }
-            else
-            {
+            else {
                 // List 10_3
                 z();
             }
@@ -104,25 +96,20 @@ namespace Schizophrenia.Main.Pages
             return PageID.Page8;
         }
 
-        public void z()
-        {
+        public void z() {
             Context ctx = appForm.context;
 
-            if (ctx.z1 == 17.0)
-            {
+            if (ctx.z1 == 17.0) {
                 ctx.x1Min = 0.0;
             }
-            else
-            {
+            else {
                 ctx.x1Min = 1.0 - ctx.z1 * Math.Pow(Math.Sin(ctx.standartAlpha), 2.0) / 2.0;
             }
 
-            if (ctx.z2 == 17.0)
-            {
+            if (ctx.z2 == 17.0) {
                 ctx.x2Min = 0.0;
             }
-            else
-            {
+            else {
                 ctx.x2Min = 1.0 - ctx.z2 * Math.Pow(Math.Sin(ctx.standartAlpha), 2.0) / 2.0;
             }
 
@@ -130,20 +117,17 @@ namespace Schizophrenia.Main.Pages
             appForm.page8.x2iTextBox.Text = ctx.x2Min.ToString("0.##");
         }
 
-        private void badUCheck(object sender, EventArgs e)
-        {
+        private void badUCheck(object sender, EventArgs e) {
             appForm.context.Ui = appForm.context.z2 / appForm.context.z1;
             appForm.context.deltaU = Math.Abs(appForm.context.u - appForm.context.Ui) / appForm.context.u * 100.0;
 
-            if (appForm.context.deltaU > 3)
-            {
+            if (appForm.context.deltaU > 3) {
                 badDeltaU1label.Visible = true;
                 badDeltaU2label.Visible = true;
 
                 appForm.nextButton.Enabled = false;
             }
-            else
-            {
+            else {
                 badDeltaU1label.Visible = false;
                 badDeltaU2label.Visible = false;
 

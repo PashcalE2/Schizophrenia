@@ -5,22 +5,18 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Windows.Forms;
 
-namespace Schizophrenia
-{
-    public partial class AppForm : Form
-    {
+namespace Schizophrenia {
+    public partial class AppForm : Form {
         private Stack<PageID> pagesHistory = new Stack<PageID>(15);
 
-        public AppForm()
-        {
+        public AppForm() {
             InitializeComponent();
             InitializeChildren();
 
             page2.identityRadioButton.Checked = true;
         }
 
-        public void backButton_Click(object sender, EventArgs e)
-        {
+        public void backButton_Click(object sender, EventArgs e) {
             nextButton.Enabled = true;
             context = contextHistory.Pop();
 
@@ -35,16 +31,13 @@ namespace Schizophrenia
 
             mainTableLayout.ResumeLayout();
 
-            if (currentPage.ID == PageID.Page1)
-            {
+            if (currentPage.ID == PageID.Page1) {
                 backButton.Enabled = false;
             }
         }
 
-        public void nextButton_Click(object sender, EventArgs e)
-        {
-            if (!currentPage.CanMoveOn())
-            {
+        public void nextButton_Click(object sender, EventArgs e) {
+            if (!currentPage.CanMoveOn()) {
                 MessageBox.Show("Введите все значения в поля");
                 return;
             }
@@ -66,20 +59,16 @@ namespace Schizophrenia
             mainTableLayout.ResumeLayout();
         }
 
-        public void printButton_Click(object sender, EventArgs e)
-        {
-            try
-            {
+        public void printButton_Click(object sender, EventArgs e) {
+            try {
                 String outputText = "";
 
                 outputText += "ИСХОДНЫЕ ДАННЫЕ\n";
 
-                if (page1.conicalTypeButton.Checked)
-                {
+                if (page1.conicalTypeButton.Checked) {
                     outputText += String.Format("Тип передачи: {0}\n", context.checkedType);
                 }
-                else
-                {
+                else {
                     outputText += String.Format("Тип передачи: {0}, {1}\n", context.checkedType, context.checkedSubType);
                 }
 
@@ -89,16 +78,14 @@ namespace Schizophrenia
                 outputText += String.Format("{0} {1}\n", page1.T1Label.Text, page1.T1TextBox.Text);
 
                 outputText += String.Format("{0} {1}\n", page1.thLabel.Text, page1.thTextBox.Text);
-                if (page1.conicalTypeButton.Checked)
-                {
+                if (page1.conicalTypeButton.Checked) {
                     outputText += String.Format("{0} {1}\n", page1.alphaLabel.Text, page1.alphaTextBox.Text);
                 }
 
                 outputText += String.Format("{0} {1}\n", page1.CTLabel.Text, page1.CTInputTextBox.Text);
                 outputText += String.Format("Исходный контур:\n    alpha = {0}, град\n    h* = {1}\n    c* = {2}\n ", page1.standartAlphaTextBox.Text, page1.haStarTextBox.Text, page1.cStarTextBox.Text);
 
-                if (page2.identityRadioButton.Checked)
-                {
+                if (page2.identityRadioButton.Checked) {
                     outputText += String.Format("\n{0} колеса и шестерни: {1}\n", page2.materialLabel.Text, page2.gearMaterialComboBox.Text);
                     outputText += String.Format("{0} {1}\n", page2.TOLabel.Text, page2.TO1ComboBox.Text);
                     outputText += String.Format("Твёрдость рабочей части\n    {0} {1}\n", page2.HBLabel.Text, page2.HB1TextBox.Text);
@@ -111,8 +98,7 @@ namespace Schizophrenia
                     outputText += String.Format("{0} {1}\n", page3.cLabel.Text, page3.c1TextBox.Text);
                     outputText += String.Format("{0} {1}\n", page3.KFCLabel.Text, page3.KFC1TextBox.Text);
                 }
-                else if (page2.notIdentityRadioButton.Checked)
-                {
+                else if (page2.notIdentityRadioButton.Checked) {
                     outputText += String.Format("\n{0} шестерни {1}\n", page2.materialLabel.Text, page2.gearMaterialComboBox.Text);
                     outputText += String.Format("{0} {1}\n", page2.TOLabel.Text, page2.TO1ComboBox.Text);
                     outputText += String.Format("Твёрдость рабочей части шестерни\n    {0} {1}\n", page2.HBLabel.Text, page2.HB1TextBox.Text);
@@ -139,13 +125,11 @@ namespace Schizophrenia
                 outputText += String.Format("{0} {1}\n", page3.SHLabel.Text, page3.SHTextBox.Text);
                 outputText += String.Format("{0} {1}\n", page3.SFLabel.Text, page3.SFTextBox.Text);
 
-                if (page3.constModeRadioButton.Checked)
-                {
+                if (page3.constModeRadioButton.Checked) {
                     outputText += String.Format("{0} {1}\n", page3.workModeLabel.Text, page3.constModeRadioButton.Text);
                     outputText += String.Format("Допускаемое контактное напряжение: {0}\n", context.sigmaHAllow.ToString("0.##"));
                 }
-                else
-                {
+                else {
                     outputText += String.Format("\n{0} {1}\n", page3.workModeLabel.Text, page3.diffModeRadioButton.Text);
                     outputText += String.Format("Коэффициент долговечности шестерни по контактным напряжениям (KHL1): {0}\n", context.KHL1.ToString("0.##"));
                     outputText += String.Format("Коэффициент долговечности колеса по контактным напряжениям (KHL2): {0}\n", context.KHL2.ToString("0.##"));
@@ -157,12 +141,10 @@ namespace Schizophrenia
                     outputText += String.Format("Допускаемое изгибное напряжение колеса: {0}\n", context.sigmaF2Allow.ToString("0.##"));
                 }
 
-                if (page4.aWKnownRadioButton.Checked)
-                {
+                if (page4.aWKnownRadioButton.Checked) {
                     outputText += String.Format("{0}: {1}\n", page4.aWLabel.Text, page4.aWKnownTextBox.Text);
                 }
-                else
-                {
+                else {
                     outputText += String.Format("{0} {1}\n", page4.aWLabel.Text, page4.aWUnknownRadioButton.Text);
                     outputText += String.Format("\n{0} {1}\n", page4.psibaLabel.Text, page4.psibaTextBox.Text);
                 }

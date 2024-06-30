@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace Schizophrenia.Main.Pages
-{
-    public class Page9 : AnyPage
-    {
+namespace Schizophrenia.Main.Pages {
+    public class Page9 : AnyPage {
         public MyLabel xCor1Label;
         public MyLabel gearLabel;
         public MyLabel wheelLabel;
@@ -17,8 +15,7 @@ namespace Schizophrenia.Main.Pages
         public InputTextBox<double> x1Cor1TextBox;
         public InputTextBox<double> x2Cor1TextBox;
 
-        public Page9(AppForm appForm, PageID ID) : base(appForm, ID)
-        {
+        public Page9(AppForm appForm, PageID ID) : base(appForm, ID) {
             mainTableLayout = new MyTableLayoutPanel("page9MainTableLayout", 3, 3, DockStyle.Fill);
             mainTableLayout.ColumnStyles[0] = new ColumnStyle(SizeType.Percent, 100);
 
@@ -58,32 +55,26 @@ namespace Schizophrenia.Main.Pages
             mainTableLayout.Add(x2Cor1TextBox, 2, 2);
         }
 
-        public override bool CanMoveOn()
-        {
+        public override bool CanMoveOn() {
             return
                 (!x1Cor1TextBox.Enabled || x1Cor1TextBox.GetIsValid()) &&
                 (!x2Cor1TextBox.Enabled || x2Cor1TextBox.GetIsValid());
         }
 
-        public override PageID NextPage()
-        {
+        public override PageID NextPage() {
 
-            if (appForm.context.withoutOffset)
-            {
+            if (appForm.context.withoutOffset) {
                 appForm.context.xSigma = 0;
             }
 
-            if ((appForm.context.aWKnown || appForm.context.standartAWYes) && SomeUtils.DoubleEqauals(appForm.context.aW, appForm.context.a, 1e-12))
-            {
-                if (withoutOffsetRadioButton.Checked)
-                {
+            if ((appForm.context.aWKnown || appForm.context.standartAWYes) && SomeUtils.DoubleEqauals(appForm.context.aW, appForm.context.a, 1e-12)) {
+                if (withoutOffsetRadioButton.Checked) {
                     appForm.page8.g1();
 
                     // KP, begining
                     return appForm.page8.kp_begining();
                 }
-                else
-                {
+                else {
                     appForm.page8.g2();
 
                     // KP, begining
@@ -94,12 +85,10 @@ namespace Schizophrenia.Main.Pages
             return PageID.Page10;
         }
 
-        private void withoutOffsetRadioButton_CheckedChange(object sender, EventArgs e)
-        {
+        private void withoutOffsetRadioButton_CheckedChange(object sender, EventArgs e) {
             appForm.context.withoutOffset = withoutOffsetRadioButton.Checked;
 
-            if (appForm.context.withoutOffset)
-            {
+            if (appForm.context.withoutOffset) {
                 x1Cor1TextBox.Enabled = false;
                 appForm.context.x1 = 0;
                 x1Cor1TextBox.SetValue(appForm.context.x1);
@@ -110,31 +99,25 @@ namespace Schizophrenia.Main.Pages
             }
         }
 
-        private void withOffsetRadioButton_CheckedChange(object sender, EventArgs e)
-        {
+        private void withOffsetRadioButton_CheckedChange(object sender, EventArgs e) {
             appForm.context.withOffset = withOffsetRadioButton.Checked;
 
-            if (appForm.context.withOffset)
-            {
+            if (appForm.context.withOffset) {
                 x1Cor1TextBox.Enabled = appForm.context.x1Min >= appForm.context.x2Min;
 
                 x2Cor1TextBox.Enabled = !x1Cor1TextBox.Enabled;
             }
         }
 
-        private void x1Cor1TextBox_TextChanged(object sender, EventArgs e)
-        {
-            if (appForm.context.withOffset)
-            {
+        private void x1Cor1TextBox_TextChanged(object sender, EventArgs e) {
+            if (appForm.context.withOffset) {
                 appForm.context.x2 = -appForm.context.x1;
                 x2Cor1TextBox.SetValue(appForm.context.x2);
             }
         }
 
-        private void x2Cor1TextBox_TextChanged(object sender, EventArgs e)
-        {
-            if (appForm.context.withOffset)
-            {
+        private void x2Cor1TextBox_TextChanged(object sender, EventArgs e) {
+            if (appForm.context.withOffset) {
                 appForm.context.x1 = -appForm.context.x2;
                 x1Cor1TextBox.SetValue(appForm.context.x1);
             }

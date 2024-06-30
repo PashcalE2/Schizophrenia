@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace Schizophrenia.Main.Pages
-{
-    public class Page3 : AnyPage
-    {
+namespace Schizophrenia.Main.Pages {
+    public class Page3 : AnyPage {
         public MyTableLayoutPanel page3TableLayout;
         public MyLabel page3InputDataLabel;
 
@@ -43,8 +41,7 @@ namespace Schizophrenia.Main.Pages
         public MyLabel KFELabel;
         public InputTextBox<double> KFETextBox;
 
-        public Page3(AppForm appForm, PageID ID) : base(appForm, ID)
-        {
+        public Page3(AppForm appForm, PageID ID) : base(appForm, ID) {
             mainTableLayout = new MyTableLayoutPanel("page3MainTableLayout", 2, 1, DockStyle.Fill);
 
             page3InputDataLabel = new MyLabel("page3InputDataLabel", "Исходные данные");
@@ -162,8 +159,7 @@ namespace Schizophrenia.Main.Pages
             KFETextBox.SetValue(1);
         }
 
-        public override bool CanMoveOn()
-        {
+        public override bool CanMoveOn() {
             return
                 (!sigmaH1LimbTextBox.Enabled || sigmaH1LimbTextBox.GetIsValid()) &&
                 (!sigmaH2LimbTextBox.Enabled || sigmaH2LimbTextBox.GetIsValid()) &&
@@ -180,8 +176,7 @@ namespace Schizophrenia.Main.Pages
                 (!KFETextBox.Enabled || KFETextBox.GetIsValid());
         }
 
-        public override PageID NextPage()
-        {
+        public override PageID NextPage() {
             Context ctx = appForm.context;
 
             ctx.NHE1 = 60.0 * ctx.c1 * ctx.n1 * ctx.th * ctx.KHE;
@@ -209,47 +204,33 @@ namespace Schizophrenia.Main.Pages
             ctx.NFE2 = 60.0 * ctx.c2 * ctx.n2 * ctx.th * ctx.KFE;
 
             if (ctx.NFE1 >= 4000000.0) { ctx.KFL1 = 1.0; }
-            else
-            {
-                if (ctx.HB1 <= 350.0)
-                { ctx.KFL1 = Math.Pow(4000000.0 / ctx.NFE1, (1.0 / 6.0)); }
-                else
-                { ctx.KFL1 = Math.Pow(4000000.0 / ctx.NFE1, (1.0 / 9.0)); }
+            else {
+                if (ctx.HB1 <= 350.0) { ctx.KFL1 = Math.Pow(4000000.0 / ctx.NFE1, (1.0 / 6.0)); }
+                else { ctx.KFL1 = Math.Pow(4000000.0 / ctx.NFE1, (1.0 / 9.0)); }
             }
-            if (ctx.HB1 <= 350.0)
-            {
-                if (ctx.KFL1 > 4.0)
-                {
+            if (ctx.HB1 <= 350.0) {
+                if (ctx.KFL1 > 4.0) {
                     ctx.KFL1 = 4.0;
                 }
             }
-            else
-            {
-                if (ctx.KFL1 > 2.5)
-                {
+            else {
+                if (ctx.KFL1 > 2.5) {
                     ctx.KFL1 = 2.5;
                 }
             }
 
             if (ctx.NFE2 >= 4000000.0) { ctx.KFL2 = 1.0; }
-            else
-            {
-                if (ctx.HB2 <= 350.0)
-                { ctx.KFL2 = Math.Pow(4000000.0 / ctx.NFE2, (1.0 / 6.0)); }
-                else
-                { ctx.KFL2 = Math.Pow(4000000.0 / ctx.NFE2, (1.0 / 9.0)); }
+            else {
+                if (ctx.HB2 <= 350.0) { ctx.KFL2 = Math.Pow(4000000.0 / ctx.NFE2, (1.0 / 6.0)); }
+                else { ctx.KFL2 = Math.Pow(4000000.0 / ctx.NFE2, (1.0 / 9.0)); }
             }
-            if (ctx.HB2 <= 350.0)
-            {
-                if (ctx.KFL2 > 4.0)
-                {
+            if (ctx.HB2 <= 350.0) {
+                if (ctx.KFL2 > 4.0) {
                     ctx.KFL2 = 4.0;
                 }
             }
-            else
-            {
-                if (ctx.KFL2 > 2.5)
-                {
+            else {
+                if (ctx.KFL2 > 2.5) {
                     ctx.KFL2 = 2.5;
                 }
             }
@@ -260,12 +241,10 @@ namespace Schizophrenia.Main.Pages
             return PageID.Page4;
         }
 
-        private void constModeRadioButton_CheckedChanged(object sender, EventArgs e)
-        {
+        private void constModeRadioButton_CheckedChanged(object sender, EventArgs e) {
             appForm.context.constMode = constModeRadioButton.Checked;
 
-            if (constModeRadioButton.Checked)
-            {
+            if (constModeRadioButton.Checked) {
                 KHELabel.Visible = false;
                 KFELabel.Visible = false;
                 KHETextBox.Visible = false;
@@ -278,12 +257,10 @@ namespace Schizophrenia.Main.Pages
             }
         }
 
-        private void diffModeRadioBtn_CheckedChanged(object sender, EventArgs e)
-        {
+        private void diffModeRadioBtn_CheckedChanged(object sender, EventArgs e) {
             appForm.context.diffMode = diffModeRadioButton.Checked;
 
-            if (diffModeRadioButton.Checked)
-            {
+            if (diffModeRadioButton.Checked) {
                 KHELabel.Visible = true;
                 KFELabel.Visible = true;
                 KHETextBox.Visible = true;

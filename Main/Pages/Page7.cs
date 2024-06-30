@@ -1,9 +1,7 @@
 ﻿using System.Windows.Forms;
 
-namespace Schizophrenia.Main.Pages
-{
-    public class Page7 : AnyPage
-    {
+namespace Schizophrenia.Main.Pages {
+    public class Page7 : AnyPage {
         public MyTableLayoutPanel page7AWGroup;
 
         public MyLabel aWiLabel;
@@ -13,8 +11,7 @@ namespace Schizophrenia.Main.Pages
 
         public PictureBox standartAWPicture;
 
-        public Page7(AppForm appForm, PageID ID) : base(appForm, ID)
-        {
+        public Page7(AppForm appForm, PageID ID) : base(appForm, ID) {
             mainTableLayout = new MyTableLayoutPanel("page7MainTableLayout", 2, 1, DockStyle.Fill);
 
             page7AWGroup = new MyTableLayoutPanel("page7AWGroup", 2, 3, DockStyle.Fill);
@@ -39,13 +36,11 @@ namespace Schizophrenia.Main.Pages
             mainTableLayout.Add(standartAWPicture, 1, 0);
         }
 
-        public override bool CanMoveOn()
-        {
+        public override bool CanMoveOn() {
             return !aWTextBox.Enabled || aWTextBox.GetIsValid();
         }
 
-        public override PageID NextPage()
-        {
+        public override PageID NextPage() {
             appForm.page6.z();
 
             return PageID.Page8;

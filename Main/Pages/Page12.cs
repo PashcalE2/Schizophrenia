@@ -1,9 +1,7 @@
 ﻿using System.Windows.Forms;
 
-namespace Schizophrenia.Main.Pages
-{
-    public class Page12 : AnyPage
-    {
+namespace Schizophrenia.Main.Pages {
+    public class Page12 : AnyPage {
         public MyLabel psibdLabel;
         public OutputTextBox psibdTextBox;
 
@@ -16,8 +14,7 @@ namespace Schizophrenia.Main.Pages
         public PictureBox page12AsymmPicture;
         public PictureBox page12ConsolePicture;
 
-        public Page12(AppForm appForm, PageID ID) : base(appForm, ID)
-        {
+        public Page12(AppForm appForm, PageID ID) : base(appForm, ID) {
             mainTableLayout = new MyTableLayoutPanel("page12MainTableLayout", 3, 2, DockStyle.Fill);
             mainTableLayout.ColumnStyles[0] = new ColumnStyle(SizeType.Percent, 100);
 
@@ -61,19 +58,15 @@ namespace Schizophrenia.Main.Pages
             page12PicturesGroup.Add(page12ConsolePicture, 2, 0);
         }
 
-        public override bool CanMoveOn()
-        {
+        public override bool CanMoveOn() {
             return !KBetaTextBox.Enabled || KBetaTextBox.GetIsValid();
         }
 
-        public override PageID NextPage()
-        {
+        public override PageID NextPage() {
             Context ctx = appForm.context;
 
-            if (ctx.HB1 <= 350)
-            {
-                if (ctx.diffMode)
-                {
+            if (ctx.HB1 <= 350) {
+                if (ctx.diffMode) {
                     ctx.KBeta = 0.5 * (ctx.KBeta + 1.0);
                 }
             }

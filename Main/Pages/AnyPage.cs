@@ -1,14 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace Schizophrenia.Main.Pages
-{
-    public enum PageID 
-    {
+﻿namespace Schizophrenia.Main.Pages {
+    public enum PageID {
         Page1,
         Page2,
         Page3,
@@ -26,25 +17,21 @@ namespace Schizophrenia.Main.Pages
         Page15
     };
 
-    public class AnyPage
-    {
+    public class AnyPage {
         protected AppForm appForm;
         public MyTableLayoutPanel mainTableLayout;
         public PageID ID;
 
-        public AnyPage(AppForm appForm, PageID ID)
-        {
+        public AnyPage(AppForm appForm, PageID ID) {
             this.appForm = appForm;
             this.ID = ID;
         }
 
-        public virtual PageID NextPage()
-        {
+        public virtual PageID NextPage() {
             return ID + 1;
         }
 
-        public virtual bool CanMoveOn()
-        {
+        public virtual bool CanMoveOn() {
             return true;
         }
     }

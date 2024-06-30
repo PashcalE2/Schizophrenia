@@ -2,10 +2,8 @@
 using System.Security.Cryptography;
 using System.Windows.Forms;
 
-namespace Schizophrenia.Main.Pages
-{
-    public class Page8 : AnyPage
-    {
+namespace Schizophrenia.Main.Pages {
+    public class Page8 : AnyPage {
         public MyLabel gearLabel;
         public MyLabel wheelLabel;
 
@@ -17,8 +15,7 @@ namespace Schizophrenia.Main.Pages
 
         public InputTextBox<double> x2TextBox;
 
-        public Page8(AppForm appForm, PageID ID) : base(appForm, ID)
-        {
+        public Page8(AppForm appForm, PageID ID) : base(appForm, ID) {
             mainTableLayout = new MyTableLayoutPanel("page8MainTableLayout", 3, 3, DockStyle.Fill);
             mainTableLayout.ColumnStyles[0] = new ColumnStyle(SizeType.Percent, 100);
 
@@ -46,29 +43,23 @@ namespace Schizophrenia.Main.Pages
             mainTableLayout.Add(x2TextBox, 2, 2);
         }
 
-        public override bool CanMoveOn()
-        {
+        public override bool CanMoveOn() {
             return
                 (!x1TextBox.Enabled || x1TextBox.GetIsValid()) &&
                 (!x2TextBox.Enabled || x2TextBox.GetIsValid());
         }
 
-        public override PageID NextPage()
-        {
+        public override PageID NextPage() {
             Context ctx = appForm.context;
 
-            if (ctx.aWKnown || ctx.standartAWYes)
-            {
-                if (SomeUtils.DoubleEqauals(ctx.aW, ctx.a, 1e-12))
-                {
+            if (ctx.aWKnown || ctx.standartAWYes) {
+                if (SomeUtils.DoubleEqauals(ctx.aW, ctx.a, 1e-12)) {
                     // X2
 
-                    if (ctx.z1 >= 17 && ctx.z2 >= 17)
-                    {
+                    if (ctx.z1 >= 17 && ctx.z2 >= 17) {
                         appForm.page9.withoutOffsetRadioButton.Enabled = true;
                     }
-                    else
-                    {
+                    else {
                         appForm.page9.withoutOffsetRadioButton.Enabled = false;
                         appForm.page9.withOffsetRadioButton.Checked = true;
                     }
@@ -76,15 +67,13 @@ namespace Schizophrenia.Main.Pages
                     appForm.page9.x1iCor1TextBox.Text = ctx.x1Min.ToString("0.##");
                     appForm.page9.x2iCor1TextBox.Text = ctx.x2Min.ToString("0.##");
 
-                    if (ctx.x1Min >= ctx.x2Min)
-                    {
+                    if (ctx.x1Min >= ctx.x2Min) {
                         appForm.page9.x1Cor1TextBox.Enabled = true;
 
                         appForm.page9.x2Cor1TextBox.Enabled = false;
                         appForm.page9.x2Cor1TextBox.Text = "";
                     }
-                    else
-                    {
+                    else {
                         appForm.page9.x1Cor1TextBox.Enabled = false;
                         appForm.page9.x1Cor1TextBox.Text = "";
 
@@ -92,22 +81,19 @@ namespace Schizophrenia.Main.Pages
                     }
                 }
 
-                else
-                {
+                else {
                     // X3
 
                     return x3();
                 }
             }
 
-            else
-            {
+            else {
                 // X1
 
                 ctx.xSigma = ctx.x1 + ctx.x2;
 
-                if (ctx.xSigma == 0)
-                {
+                if (ctx.xSigma == 0) {
                     if (ctx.x1 == ctx.x2) // == 0
                     {
                         // G1
@@ -116,8 +102,7 @@ namespace Schizophrenia.Main.Pages
                         // KP, begining
                         return kp_begining();
                     }
-                    else
-                    {
+                    else {
                         // G2
                         g2();
 
@@ -125,8 +110,7 @@ namespace Schizophrenia.Main.Pages
                         return kp_begining();
                     }
                 }
-                else
-                {
+                else {
                     ctx.a = ctx.m / 2 * (ctx.z1 + ctx.z2);
 
                     // G3
@@ -134,20 +118,17 @@ namespace Schizophrenia.Main.Pages
                     ctx.invAlphaW = ctx.invAlpha + (2 * ctx.xSigma * Math.Tan(ctx.standartAlpha)) / (ctx.z1 + ctx.z2);
 
                     double d;
-                    if (ctx.invAlphaW > ctx.invAlpha)
-                    {
+                    if (ctx.invAlphaW > ctx.invAlpha) {
                         d = 0.01 * Math.PI / 180;
                     }
-                    else
-                    {
+                    else {
                         d = -0.01 * Math.PI / 180;
                     }
 
                     double alphaWx = ctx.standartAlpha;
                     double delta;
 
-                    do
-                    {
+                    do {
                         alphaWx = alphaWx + d;
                         double invAlphaWx = Math.Tan(alphaWx) - alphaWx;
                         delta = Math.Abs(invAlphaWx - ctx.invAlphaW);
@@ -167,14 +148,12 @@ namespace Schizophrenia.Main.Pages
             return PageID.Page9;
         }
 
-        public PageID x3()
-        {
+        public PageID x3() {
             Context ctx = appForm.context;
 
             ctx.alphaW = Math.Acos(ctx.a * Math.Cos(ctx.standartAlpha) / ctx.aW);
 
-            if (double.IsNaN(ctx.alphaW))
-            {
+            if (double.IsNaN(ctx.alphaW)) {
                 MessageBox.Show("Увеличьте межосевое расстояние");
                 return PageID.Page7;
             }
@@ -189,15 +168,13 @@ namespace Schizophrenia.Main.Pages
             appForm.page10.x1iCor2TextBox.Text = ctx.x1Min.ToString("0.##");
             appForm.page10.x2iCor2TextBox.Text = ctx.x2Min.ToString("0.##");
 
-            if (ctx.x1Min >= ctx.x2Min)
-            {
+            if (ctx.x1Min >= ctx.x2Min) {
                 appForm.page10.x1Cor2TextBox.Enabled = true;
                 appForm.page10.x1Cor2TextBox.SetValue(ctx.x1);
 
                 appForm.page10.x2Cor2TextBox.Enabled = false;
             }
-            else
-            {
+            else {
                 appForm.page10.x1Cor2TextBox.Enabled = false;
 
                 appForm.page10.x2Cor2TextBox.Enabled = true;
@@ -207,8 +184,7 @@ namespace Schizophrenia.Main.Pages
             return PageID.Page10;
         }
 
-        public void g1()
-        {
+        public void g1() {
             Context ctx = appForm.context;
 
             ctx.a = ctx.m / 2.0 * (ctx.z1 + ctx.z2);
@@ -234,8 +210,7 @@ namespace Schizophrenia.Main.Pages
             ctx.epsilonAlpha = (Math.Sqrt(Math.Pow(ctx.da1, 2.0) - Math.Pow(ctx.db1, 2.0)) + Math.Sqrt(Math.Pow(ctx.da2, 2.0) - Math.Pow(ctx.db2, 2.0)) - 2.0 * ctx.aW * Math.Sin(ctx.alphaW)) / (2.0 * ctx.Pb);
         }
 
-        public void g2()
-        {
+        public void g2() {
             Context ctx = appForm.context;
 
             ctx.a = ctx.m / 2.0 * (ctx.z1 + ctx.z2);
@@ -263,8 +238,7 @@ namespace Schizophrenia.Main.Pages
             ctx.epsilonAlpha = (Math.Sqrt(Math.Pow(ctx.da1, 2.0) - Math.Pow(ctx.db1, 2.0)) + Math.Sqrt(Math.Pow(ctx.da2, 2.0) - Math.Pow(ctx.db2, 2.0)) - 2.0 * ctx.aW * Math.Sin(ctx.alphaW)) / (2.0 * ctx.Pb);
         }
 
-        public void g4()
-        {
+        public void g4() {
             Context ctx = appForm.context;
 
             ctx.y = (ctx.aW - ctx.a) / ctx.m;
@@ -287,28 +261,23 @@ namespace Schizophrenia.Main.Pages
             ctx.epsilonAlpha = (Math.Sqrt(Math.Pow(ctx.da1, 2.0) - Math.Pow(ctx.db1, 2.0)) + Math.Sqrt(Math.Pow(ctx.da2, 2.0) - Math.Pow(ctx.db2, 2.0)) - 2.0 * ctx.aW * Math.Sin(ctx.alphaW)) / (2.0 * ctx.Pb);
         }
 
-        public PageID kp_begining()
-        {
+        public PageID kp_begining() {
             Context ctx = appForm.context;
             PageID next = PageID.Page12;
 
             ctx.V = Math.PI * ctx.dW1 * ctx.n1 / 60000;
             ctx.KHalpha = 1.0;
 
-            if (ctx.HB1 <= 350.0)
-            {
-                if (ctx.constMode)
-                {
+            if (ctx.HB1 <= 350.0) {
+                if (ctx.constMode) {
                     ctx.KBeta = 1.0;
                     next = PageID.Page13;
                 }
-                else
-                {
+                else {
                     appForm.page12.psibdTextBox.Text = ctx.psibd.ToString("0.##");
                 }
             }
-            else
-            {
+            else {
                 appForm.page12.psibdTextBox.Text = ctx.psibd.ToString("0.##");
             }
 
